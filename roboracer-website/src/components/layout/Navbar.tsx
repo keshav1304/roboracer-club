@@ -16,7 +16,6 @@ const Navbar = () => {
         { name: 'Competitions', href: '/competitions' },
         { name: 'RoboRacer-mini', href: '/roboracer-mini' },
         { name: 'Gallery', href: '/gallery' },
-        { name: 'Calendar', href: '/calendar' },
     ];
 
     return (
