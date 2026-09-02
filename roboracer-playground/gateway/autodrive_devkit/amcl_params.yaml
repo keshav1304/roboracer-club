@@ -1,0 +1,72 @@
+# Nav2 AMCL for AutoDRIVE RoboRacer (Mapping).
+# Frames match the bridge + slam_toolbox config:
+#   odom_frame = world, base = roboracer_1, global = map
+# Laser is remapped at launch to /autodrive/roboracer_1/lidar.
+
+amcl:
+  ros__parameters:
+    use_sim_time: false
+    alpha1: 0.2
+    alpha2: 0.2
+    alpha3: 0.2
+    alpha4: 0.2
+    alpha5: 0.2
+    base_frame_id: "roboracer_1"
+    odom_frame_id: "world"
+    global_frame_id: "map"
+    scan_topic: scan
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"
+    tf_broadcast: true
+    # Sim TF can be slightly behind wall-clock stamps; keep loose.
+    transform_tolerance: 1.0
+    save_pose_rate: 0.5
+    laser_model_type: "likelihood_field_prob"
+    do_beamskip: true
+    beam_skip_distance: 0.5
+    beam_skip_threshold: 0.3
+    beam_skip_error_threshold: 0.9
+    laser_likelihood_max_dist: 2.0
+    laser_max_range: 12.0
+    laser_min_range: 0.05
+    max_beams: 60
+    max_particles: 2000
+    min_particles: 500
+    pf_err: 0.05
+    pf_z: 0.99
+    recovery_alpha_fast: 0.0
+    recovery_alpha_slow: 0.0
+    resample_interval: 1
+    sigma_hit: 0.2
+    z_hit: 0.5
+    z_rand: 0.5
+    z_max: 0.05
+    z_short: 0.05
+    lambda_short: 0.1
+    set_initial_pose: false
+    initial_pose:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      yaw: 0.0
+    # Near-zero so AMCL updates every scan (avoids PP "stale pose" deadlock
+    # when the car is holding still waiting for AMCL).
+    update_min_a: 0.0
+    update_min_d: 0.0
+    always_reset_initial_pose: true
+    first_map_only: true
+
+map_server:
+  ros__parameters:
+    use_sim_time: false
+    # yaml_filename is set at launch (-p yaml_filename:=...)
+    topic_name: "map"
+    frame_id: "map"
+
+lifecycle_manager_localization:
+  ros__parameters:
+    use_sim_time: false
+    autostart: true
+    node_names: ["map_server", "amcl"]
+    bond_timeout: 4.0
+    attempt_respawn_reconnection: true
+    bond_respawn_max_duration: 10.0

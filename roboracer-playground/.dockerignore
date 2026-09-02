@@ -1,0 +1,18 @@
+# Build context is roboracer-playground/ itself.
+# NOTE: no trailing slashes — Docker prunes the whole subtree only when the
+# directory name itself matches, which keeps context scanning fast.
+
+# Devkit build artifacts (rebuilt inside the image)
+gateway/autodrive_devkit/build
+gateway/autodrive_devkit/install
+gateway/autodrive_devkit/log
+**/__pycache__
+
+# Web app (deployed separately on Vercel / npm run dev)
+web/node_modules
+web/.next
+
+# Misc
+*.png
+.git
+.DS_Store

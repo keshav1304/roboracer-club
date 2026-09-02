@@ -1,0 +1,34 @@
+# Local development stack for the RoboRacer Playground.
+#
+#   cd roboracer-playground
+#   docker compose up --build
+#
+# Then:
+#   - Launch AutoDRIVE Simulator locally, IP 127.0.0.1, port 4567, Connect
+#   - Web UI: cd web && npm run dev  ->  http://localhost:3000
+#
+# Runs on the native architecture (ros:humble is multi-arch, and all pinned
+# Python deps have arm64 wheels) — do NOT pin linux/amd64 here, or Apple
+# Silicon Macs will emulate x86 and builds/runtime become 5-10x slower.
+# Fly.io builds its own amd64 image remotely, so deploys are unaffected.
+
+services:
+  playground-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: roboracer_playground_backend
+    ports:
+      - "4567:4567"   # AutoDRIVE Socket.IO bridge (sim connects here)
+      - "8000:8000"   # Playground gateway WebSocket API
+    environment:
+      GATEWAY_PORT: "8000"
+      PLAYGROUND_TOKEN: ""   # set a shared password for non-local use
+      TELEMETRY_HZ: "20"
+      LIDAR_HZ: "10"
+      LIDAR_STRIDE: "4"
+      PLAYGROUND_DATA_DIR: "/data"
+    volumes:
+      # Persist saved maps + racelines across image rebuilds.
+      - ./data:/data
+    restart: unless-stopped

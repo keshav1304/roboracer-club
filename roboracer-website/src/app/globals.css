@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020617;
+  /* Slate 950 */
+  --foreground: #f8fafc;
+  /* Slate 50 */
+
+  /* Brand Colors */
+  --color-brand-blue: #3b82f6;
+  /* Blue 500 */
+  --color-brand-blue-hover: #2563eb;
+  /* Blue 600 */
+  --color-brand-magenta: #ec4899;
+  /* Pink 500 */
+  --color-brand-magenta-hover: #db2777;
+  /* Pink 600 */
+  --color-brand-dark: #0f172a;
+  /* Slate 900 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-brand-blue: var(--color-brand-blue);
+  --color-brand-blue-hover: var(--color-brand-blue-hover);
+  --color-brand-magenta: var(--color-brand-magenta);
+  --color-brand-magenta-hover: var(--color-brand-magenta-hover);
+  --color-brand-dark: var(--color-brand-dark);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}

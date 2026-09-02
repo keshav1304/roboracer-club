@@ -1,0 +1,57 @@
+# Fly.io configuration for the RoboRacer Playground backend
+# (AutoDRIVE bridge + ROS 2 + playground gateway).
+#
+# Deploy from the roboracer-playground/ directory:
+#   cd roboracer-playground
+#   fly launch --no-deploy        # first time; keep this fly.toml
+#   fly secrets set PLAYGROUND_TOKEN=<club-password>
+#   fly ips allocate-v4           # dedicated IPv4 for the sim's IP field
+#   fly deploy
+#
+# The Unity simulator connects to <dedicated-IPv4>:4567 (raw TCP passthrough).
+# The Next.js frontend connects to wss://<app>.fly.dev/ws (port 443 -> 8000).
+
+app = "roboracer-playground"
+primary_region = "ewr"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  GATEWAY_PORT = "8000"
+  TELEMETRY_HZ = "20"
+  LIDAR_HZ = "10"
+  LIDAR_STRIDE = "4"
+
+# --- AutoDRIVE Socket.IO bridge (Unity sim connects here) ---------------
+# Raw TCP passthrough: Fly's HTTP proxy is bypassed so the old
+# engine.io/gevent stack works unmodified.
+[[services]]
+  internal_port = 4567
+  protocol = "tcp"
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[services.ports]]
+    port = 4567
+
+# --- Playground gateway (browser WebSocket API) --------------------------
+[[services]]
+  internal_port = 8000
+  protocol = "tcp"
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "2gb"
