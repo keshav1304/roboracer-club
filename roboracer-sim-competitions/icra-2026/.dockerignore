@@ -1,0 +1,21 @@
+# Used by repo-root Dockerfiles (e.g. autodrive_devkit / simulator images).
+
+# Simulator binaries (huge; never needed inside backend images)
+autodrive_simulator
+autodrive_simulator_practice
+autodrive_simulator_explore
+autodrive_simulator_compete
+**/*.app
+
+# Devkit build artifacts
+autodrive_devkit/build
+autodrive_devkit/install
+autodrive_devkit/log
+**/__pycache__
+
+# Misc
+foxglove
+*.png
+*.bag
+.git
+
