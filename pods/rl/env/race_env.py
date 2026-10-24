@@ -28,6 +28,13 @@ Fitted on runs up to throttle 0.08 and 2 m/s; above that it is an extrapolation 
 (The gym's own speed mode tracks a target with a 0.08 s lag and brakes much harder, which a
 policy would learn to rely on and the AutoDRIVE car cannot do.)
 
+Grip. The gym's tyre model holds about 20 m/s^2 of cornering at 4 m/s (measured with a full-lock
+circle), and a first policy learned to take hairpins at 50 m/s^2. The AutoDRIVE car is near its
+limit around 6 m/s^2 (a 5.8 m/s^2 race line touched the wall there). So the env caps the steering
+angle at speed v to atan(A_LAT_MAX * wheelbase / v^2): a car that arrives too fast cannot make the
+corner and hits the wall, which teaches braking. A_LAT_MAX = 6.0 is an estimate to measure in
+AutoDRIVE (make_env(..., a_lat_max=...) to change it). It does not change the action or observation.
+
 Observation, 110 float32, the RL Structure (LiDAR, current speed, current steering)
     [0:108]    LiDAR: 1081 beams over 270 deg, split in order (right to left) into 108 groups,
                mean of each group, clipped at 10 m, divided by 10 -> 0..1
@@ -78,6 +85,7 @@ SPEED_NORM = 8.0                 # m/s, speed scale in the observation
 THROTTLE_GAIN = 82.0             # m/s^2 per unit throttle, fitted to AutoDRIVE runs
 SPEED_DRAG = 3.31                # 1/s, fitted (time constant 0.30 s)
 COAST_DECEL = 3.0                # m/s^2 with throttle 0, measured
+A_LAT_MAX = 6.0                  # m/s^2 cornering limit, AutoDRIVE estimate (see Grip)
 CONTROL_HZ = 20
 MAX_LAPS = 10
 MAX_STEPS = 3000                 # 150 s at 20 Hz
@@ -127,13 +135,14 @@ class RaceEnv(gym.Env):
 
     def __init__(self, track_name: str = 'Spielberg', seed: int = 0, render_mode: str | None = None,
                  random_start: bool = True, reward_weights: dict | None = None,
-                 max_laps: int = MAX_LAPS, max_steps: int = MAX_STEPS):
+                 max_laps: int = MAX_LAPS, max_steps: int = MAX_STEPS, a_lat_max: float = A_LAT_MAX):
         super().__init__()
         unknown = set(reward_weights or {}) - set(REWARD_WEIGHTS)
         if unknown:
             raise ValueError(f'unknown reward weights {sorted(unknown)}; have {sorted(REWARD_WEIGHTS)}')
         self.w = dict(REWARD_WEIGHTS, **(reward_weights or {}))
         self.max_laps, self.max_steps = max_laps, max_steps
+        self.a_lat_max = a_lat_max
         from f1tenth_gym.envs.action import LongitudinalActionType
         from f1tenth_gym.envs.dynamic_models import F1TENTH_VEHICLE_PARAMETERS
         from f1tenth_gym.envs.env_config import (ControlConfig, EnvConfig, ObservationConfig,
@@ -162,6 +171,7 @@ class RaceEnv(gym.Env):
             render_enabled=render_mode is not None,
         )
         self.sim = gym.make('f1tenth_gym:f1tenth-v0', config=cfg, render_mode=render_mode)
+        self.wheelbase = params.lf + params.lr
         self.track = self.sim.unwrapped.track
         self.track_len = float(self.track.centerline.length)
         self.render_mode = render_mode
@@ -194,6 +204,9 @@ class RaceEnv(gym.Env):
         collision = False
         for _ in range(self.substeps):                              # acceleration follows the speed each 10 ms
             steer, accel = action_to_gym(action, self.speed)
+            if self.speed > 0.5:                                    # grip limit, see the module docstring
+                lim = np.arctan(self.a_lat_max * self.wheelbase / self.speed ** 2)
+                steer = float(np.clip(steer, -lim, lim))
             obs, *_ = self.sim.step(np.array([[steer, accel]]))
             self.t += 0.01
             a = obs['agent_0']
@@ -229,7 +242,7 @@ class RaceEnv(gym.Env):
         truncated = self.laps >= self.max_laps or self.steps >= self.max_steps
         self.prev_action = action
         info = {'collision': collision, 'laps': self.laps, 'lap_times': list(self.lap_times),
-                's': float(s), 'ey': float(ey), 'speed': float(st[3]), 'progress_m': float(self.progress),
+                's': float(s), 'ey': float(ey), 'speed': float(st[3]), 'yaw_rate': float(st[5]), 'progress_m': float(self.progress),
                 'sim_time': round(self.t, 3), 'throttle_cmd': throttle_cmd,
                 **{k: float(v) for k, v in terms.items()}}
         if self.render_mode == 'human':

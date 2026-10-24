@@ -25,6 +25,14 @@ def pursuit_action(env, speed=4.0, lookahead=1.5):
     dx, dy = tx - x, ty - y
     yc = -math.sin(yaw) * dx + math.cos(yaw) * dy
     steer = math.atan(2.0 * yc / max(1e-6, dx * dx + dy * dy) * 0.33)
+    # slow for the tightest bend in the next 3 m so the grip limit is respected
+    pts = [env.track.frenet_to_cartesian((env.prev_s + d) % env.track_len, 0.0, 0.0)[:2] for d in np.arange(0, 3.1, 0.5)]
+    kmax = 0.0
+    for a, b, c in zip(pts, pts[1:], pts[2:]):
+        a, b, c = np.array(a), np.array(b), np.array(c)
+        cross = abs((b - a)[0] * (c - a)[1] - (b - a)[1] * (c - a)[0])
+        kmax = max(kmax, 2 * cross / max(1e-9, np.linalg.norm(b - a) * np.linalg.norm(c - b) * np.linalg.norm(c - a)))
+    speed = min(speed, math.sqrt(0.6 * env.a_lat_max / max(kmax, 1e-6)))
     throttle = speed * SPEED_DRAG / THROTTLE_GAIN                   # throttle that settles at `speed`
     return np.array([np.clip(steer / MAX_STEER, -1, 1), throttle / MAX_THROTTLE * 2 - 1], dtype=np.float32)
 
@@ -91,6 +99,20 @@ def main():
     assert abs(decel - 3.0) < 0.6, decel
     assert abs(throttle_to_accel(0.0, 2.0) + 3.0) < 1e-9
     print(f'   throttle 0.16 -> {v[-1]:.2f} m/s (model {target:.2f}), 63% at {t63:.2f} s, coasting {decel:.2f} m/s^2')
+
+    # grip limit: full lock at about 4 m/s must not corner harder than A_LAT_MAX (+ some slip)
+    env.reset()
+    for _ in range(40):                                            # throttle 0.16, straight, to ~4 m/s
+        o, *_ = env.step(np.array([0.0, 0.0]))
+    lat = []
+    for _ in range(20):                                            # 1 s at full left lock
+        o, r, term, trunc, info = env.step(np.array([1.0, 0.0]))
+        lat.append(info['speed'] * info['yaw_rate'])
+        if term:
+            break
+    peak = max(abs(x) for x in lat[5:]) if len(lat) > 5 else 0.0
+    assert peak < env.a_lat_max * 1.3, peak
+    print(f'   grip: full lock at {info["speed"]:.1f} m/s corners at {peak:.1f} m/s^2 (limit {env.a_lat_max})')
 
     print('3. expert laps on every track (finish-line wraparound, lap bonus, no contact)')
     for track, speed in (('Spielberg', 4.0), ('icra', 2.5), ('practice', 2.5)):
