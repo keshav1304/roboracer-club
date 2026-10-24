@@ -1,0 +1,4 @@
+opencv-python-headless>=4.9
+matplotlib>=3.7
+shapely>=2.0
+PyYAML>=5.3
