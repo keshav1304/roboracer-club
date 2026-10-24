@@ -1,7 +1,9 @@
 """Checks for race_env. Run from pods/rl/env:  python test_race_env.py
 
 1. SB3 check_env passes with no warnings.
-2. The observation matches the contract (110 float32, LiDAR in 0..1, previous action at the end).
+2. The observation matches the contract (110 float32, LiDAR in 0..1, then speed and steering), and
+   throttle drives the gym car like the AutoDRIVE fit (settles at 24.7 x throttle with a 0.3 s
+   lag, coasts down at 3 m/s^2 with throttle 0).
 3. A pure pursuit driver on the centre line completes laps: the step that crosses the start/finish
    line has a normal positive ds (the wraparound fix), each lap pays +50, and progress per lap
    equals the track length.
@@ -12,7 +14,8 @@ import warnings
 import numpy as np
 from stable_baselines3.common.env_checker import check_env
 
-from race_env import LIDAR_BINS, MAX_STEER, OBS_DIM, V_MAX, make_env
+from race_env import (LIDAR_BINS, MAX_STEER, MAX_THROTTLE, OBS_DIM, SPEED_DRAG, THROTTLE_GAIN,
+                      make_env, throttle_to_accel)
 
 
 def pursuit_action(env, speed=4.0, lookahead=1.5):
@@ -22,7 +25,8 @@ def pursuit_action(env, speed=4.0, lookahead=1.5):
     dx, dy = tx - x, ty - y
     yc = -math.sin(yaw) * dx + math.cos(yaw) * dy
     steer = math.atan(2.0 * yc / max(1e-6, dx * dx + dy * dy) * 0.33)
-    return np.array([np.clip(steer / MAX_STEER, -1, 1), speed / V_MAX * 2 - 1], dtype=np.float32)
+    throttle = speed * SPEED_DRAG / THROTTLE_GAIN                   # throttle that settles at `speed`
+    return np.array([np.clip(steer / MAX_STEER, -1, 1), throttle / MAX_THROTTLE * 2 - 1], dtype=np.float32)
 
 
 def main():
@@ -35,8 +39,26 @@ def main():
 
     obs, _ = env.reset(seed=3)
     assert obs.shape == (OBS_DIM,) and obs.dtype == np.float32
-    assert 0.0 <= obs[:LIDAR_BINS].min() and obs[:LIDAR_BINS].max() <= 1.0 and not obs[LIDAR_BINS:].any()
-    print(f'2. observation: {OBS_DIM} float32, LiDAR {obs[:LIDAR_BINS].min():.2f}..{obs[:LIDAR_BINS].max():.2f}')
+    assert 0.0 <= obs[:LIDAR_BINS].min() and obs[:LIDAR_BINS].max() <= 1.0 and abs(obs[LIDAR_BINS]) < 0.01
+    print(f'2. observation: {OBS_DIM} float32, LiDAR {obs[:LIDAR_BINS].min():.2f}..{obs[:LIDAR_BINS].max():.2f}, '
+          f'speed {obs[LIDAR_BINS]:.2f}')
+
+    # throttle response matches the AutoDRIVE fit: 0.16 throttle from rest settles near 24.7 x 0.16
+    env.random_start = False
+    env.reset()
+    v = []
+    for _ in range(60):                                            # 3 s
+        o, *_ = env.step(np.array([0.0, 0.0]))                     # action 0 = throttle 0.16
+        v.append(env.speed)
+    target = THROTTLE_GAIN * 0.16 / SPEED_DRAG
+    t63 = (np.argmax(np.array(v) > 0.63 * target) + 1) / 20
+    assert abs(v[-1] - target) < 0.3, (v[-1], target)
+    for _ in range(10):                                            # 0.5 s coasting
+        env.step(np.array([0.0, -1.0]))
+    decel = (v[-1] - env.speed) / 0.5
+    assert abs(decel - 3.0) < 0.6, decel
+    assert abs(throttle_to_accel(0.0, 2.0) + 3.0) < 1e-9
+    print(f'   throttle 0.16 -> {v[-1]:.2f} m/s (model {target:.2f}), 63% at {t63:.2f} s, coasting {decel:.2f} m/s^2')
 
     env = make_env('Spielberg', seed=0)
     env.random_start = False
