@@ -18,9 +18,14 @@ fi
 VPY=.venv/bin/python
 "$VPY" -m pip install -q --upgrade pip
 "$VPY" -m pip install -q -e ./f1tenth_gym
-# headless OpenCV avoids duplicate-SDL warnings/crashes with pygame
-"$VPY" -m pip uninstall -q -y opencv-python || true
 "$VPY" -m pip install -q -r requirements.txt
+# Swap opencv-python (pulled in by the gym) for the headless build: avoids
+# duplicate-SDL warnings/crashes with pygame. Both packages share the cv2/ folder,
+# so uninstalling one deletes the other's files: always force-reinstall headless
+# afterwards (otherwise a second ./setup.sh leaves a broken cv2).
+"$VPY" -m pip uninstall -q -y opencv-python || true
+"$VPY" -m pip install -q --force-reinstall --no-deps "opencv-python-headless>=4.9"
+"$VPY" -c "import cv2; cv2.polylines" || { echo "!! cv2 is broken after install" >&2; exit 1; }
 
 # On Apple Silicon the interpreter must be native arm64, or numba/llvmlite break
 if [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" = "arm64" ]; then

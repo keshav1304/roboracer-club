@@ -19,7 +19,9 @@ build (python.org or Homebrew); an x86_64/Rosetta Python breaks numba.
 ./setup.sh
 ```
 This clones f1tenth_gym into `./f1tenth_gym`, creates `./.venv`, installs
-everything, and builds the PortoWide map. Both folders are git-ignored.
+everything, and builds the PortoWide map. Both folders are git-ignored. It is
+safe to rerun. The first `import cv2` / numba compile takes a while, so don't
+Ctrl-C it.
 
 ## Run
 ```bash
