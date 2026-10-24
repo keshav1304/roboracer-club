@@ -5,6 +5,10 @@
     obs, info = env.reset()
     obs, reward, terminated, truncated, info = env.step(env.action_space.sample())
 
+Tracks: "Spielberg" (bundled with the gym), and the AutoDRIVE tracks built from the club's maps by
+tracks/build_tracks.py, "icra" (ICRA 2026 compete track, 58 m) and "practice" (30.7 m). On those
+two, s = 0 is the AutoDRIVE spawn (0.8, 3.16), facing the way the car starts.
+
 Contract shared with train/ (Nathaniel) and deploy/ (Rishabh). Change these numbers only together.
 
 Action, 2 floats in [-1, 1], in AutoDRIVE's own terms
@@ -57,6 +61,7 @@ Episodes are truncated after max_laps laps or max_steps control steps.
 from __future__ import annotations
 
 import dataclasses
+import os
 
 import gymnasium as gym
 import numpy as np
@@ -77,6 +82,7 @@ CONTROL_HZ = 20
 MAX_LAPS = 10
 MAX_STEPS = 3000                 # 150 s at 20 Hz
 OBS_DIM = LIDAR_BINS + 2
+TRACKS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tracks')
 REWARD_WEIGHTS = {'progress': 10.0, 'center': 0.05, 'lap_bonus': 50.0, 'collision': 10.0, 'speed': 0.0,
                   'steer_rate': 0.1}
 
@@ -137,9 +143,15 @@ class RaceEnv(gym.Env):
 
         params = dataclasses.replace(F1TENTH_VEHICLE_PARAMETERS, s_min=-MAX_STEER, s_max=MAX_STEER,
                                      v_max=12.0)
+        local = os.path.join(TRACKS_DIR, track_name)
+        if os.path.isfile(os.path.join(local, f'{track_name}_map.yaml')):     # our AutoDRIVE tracks
+            from f1tenth_gym.envs.track import Track
+            map_name = Track.from_track_path(os.path.join(local, track_name))
+        else:                                                                # a track bundled with the gym
+            map_name = track_name
         cfg = EnvConfig(
             seed=seed,
-            map_name=track_name,
+            map_name=map_name,
             params=params,
             num_agents=1,
             control_config=ControlConfig(longitudinal_mode=LongitudinalActionType.ACCL),
