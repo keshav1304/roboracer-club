@@ -28,9 +28,14 @@ Reward per control step (20 Hz), from the pod doc and the whiteboard, weights in
     - collision          on a wall contact, which also ends the episode, terminated (10)
     + speed * v          speed in m/s (0, off). ds already pays for speed: at a fixed time step,
                          ds per step is speed along the track
+    - steer_rate * |steer_now - steer_prev|
+                         change of the steering action this step, both in -1..1 (0.1). Keeps the
+                         wheel from flicking left and right on straights; the steering half of
+                         the previous action is already in the observation, so this stays Markov
 s and ey come from the car's pose (x, y), not from the LiDAR: cartesian_to_frenet projects the
 pose onto the centre line, s = arc length from the start line, ey = sideways offset (+ left).
-info carries each term (r_progress, r_center, r_lap, r_collision, r_speed) for TensorBoard.
+info carries each term (r_progress, r_center, r_lap, r_collision, r_speed, r_steer_rate) for
+TensorBoard.
 Lap time is deliberately not a reward term: "last lap minus this lap" depends on history the
 policy cannot see (breaks the Markov property, see the pod doc). Eval ranks policies by
 consecutive clean laps, then lap time; info['laps'] and info['lap_times'] give both.
@@ -55,7 +60,8 @@ CONTROL_HZ = 20
 MAX_LAPS = 10
 MAX_STEPS = 3000                 # 150 s at 20 Hz
 OBS_DIM = LIDAR_BINS + 2
-REWARD_WEIGHTS = {'progress': 10.0, 'center': 0.05, 'lap_bonus': 50.0, 'collision': 10.0, 'speed': 0.0}
+REWARD_WEIGHTS = {'progress': 10.0, 'center': 0.05, 'lap_bonus': 50.0, 'collision': 10.0, 'speed': 0.0,
+                  'steer_rate': 0.1}
 
 
 # ---- shared with deploy/ ------------------------------------------------------------------
@@ -174,7 +180,8 @@ class RaceEnv(gym.Env):
                  'r_center': -self.w['center'] * abs(ey),
                  'r_lap': self.w['lap_bonus'] if lap_completed else 0.0,
                  'r_collision': -self.w['collision'] if collision else 0.0,
-                 'r_speed': self.w['speed'] * float(st[3])}
+                 'r_speed': self.w['speed'] * float(st[3]),
+                 'r_steer_rate': -self.w['steer_rate'] * abs(float(action[0]) - float(self.prev_action[0]))}
         reward = sum(terms.values())
 
         terminated = collision
