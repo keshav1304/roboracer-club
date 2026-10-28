@@ -59,6 +59,7 @@ Reward per control step (20 Hz), weights in REWARD_WEIGHTS
     progress * ds - time + lap_bonus (per lap) - collision (and the episode ends)
     - steer_rate * |steer_now - steer_prev| - steer_res * |policy steering correction|
     - center * |ey| + tal * closeness to the base driver (off) + speed * v (off)
+    ey is the sideways distance from the centre line, ds the metres gained along it this step.
 The defaults are the pod's whiteboard reward (progress 10, center 0.05, lap 50, collision 10, steer_rate
 0.1). P5 was trained with reward v3 instead (time 1 per step, collision 100, center 0), passed in by
 train/train.py --preset p5. info carries each term (r_progress, r_time, ...) for TensorBoard, plus

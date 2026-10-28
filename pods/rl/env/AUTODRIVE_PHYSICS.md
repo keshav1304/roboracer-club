@@ -10,16 +10,16 @@ The plain f1tenth_gym tyre model holds about 20 m/s² of cornering at 4 m/s (we 
 
 The AutoDRIVE source is public ([Tinker-Twins/AutoDRIVE](https://github.com/Tinker-Twins/AutoDRIVE), branch `AutoDRIVE-Simulator`, `Assets/Prefabs/F1TENTH/F1TENTH.prefab`). The sideways tyre friction peaks at a slip of 0.01 and falls to half of that peak by 0.1. Once the front tyres pass the peak they slide, and they keep sliding until the corner eases. The same file gives mass 3.47 kg, wheelbase 324 mm, steering limit 30° and steering rate 183°/s.
 
-Lateral demand is `v² tan(wheel angle) / wheelbase`, what the car would need to follow its wheels. In our logs the limit depends on the wheel angle.
+Lateral demand is `v² tan(wheel angle) / wheelbase`, the sideways acceleration the car would need to follow its wheels. In our logs the limit depends on the wheel angle.
 
 | Wheel angle | What AutoDRIVE held | Seen in |
 |---|---|---|
-| up to about 14° | 10.4 to 10.6 m/s² for a moment, no slide | P4 at (-4.05, -8.0), every lap |
-| 16° to 18° and more | slid at 8 to 9.6 m/s² | pure pursuit x1.20 and x1.25, P4 lap 1, P4 with steering |
+| up to about 14° | 10.4 to 10.6 m/s² for a moment, no slide | P4 on the exit of the bottom-left turn, (-4.05, -8.0), every lap |
+| 16° to 18° and more | slid at 8 to 9.6 m/s² | pure pursuit x1.20 and x1.25, P4 lap 1 without the grip shield, a P4 variant that also steered |
 
-It also depends on time. Demand of 9.0 to 9.4 held for 0.3 s stayed on the road. Demand of 9.4 to 9.9 held for 0.5 s slid into the wall at the same corner. Once sliding, the car only turns at about 4.5 m/s² (4.2 to 5.6 measured), so it runs wide into the outside wall.
+It also depends on time. Demand of 9.0 to 9.4 m/s² held for 0.3 s stayed on the road. Demand of 9.4 to 9.9 m/s² held for 0.5 s slid into the wall at the same corner. Once sliding, the car only turns at about 4.5 m/s² (4.2 to 5.6 measured), so it runs wide into the outside wall.
 
-The env models this as a limit of 10.4 m/s² up to 14° of wheel that falls to 7.0 m/s² at 18° and beyond. Above the limit for 0.08 s the front slides and holds 4.5 m/s² until demand drops below that.
+The env models this as a limit of 10.4 m/s² up to 14° of wheel that falls to 7.0 m/s² at 18° and beyond. Above the limit for 0.08 s the front slides and holds 4.5 m/s² until demand drops below 4.5 m/s².
 
 ## 2. Past about 18° of steering the car barely turns
 

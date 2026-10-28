@@ -1,6 +1,6 @@
 # Deploy, running a policy in AutoDRIVE
 
-Owner Rishabh. This folder is a working starting point, the exact node and policy that ran 10 clean laps on the ICRA 2026 track at 11.52 s average. Change anything you like, but check the pitfalls below first. Each one cost us a crash.
+Owner Rishabh. This folder is a working starting point, the exact node and policy that ran 10 clean laps on the ICRA 2026 track at 11.52 s average. Terms like grip shield and flying lap are explained in [../README.md](../README.md#words-we-use). Change anything you like, but check the pitfalls below first. Each one cost us a crash.
 
 | File | What it is |
 |---|---|
@@ -9,9 +9,29 @@ Owner Rishabh. This folder is a working starting point, the exact node and polic
 | `tools/status.py` | prints the car's pose, speed, laps and collision count once. Quick check that the bridge is talking |
 | `tools/reset.py` | zeroes both commands and puts the car back at the spawn (`--stop-only` just stops it) |
 
-## First run
+## Setup
 
-Start the bridge (devkit `autodrive_bridge`), open the ICRA 2026 simulator build, click Connect and pick Autonomous. Then, in the same ROS 2 environment as the bridge
+The simulator and the ROS 2 container are set up as in [roboracer-sim-competitions/icra-2026](../../../roboracer-sim-competitions/icra-2026/README.md), with two differences.
+1. Download `autodrive_simulator_compete_...zip` from the same release page. All our results are from the compete build, and several builds spawn at the same point, so it is easy to have the wrong one open.
+2. Start only the bridge, not `race.launch.py`. That launch file also starts the club's pure pursuit node, which would send commands at the same time as this node. Mount this folder into the container so the node and the policy file are inside it.
+
+```bash
+cd roboracer-sim-competitions/icra-2026
+docker run --platform linux/amd64 --name icra-2026-api --rm -it -p 4567:4567 \
+  -v "$(pwd)/autodrive_devkit":/home/autodrive_devkit/src/autodrive_devkit \
+  -v "$(cd ../../pods/rl/deploy && pwd)":/rl \
+  --entrypoint /bin/bash penn-roboracer/icra-2026-api:latest \
+  -c 'cd /home/autodrive_devkit && colcon build && source install/setup.bash && ros2 launch autodrive_roboracer bringup_headless.launch.py'
+```
+
+Open the simulator, click Connect and pick Autonomous. The node needs only ROS 2 and numpy, which the image already has. Run everything below from a second terminal inside the same container, in `/rl`.
+
+```bash
+docker exec -it icra-2026-api bash
+source /opt/ros/humble/setup.bash && cd /rl
+```
+
+## First run
 
 ```bash
 python3 tools/status.py                       # should print pos=(0.80,3.16) ... at the spawn
@@ -20,7 +40,7 @@ python3 tools/reset.py
 python3 rl_deploy_node.py rl_policy_P5.npz --laps 3 --tag p5
 ```
 
-`--base-only` drives pure pursuit on the club line with the policy switched off, which is the easiest way to check topics, units and timing. The speed plan inside the P5 file is already 1.15 times the base plan, so expect flying laps of about 12.7 s (that is the pure pursuit result below). With the policy expect about 11.5 s, no wall contacts, and the grip shield coasting about 15 steps a lap. Lap 1 starts from standstill and is slower.
+`--base-only` drives pure pursuit on the club line with the policy switched off, which is the easiest way to check topics, units and timing. The speed plan inside the P5 file is already 1.15 times the base plan, so expect flying laps of about 12.7 s, the pure pursuit result in [RESULTS.md](../RESULTS.md). With the policy expect about 11.5 s, no wall contacts, and the grip shield coasting about 15 steps a lap. Lap 1 starts from standstill and is slower.
 
 The node stops on its own after `--laps` laps or 2 wall contacts, and on Ctrl-C it sends zero throttle and steering before exiting. Every control step is saved to `rl_run_TAG.npz` (`--log-dir` to put it elsewhere).
 
@@ -57,7 +77,7 @@ then the grip shield may set throttle_command to 0
 4. Use the last steering command in the observation, not the `/steering` topic. That feedback lags the car by about 300 ms.
 5. If the node prints its first line and then nothing, the bridge has stopped forwarding data even though AutoDRIVE still says connected (this happened after a long session). `tools/status.py` will fail with `KeyError: 'odom'`. Quitting AutoDRIVE, restarting the bridge, reopening AutoDRIVE and clicking Connect fixed it. For long runs we wrap the node in `timeout -s INT 600` so a hang still saves the log.
 6. Right after AutoDRIVE starts, the first second can have late commands. If lap 1 touches the wall at the start line, reset and run again before blaming the policy.
-7. Several AutoDRIVE builds spawn at the same (0.8, 3.16). Check that the ICRA 2026 build is the one open.
+7. Several AutoDRIVE builds (practice, ICRA compete, IROS) spawn at the same (0.8, 3.16). Check that the ICRA 2026 compete build is the one open.
 8. The simulator's own lap 1 time counts from the reset, before the first command. Compare flying laps (lap 2 on).
 
 ## Log columns
