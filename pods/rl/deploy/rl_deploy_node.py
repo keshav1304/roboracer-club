@@ -154,6 +154,9 @@ try:
         act = np.zeros(2) if a.base_only else actor(obs)
         sent = np.clip(base + np.array([RES_STEER, RES]) * act, -1, 1) if RES else act
         thr_cmd, steer_cmd = (sent[1] + 1.0) * 0.5 * MAXT, float(sent[0])
+        if 'steer_lat_cap' in P:                                      # trained with the old env's grip cap: apply it here too
+            lim = math.atan(float(P['steer_lat_cap']) * float(P['wheelbase']) / v ** 2) / MAXS if v > 0.5 else 1.0
+            steer_cmd = float(np.clip(steer_cmd, max(-lim, float(P['steer_min'])), min(lim, float(P['steer_max']))))
         if a.grip_shield:                                             # AutoDRIVE logs: 9.0-9.4 held for 0.3 s stayed on,
             demand = v * v * math.tan(abs(steer_cmd) * MAXS) / float(P['wheelbase'])   # 9.4-9.9 for 0.5 s slid off
             over = over + 1 if demand > 9.2 else 0
