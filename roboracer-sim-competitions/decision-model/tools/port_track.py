@@ -1,7 +1,8 @@
 """Convert a playground / iros-2026 track (map.pgm + map.yaml + raceline
 waypoints.csv) into an f1tenth_gym map folder.
 
-  python tools/port_track.py track-20260731
+  python tools/port_track.py track-20260731   # our mapped IROS 2026 track
+  python tools/port_track.py icra2026-comp    # ICRA 2026 competition track
 
 Writes ../gym-two-car-reactive/f1tenth_gym/maps/<name>/:
   <name>.png             occupancy image (unknown cells → occupied, so the LiDAR sees walls)
@@ -18,8 +19,15 @@ import yaml
 from PIL import Image
 
 HERE = pathlib.Path(__file__).resolve().parents[1]
-SRC = HERE.parent / "iros-2026" / "autodrive_devkit"
+IROS = HERE.parent / "iros-2026" / "autodrive_devkit"
+ICRA = HERE.parent / "icra-2026" / "autodrive_devkit"
 GYM_MAPS = HERE.parent / "gym-two-car-reactive" / "f1tenth_gym" / "maps"
+# name → (map yaml, raceline csv with columns s,x,y,theta,velocity)
+TRACKS = {
+    "track-20260731": (IROS / "maps" / "track-20260731" / "map.yaml",
+                       IROS / "racelines" / "track-20260731-line" / "waypoints.csv"),
+    "icra2026-comp": (ICRA / "comp_track.yaml", ICRA / "comp_waypoints.csv"),
+}
 
 
 def ray(free, res, ox, oy, x, y, nx, ny, max_d=3.0):
@@ -34,8 +42,9 @@ def ray(free, res, ox, oy, x, y, nx, ny, max_d=3.0):
 
 
 def main(name):
-    spec = yaml.safe_load(open(SRC / "maps" / name / "map.yaml"))
-    img = np.array(Image.open(SRC / "maps" / name / spec["image"]))
+    map_yaml, raceline = TRACKS[name]
+    spec = yaml.safe_load(open(map_yaml))
+    img = np.array(Image.open(map_yaml.parent / spec["image"]))
     res, (ox, oy, _) = spec["resolution"], spec["origin"]
     free = img >= 250                                   # trinary pgm: 254 free, 205 unknown, 0 occupied
     # SLAM leaves specks of "occupied" inside the track; the LiDAR would see them
@@ -51,8 +60,13 @@ def main(name):
     yaml.safe_dump({"image": f"{name}.png", "resolution": res, "origin": [ox, oy, 0.0], "negate": 0,
                     "occupied_thresh": 0.45, "free_thresh": 0.196}, open(out / f"{name}_map.yaml", "w"))
 
-    w = np.loadtxt(SRC / "racelines" / f"{name}-line" / "waypoints.csv", delimiter=",", skiprows=1)
+    w = np.loadtxt(raceline, delimiter=",", skiprows=1)
     s, x, y, th, v = w.T
+    bad = v <= 0                                        # comp_waypoints.csv has 7 sign glitches (3.3 → −5.2 → 5.1)
+    if bad.any():
+        v = v.copy()
+        v[bad] = np.interp(np.flatnonzero(bad), np.flatnonzero(~bad), v[~bad])
+        print(f"fixed {bad.sum()} non-positive raceline speeds by interpolation")
     # curvature from heading change per metre (closed loop)
     dth = (np.roll(th, -1) - np.roll(th, 1) + np.pi) % (2 * np.pi) - np.pi
     dsl = np.roll(s, -1) - np.roll(s, 1)

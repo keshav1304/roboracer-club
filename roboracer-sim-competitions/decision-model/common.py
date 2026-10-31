@@ -100,6 +100,27 @@ class TrackModel:
         ss = np.r_[0.0, np.cumsum(seg)[:-1]]
         yaw = np.arctan2(np.roll(xy[:, 1], -1) - np.roll(xy[:, 1], 1), np.roll(xy[:, 0], -1) - np.roll(xy[:, 0], 1))
         self.race = Line(xy[:, 0], xy[:, 1], yaw, ss, rl.ks, rl.vxs)
+        try:
+            self._load_grid(map_name)
+        except (OSError, KeyError):
+            pass
+
+    def _load_grid(self, map_name):
+        import yaml
+        from PIL import Image
+        d = baseline.GYM_MAPS / map_name
+        spec = yaml.safe_load(open(d / f"{map_name}_map.yaml"))
+        self.grid = np.array(Image.open(d / spec["image"]).convert("L")) < 128      # True = wall
+        self.res, (self.ox, self.oy) = spec["resolution"], spec["origin"][:2]
+
+    def occupied(self, x, y):
+        """Is (x, y) a wall (or off the map) in the occupancy map? The real car has
+        the same map (AMCL), so this is fair to use where the LiDAR is blind."""
+        if not hasattr(self, "grid"):
+            return False
+        h, w = self.grid.shape
+        c, r = int((x - self.ox) / self.res), h - 1 - int((y - self.oy) / self.res)
+        return not (0 <= r < h and 0 <= c < w) or bool(self.grid[r, c])
 
     def free_width(self, x, y):
         """Free lateral space on each side of a car centred at (x, y): (left, right) in m."""

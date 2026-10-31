@@ -34,11 +34,11 @@ KINDS = [("race", 0.30), ("close_race", 0.10), ("parked", 0.20), ("stopgo", 0.15
 LOG_EVERY = 5       # 100 Hz sim → 20 Hz rows (neighbouring ticks are near-duplicates)
 
 
-def sample_scenario(seed, n_center):
+def sample_scenario(seed, n_center, map_name="Spielberg"):
     r = np.random.default_rng(seed)
     kind = r.choice([k for k, _ in KINDS], p=[p for _, p in KINDS])
     sc = {
-        "seed": int(seed), "kind": str(kind),
+        "seed": int(seed), "kind": str(kind), "map": map_name,
         "start_idx": int(r.integers(n_center)),
         "ego_d": float(r.uniform(-0.3, 0.3)),
         "ego_yaw": float(r.normal(0, 0.1)),
@@ -76,14 +76,15 @@ def run_episode(sc, log_every=LOG_EVERY, decider=None):
 
     from common import CAR_L, CAR_W, DT, FollowTheGap, FTGParams, OpponentSensor, TrackModel, make_env
     from features import FeatureExtractor
-    from teacher import Teacher, TeacherParams
+    from teacher import Teacher, params_for
 
     solo = sc["kind"] == "solo"
-    env = make_env("Spielberg", num_agents=1 if solo else 2)
+    map_name = sc.get("map", "Spielberg")
+    env = make_env(map_name, num_agents=1 if solo else 2)
     u = env.unwrapped
     ang = u.sim.agents[0].scan_angles
-    tm = TrackModel(u.track, "Spielberg")
-    p = TeacherParams()
+    tm = TrackModel(u.track, map_name)
+    p = params_for(map_name)
     teacher = Teacher(tm, ang, p)
     fx = FeatureExtractor(tm, p.v_max, p.aggression, p.static_window, p.stuck_window, p.static_min)
     sensor = OpponentSensor(seed=sc["seed"])
@@ -196,17 +197,16 @@ def _work(job):
     t0 = time.time()
     from common import TrackModel  # noqa: F401  (warm imports inside the worker)
     import gymnasium  # noqa: F401
-    n_center = _work.n_center
-    sc = sample_scenario(seed, n_center)
+    sc = sample_scenario(seed, _work.n_center, _work.map_name)
     df, summary = run_episode(sc)
     df.to_parquet(out / "episodes" / f"ep_{seed:06d}.parquet", index=False)
     summary["wall_s"] = round(time.time() - t0, 1)
     return summary
 
 
-def _init(n_center):
+def _init(n_center, map_name):
     warnings.filterwarnings("ignore")
-    _work.n_center = n_center
+    _work.n_center, _work.map_name = n_center, map_name
 
 
 def main():
@@ -214,13 +214,14 @@ def main():
     ap.add_argument("--episodes", type=int, default=400)
     ap.add_argument("--first-seed", type=int, default=0)
     ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 1))
-    ap.add_argument("--out", default="data/v1")
+    ap.add_argument("--out", default="data/v2")
+    ap.add_argument("--map", default="Spielberg", help="gym map (e.g. icra2026-comp after tools/port_track.py)")
     args = ap.parse_args()
 
     import pandas as pd
     from common import TrackModel, make_env
-    env = make_env("Spielberg")
-    n_center = TrackModel(env.unwrapped.track, "Spielberg").center.n
+    env = make_env(args.map)
+    n_center = TrackModel(env.unwrapped.track, args.map).center.n
     env.close()
 
     out = pathlib.Path(args.out)
@@ -230,7 +231,7 @@ def main():
     print(f"{len(seeds)} episodes to run on {args.workers} workers → {out}", flush=True)
     t0, done = time.time(), []
     ctx = mp.get_context("spawn")
-    with ctx.Pool(args.workers, initializer=_init, initargs=(n_center,)) as pool:
+    with ctx.Pool(args.workers, initializer=_init, initargs=(n_center, args.map)) as pool:
         for i, s in enumerate(pool.imap_unordered(_work, [(sd, out) for sd in seeds]), 1):
             done.append(s)
             print(f"[{i}/{len(seeds)} {time.time() - t0:6.0f}s] ep {s['seed']:5d} {s['kind']:10s} "

@@ -43,14 +43,15 @@ class Episode:
         from common import FollowTheGap, FTGParams, OpponentSensor, TrackModel, make_env
         from features import FeatureExtractor
         from generate import _pose_on
-        from teacher import Teacher, TeacherParams
+        from teacher import Teacher, params_for
 
         self.sc, self.solo = sc, sc["kind"] == "solo"
-        self.env = make_env("Spielberg", num_agents=1 if self.solo else 2)
+        map_name = sc.get("map", "Spielberg")
+        self.env = make_env(map_name, num_agents=1 if self.solo else 2)
         u = self.env.unwrapped
         ang = u.sim.agents[0].scan_angles
-        self.tm = TrackModel(u.track, "Spielberg")
-        p = TeacherParams()
+        self.tm = TrackModel(u.track, map_name)
+        p = params_for(map_name)
         self.p = p
         self.teacher = Teacher(self.tm, ang, p)
         self.fx = FeatureExtractor(self.tm, p.v_max, p.aggression, p.static_window, p.stuck_window, p.static_min)
@@ -142,13 +143,14 @@ def score_branch(ep, snap, state, branch_s, settle_s):
     return ep.progress() - s0 - 20.0 * max(0.0, 0.10 - gap_min)
 
 
-def run(seed, n_center, model_path, branch_s=1.5, settle_s=1.5, margin=0.3, max_branches=40, log_every=5):
+def run(seed, n_center, model_path, map_name="Spielberg", branch_s=1.5, settle_s=1.5, margin=0.3,
+        max_branches=40, log_every=5):
     import pandas as pd
     from features import STATES, FeatureExtractor
     from generate import sample_scenario
     from race_decider import make_decider
 
-    sc = sample_scenario(seed, n_center)
+    sc = sample_scenario(seed, n_center, map_name)
     model = make_decider(model_path)
     ep = Episode(sc)
     rng = np.random.default_rng(seed + 7)
@@ -195,10 +197,10 @@ def run(seed, n_center, model_path, branch_s=1.5, settle_s=1.5, margin=0.3, max_
 
 
 def _work(job):
-    seed, n_center, model_path, out = job
+    seed, n_center, model_path, out, map_name, branch_s, settle_s = job
     warnings.filterwarnings("ignore")
     t0 = time.time()
-    df, s = run(seed, n_center, model_path)
+    df, s = run(seed, n_center, model_path, map_name, branch_s, settle_s)
     df.to_parquet(out / "episodes" / f"ep_{seed:06d}.parquet", index=False)
     s["wall_s"] = round(time.time() - t0, 1)
     return s
@@ -211,12 +213,15 @@ def main():
     ap.add_argument("--first-seed", type=int, default=1000)
     ap.add_argument("--workers", type=int, default=9)
     ap.add_argument("--out", default="data/dagger1")
+    ap.add_argument("--map", default="Spielberg")
+    ap.add_argument("--branch-s", type=float, default=1.5, help="s each candidate state is forced")
+    ap.add_argument("--settle-s", type=float, default=1.5, help="s the rules drive after the forced state")
     args = ap.parse_args()
 
     import pandas as pd
     from common import TrackModel, make_env
-    env = make_env("Spielberg")
-    n_center = TrackModel(env.unwrapped.track, "Spielberg").center.n
+    env = make_env(args.map)
+    n_center = TrackModel(env.unwrapped.track, args.map).center.n
     env.close()
     out = pathlib.Path(args.out)
     (out / "episodes").mkdir(parents=True, exist_ok=True)
@@ -225,7 +230,7 @@ def main():
     print(f"{len(seeds)} DAgger episodes on {args.workers} workers → {out}", flush=True)
     t0, done = time.time(), []
     with mp.get_context("spawn").Pool(args.workers) as pool:
-        for i, s in enumerate(pool.imap_unordered(_work, [(sd, n_center, args.model, out) for sd in seeds]), 1):
+        for i, s in enumerate(pool.imap_unordered(_work, [(sd, n_center, args.model, out, args.map, args.branch_s, args.settle_s) for sd in seeds]), 1):
             done.append(s)
             if i % 20 == 0 or i == len(seeds):
                 print(f"[{i}/{len(seeds)} {time.time() - t0:5.0f}s] last: ep {s['seed']} {s['kind']} "

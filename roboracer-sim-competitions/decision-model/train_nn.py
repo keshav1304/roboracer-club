@@ -28,6 +28,9 @@ from race_decider import NAMES, PREV, RaceDecider
 HERE = pathlib.Path(__file__).resolve().parent
 
 
+CF_WEIGHT = 2.0
+
+
 def tensors(df, rows):
     d = df[rows]
     ok = d.y_horizon_ok.to_numpy(bool)
@@ -35,7 +38,7 @@ def tensors(df, rows):
     return {
         "x": torch.tensor(d[NAMES].to_numpy(np.float32)),
         "y": torch.tensor(lab.map({s: i for i, s in enumerate(STATES)}).to_numpy()),
-        "w": torch.tensor(np.where(d["cf_gain"].fillna(0).to_numpy() > 0, 2.0, 1.0) if "cf_gain" in d
+        "w": torch.tensor(np.where(d["cf_gain"].fillna(0).to_numpy() > 0, CF_WEIGHT, 1.0) if "cf_gain" in d
                           else np.ones(len(d)), dtype=torch.float32),
         "ok": torch.tensor(ok),
         "col": torch.tensor(d.y_collide_1s.to_numpy(np.float32)),
@@ -61,9 +64,12 @@ def main():
     ap.add_argument("--prev-noise", type=float, default=0.15)
     ap.add_argument("--extra", action="append", default=[], help="DAgger dataset dir(s), all used for training")
     ap.add_argument("--init", default=None, help="start from this checkpoint (fine-tune)")
+    ap.add_argument("--cf-weight", type=float, default=2.0, help="loss weight of counterfactually relabelled rows")
     ap.add_argument("--out", default=str(HERE / "models" / "race_decider_xs.pt"))
     args = ap.parse_args()
     torch.manual_seed(0)
+    global CF_WEIGHT
+    CF_WEIGHT = args.cf_weight
     torch.set_num_threads(8)
 
     df, man = load(args.data)
@@ -72,7 +78,8 @@ def main():
     for e in args.extra:
         ed, _ = load(e)
         ex = tensors(ed, np.ones(len(ed), bool))
-        print(f"+ {e}: {len(ed):,} rows ({int((ed.label != ed.teacher_label).sum()):,} counterfactual labels)")
+        n_cf = int((ed.label != ed.teacher_label).sum()) if "label" in ed else 0
+        print(f"+ {e}: {len(ed):,} rows ({n_cf:,} counterfactual labels)")
         tr = {k: torch.cat([tr[k], ex[k]]) for k in tr}
 
     if args.init:

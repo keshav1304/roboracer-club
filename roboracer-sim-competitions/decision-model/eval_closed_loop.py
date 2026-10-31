@@ -24,7 +24,7 @@ warnings.filterwarnings("ignore")
 
 
 def _run(job):
-    seed, n_center, model_path = job
+    seed, n_center, model_path, map_name = job
     warnings.filterwarnings("ignore")
     from generate import run_episode, sample_scenario
     decider = None
@@ -39,17 +39,17 @@ def _run(job):
 
         def decider(feat):
             return STATES[int(m.predict(feat[cols][None], num_threads=1).argmax())]
-    df, s = run_episode(sample_scenario(seed, n_center), decider=decider)
+    df, s = run_episode(sample_scenario(seed, n_center, map_name), decider=decider)
     s["agree"] = float((df.state == df.teacher_state).mean())
     for st in ("CAR_STOPPED", "OBSTACLE", "SPEED_DOWN"):
         s[f"share_{st}"] = float((df.state == st).mean())
     return s
 
 
-def evaluate(seeds, n_center, model_path, workers):
+def evaluate(seeds, n_center, model_path, workers, map_name="Spielberg"):
     ctx = mp.get_context("spawn")
     with ctx.Pool(workers) as pool:
-        return pd.DataFrame(pool.map(_run, [(s, n_center, model_path) for s in seeds]))
+        return pd.DataFrame(pool.map(_run, [(s, n_center, model_path, map_name) for s in seeds], chunksize=4))
 
 
 def summary(r):
@@ -70,19 +70,23 @@ def main():
                     help="LightGBM .txt or RaceDecider .pt model file (repeatable)")
     ap.add_argument("--episodes", type=int, default=150, help="first N test-split episodes")
     ap.add_argument("--workers", type=int, default=9)
+    ap.add_argument("--map", default="Spielberg")
+    ap.add_argument("--fresh-from", type=int, default=None,
+                    help="use fresh scenario seeds FRESH_FROM.. (never generated for training) instead of the test split")
     args = ap.parse_args()
 
     from common import TrackModel, make_env
-    env = make_env("Spielberg")
-    n_center = TrackModel(env.unwrapped.track, "Spielberg").center.n
+    env = make_env(args.map)
+    n_center = TrackModel(env.unwrapped.track, args.map).center.n
     env.close()
     cand = np.arange(1000)
-    seeds = [int(s) for s in cand[split(cand) == "test"]][: args.episodes]
+    seeds = [int(s) for s in cand[split(cand) == "test"]][: args.episodes] if args.fresh_from is None \
+        else list(range(args.fresh_from, args.fresh_from + args.episodes))
 
     out = {}
     for name, path in [("teacher", None)] + [(p.split("/")[-1].rsplit(".", 1)[0], p) for p in args.model]:
         t0 = time.time()
-        r = evaluate(seeds, n_center, path, args.workers)
+        r = evaluate(seeds, n_center, path, args.workers, args.map)
         out[name] = summary(r)
         print(f"{name}: {out[name]} ({time.time() - t0:.0f}s)", flush=True)
         if path:

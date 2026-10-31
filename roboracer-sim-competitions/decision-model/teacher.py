@@ -38,6 +38,9 @@ class TeacherParams:
     closing_v: float = 0.3        # m/s, must be this much faster to overtake
     min_gap: float = CAR_W + 2 * 0.15  # m, free width needed beside the opponent
     pass_margin: float = 0.6      # m, opponent this far behind = pass complete (or out of view, see _choose)
+    block_arc: float = 1.0        # rad of beams clipped on the narrow side of a parked car
+    squeeze_gap: float = 3.0      # m; within this of a parked car in OBSTACLE, cap speed at squeeze_v
+    squeeze_v: float = 2.5        # m/s
     pass_hold: float = 0.2        # s to stay on the passing line after the pass is done
     lost_grace: float = 0.5       # s to hold OVERTAKE/OBSTACLE when the opponent is lost while still ahead
     trail_gap: float = 1.5        # m, ForzaETH trailing reference gap
@@ -78,6 +81,7 @@ class TeacherParams:
 # Per-map overrides of the Spielberg-tuned defaults. track-20260731 is our
 # mapped competition track (iros-2026): a 30.5 m loop, 0.7–2.6 m wide.
 MAP_PRESETS = {
+    "icra2026-comp": dict(misaligned=1.0),   # tight hairpins: heading legitimately >0.6 rad off the line
     "track-20260731": dict(v_max=5.0, aggression=1.0, horizon=3.0, lane=0.35, trail_gap=0.8, ld_min=0.6, ld_max=2.5,
                            kappa_corner=0.6, ftg=FTGParams(v_max=5.0)),
 }
@@ -140,6 +144,7 @@ class Teacher:
         self.last_seen = None       # (t, rel) at the last tick the opponent was visible
         self.static_latched = False
         self.pass_done_at = None    # t when the current OVERTAKE/OBSTACLE pass completed
+        self.obs_side = None        # +1 / −1: side chosen to pass the current parked car
 
     # ---------------------------------------------------------------- features
     def _situation(self, ego, opp):
@@ -266,6 +271,45 @@ class Teacher:
             return float(lock), -p.turn_speed
         return float(-lock), p.turn_speed
 
+    def _rear_clear(self, ego):
+        """Map check behind the rear bumper (the LiDAR is blind straight back):
+        reversing into walls caused most CAR_STOPPED crashes on tight tracks."""
+        c, s_ = np.cos(ego["yaw"]), np.sin(ego["yaw"])
+        for back in (0.10, 0.25, 0.40):
+            for side in (-0.18, 0.0, 0.18):
+                bx, by = -CAR_L / 2 - back, side
+                if self.tm.occupied(ego["x"] + bx * c - by * s_, ego["y"] + bx * s_ + by * c):
+                    return False
+        return True
+
+    def _update_obstacle_side(self, st, o):
+        """Pick the side to pass a parked car once, when OBSTACLE starts, from its
+        averaged position (static, so averaging removes the sensor noise), and
+        keep it until the car is passed or lost. Re-deciding every tick from
+        noisy positions made FTG flip sides."""
+        near = o is not None and o["static"] and o["rel"] > -(CAR_L + self.p.pass_margin)
+        if not near:
+            self.obs_side = None
+            return
+        if self.obs_side is None and st == "OBSTACLE" and self.opp_hist:
+            mx = float(np.mean([h[1] for h in self.opp_hist]))
+            my = float(np.mean([h[2] for h in self.opp_hist]))
+            fl, fr = self.tm.free_width(mx, my)
+            self.obs_side = 1.0 if fl >= fr else -1.0          # +1: pass on its left
+
+    def _block_narrow_side(self, scan, ego):
+        """Make the narrow side of the parked car look blocked to FTG: beams from
+        its bearing toward that side are clipped at its distance."""
+        mx = float(np.mean([h[1] for h in self.opp_hist]))
+        my = float(np.mean([h[2] for h in self.opp_hist]))
+        dist = float(np.hypot(mx - ego["x"], my - ego["y"]))
+        b = (np.arctan2(my - ego["y"], mx - ego["x"]) - ego["yaw"] + np.pi) % (2 * np.pi) - np.pi
+        rel = (self.ftg.angles - b) * -self.obs_side      # > 0 on the narrow side of its bearing
+        block = (rel > 0.0) & (rel < self.p.block_arc)
+        scan = scan.copy()
+        scan[block] = np.minimum(scan[block], dist)
+        return scan
+
     def _nudge(self, ego, scan, v_ftg):
         """FTG can deadlock nose-close to a wall with the heading already 'ok'
         (no three-point turn): it holds at 0 forever. After hold_time of that,
@@ -290,6 +334,17 @@ class Teacher:
 
     # ------------------------------------------------------------------- tick
     def plan(self, ego_obs, opp_sensed, decide=None):
+        steer, v, st, sit = self._plan(ego_obs, opp_sensed, decide)
+        if v < 0.0:
+            ego = {"x": float(ego_obs["pose_x"]), "y": float(ego_obs["pose_y"]), "yaw": float(ego_obs["pose_theta"])}
+            if not self._rear_clear(ego):
+                v = 0.0
+                self.nudge_left = 0.0
+                if self.turn_phase == "back":
+                    self.turn_left = 0.0          # switch to the forward leg next tick
+        return steer, v, st, sit
+
+    def _plan(self, ego_obs, opp_sensed, decide=None):
         """ego_obs: gym features dict for the ego; opp_sensed: dict from
         OpponentSensor (or None). decide: optional callable(situation) → state
         that replaces the rule-based choice (a learned decider driving the
@@ -337,7 +392,13 @@ class Teacher:
         elif self.turn_phase is not None:
             self.turn_phase = None
         if st in ("CAR_STOPPED", "OBSTACLE", "OVERTAKE"):
+            o = sit["opp"]
+            self._update_obstacle_side(st, o)
+            if self.obs_side is not None and st in ("OBSTACLE", "CAR_STOPPED") and o is not None and self.opp_hist:
+                scan = self._block_narrow_side(scan, ego)
             steer, v = self.ftg.plan(scan, ego["v"])
+            if st == "OBSTACLE" and o is not None and 0.0 < o["gap"] < p.squeeze_gap:
+                v = min(v, p.squeeze_v)       # tight turn around a parked car (FTG at 3.6 m/s wedged in hairpins)
             if st == "CAR_STOPPED":
                 nudge = self._nudge(ego, scan, v)
                 if nudge is not None:
