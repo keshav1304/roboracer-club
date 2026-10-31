@@ -178,6 +178,23 @@ model and `race_decider_xs_dagger.pt` is kept for comparison. Next:
 - longer branches (3 s + 3 s)
 - evaluating on more than 150 episodes so differences this small can be told apart
 
+## ICRA 2026 track (gym), in progress
+`tools/port_track.py icra2026-comp` converts `icra-2026/autodrive_devkit/comp_track` + `comp_waypoints.csv`:
+- The raceline file has 7 negative speeds; the port interpolates over them.
+- Maps are padded to a square because the gym renderer swaps width/height.
+- The track is 60.9 m, 1.6–5 m wide.
+
+`tools/icra_pipeline.sh` runs the whole thing (data → LightGBM + net → 2 DAgger rounds → 1000-race test). It was stopped during DAgger round 1, so these stages are done:
+
+| Stage | Result |
+|---|---|
+| Teacher data, 1000 races | 726k rows; **23 crash episodes (2.3%)**, down from 126 before the reverse-into-wall fix; 793 passes |
+| LightGBM | `models/lgbm_state_icra.txt`, test accuracy 99.89% |
+| Net (ICRA + Spielberg, fine-tuned from the Spielberg net) | `models/race_decider_xs_icra.pt`, test accuracy 98.68%, collision AUC 0.93 |
+| DAgger round 1 | 296 / 300 episodes saved in `data/icra_dag1` (local only) |
+
+**Resume** (it skips finished episodes): rerun `tools/icra_pipeline.sh` from stage 3a, or run its remaining commands by hand.
+
 ## Our track: track-20260731 (gym)
 `tools/port_track.py` converts the iros-2026 SLAM map and raceline into a gym map:
 - Unknown cells become walls.
