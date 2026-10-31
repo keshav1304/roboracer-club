@@ -6,8 +6,9 @@ progress, pass). Training corrupts the prev_* one-hot on prev_noise of rows,
 so the model can't lean on "keep the previous state" alone: in closed loop it
 sees its own, possibly wrong, previous decision.
 
-  python train_nn.py data/v1                 # → models/race_decider_xs.pt
-  python train_nn.py data/v1 --epochs 30 --width 128
+  python train_nn.py data/v2                 # → models/race_decider_xs.pt
+  python train_nn.py data/v2 --extra data/dagger1 --init models/race_decider_xs.pt --epochs 6 \
+      --out models/race_decider_xs_dagger.pt  # step 5: fine-tune on DAgger + counterfactual labels
 """
 import argparse
 import json
@@ -29,10 +30,13 @@ HERE = pathlib.Path(__file__).resolve().parent
 
 def tensors(df, rows):
     d = df[rows]
-    ok = d.y_horizon_ok.to_numpy()
+    ok = d.y_horizon_ok.to_numpy(bool)
+    lab = d["label"] if "label" in d else d.state    # DAgger rows carry their own (possibly counterfactual) label
     return {
         "x": torch.tensor(d[NAMES].to_numpy(np.float32)),
-        "y": torch.tensor(d.state.map({s: i for i, s in enumerate(STATES)}).to_numpy()),
+        "y": torch.tensor(lab.map({s: i for i, s in enumerate(STATES)}).to_numpy()),
+        "w": torch.tensor(np.where(d["cf_gain"].fillna(0).to_numpy() > 0, 2.0, 1.0) if "cf_gain" in d
+                          else np.ones(len(d)), dtype=torch.float32),
         "ok": torch.tensor(ok),
         "col": torch.tensor(d.y_collide_1s.to_numpy(np.float32)),
         "prog": torch.tensor(d.y_progress_2s.to_numpy(np.float32)),
@@ -55,6 +59,8 @@ def main():
     ap.add_argument("--batch", type=int, default=2048)
     ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--prev-noise", type=float, default=0.15)
+    ap.add_argument("--extra", action="append", default=[], help="DAgger dataset dir(s), all used for training")
+    ap.add_argument("--init", default=None, help="start from this checkpoint (fine-tune)")
     ap.add_argument("--out", default=str(HERE / "models" / "race_decider_xs.pt"))
     args = ap.parse_args()
     torch.manual_seed(0)
@@ -63,13 +69,25 @@ def main():
     df, man = load(args.data)
     part = df.episode.map(dict(zip(man.seed, split(man.seed))))
     tr, va, te = (tensors(df, (part == p).to_numpy()) for p in ("train", "val", "test"))
+    for e in args.extra:
+        ed, _ = load(e)
+        ex = tensors(ed, np.ones(len(ed), bool))
+        print(f"+ {e}: {len(ed):,} rows ({int((ed.label != ed.teacher_label).sum()):,} counterfactual labels)")
+        tr = {k: torch.cat([tr[k], ex[k]]) for k in tr}
 
-    m = RaceDecider(args.width)
+    if args.init:
+        from race_decider import load as load_model
+        m = load_model(args.init)
+        args.width = m.width
+        print(f"fine-tuning from {args.init}")
+    else:
+        m = RaceDecider(args.width)
     x = tr["x"]
-    m.mu.copy_(x.mean(0))
-    m.sd.copy_(x.std(0).clamp_min(1e-3))
-    for i in (NAMES.index(n) for n in PREV + ["opp0_present"]):   # leave one-hots / flags raw
-        m.mu[i], m.sd[i] = 0.0, 1.0
+    if not args.init:
+        m.mu.copy_(x.mean(0))
+        m.sd.copy_(x.std(0).clamp_min(1e-3))
+        for i in (NAMES.index(n) for n in PREV + ["opp0_present"]):   # leave one-hots / flags raw
+            m.mu[i], m.sd[i] = 0.0, 1.0
     n_par = sum(p.numel() for p in m.parameters())
     print(f"RaceDecider-XS width {args.width}: {n_par:,} parameters; train {len(x):,} rows")
 
@@ -96,7 +114,8 @@ def main():
                 xb[noisy.nonzero(as_tuple=True)[0].unsqueeze(1), prev_idx] = oh
             logit, col, prog, pas = m(xb)
             ok = tr["ok"][i]
-            loss = F.cross_entropy(logit, tr["y"][i], weight=cw)
+            loss = (F.cross_entropy(logit, tr["y"][i], weight=cw, reduction="none") * tr["w"][i]).sum() \
+                / (cw[tr["y"][i]] * tr["w"][i]).sum()
             if ok.any():
                 loss = loss + 0.2 * F.binary_cross_entropy_with_logits(col[ok], tr["col"][i][ok], pos_weight=col_pw) \
                     + 0.05 * F.smooth_l1_loss(prog[ok], tr["prog"][i][ok] / 10.0) \

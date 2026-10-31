@@ -16,7 +16,7 @@ import numpy as np
 from shapely.geometry import Polygon
 
 from common import CAR_L, CAR_W, DT, FollowTheGap, FTGParams, OpponentSensor, TrackModel, baseline, make_env
-from teacher import STATES, Teacher, TeacherParams
+from teacher import STATES, Teacher, TeacherParams, params_for
 
 warnings.filterwarnings("ignore")
 STATE_COLORS = {"CAR_STOPPED": "#7f7f7f", "OBSTACLE": "#ff7f0e", "OVERTAKE": "#d62728",
@@ -34,7 +34,7 @@ def race(ego="teacher", map_name="Spielberg", seconds=125.0, opp_v=3.5, gap=5.0,
     u = env.unwrapped
     ang = u.sim.agents[0].scan_angles
     tm = TrackModel(u.track, map_name)
-    p = params or TeacherParams()
+    p = params or params_for(map_name)
     ego_ctrl = Teacher(tm, ang, p) if ego == "teacher" else FollowTheGap(ang, FTGParams(v_max=p.v_max))
     opp_ctrl = FollowTheGap(ang, FTGParams(v_max=opp_v))
     sensor = OpponentSensor(seed=seed)

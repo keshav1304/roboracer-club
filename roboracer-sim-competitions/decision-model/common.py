@@ -74,7 +74,10 @@ class TrackModel:
     a 0.7 m safety width for the same reason). The speed profile is kept.
     """
 
-    def __init__(self, track, map_name, wall_margin=0.30):
+    WALL_MARGIN = {"track-20260731": 0.10}   # narrow track: 0.3 m would leave no room for a line
+
+    def __init__(self, track, map_name, wall_margin=None):
+        wall_margin = self.WALL_MARGIN.get(map_name, 0.30) if wall_margin is None else wall_margin
         rl, cl = track.raceline, track.centerline
         self.center = Line(cl.xs, cl.ys, cl.yaws, cl.ss)
         csv = baseline.GYM_MAPS / map_name / f"{map_name}_centerline.csv"
@@ -90,7 +93,7 @@ class TrackModel:
             _, d, i = self.center.project(x, y)
             lo = -(self.w_right[i] - CAR_W / 2 - wall_margin)
             hi = self.w_left[i] - CAR_W / 2 - wall_margin
-            dc = float(np.clip(d, lo, hi))
+            dc = float(np.clip(d, lo, hi)) if lo <= hi else 0.0   # too narrow for the margin: stay central
             n = np.array([-np.sin(self.center.yaw[i]), np.cos(self.center.yaw[i])])
             xy[j] = (x, y) - (d - dc) * n
         seg = np.hypot(*np.diff(np.vstack([xy, xy[:1]]), axis=0).T)

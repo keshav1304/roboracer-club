@@ -1,0 +1,126 @@
+{
+ "data": "data/v2",
+ "params": 128025,
+ "args": {
+  "data": "data/v2",
+  "epochs": 4,
+  "width": 96,
+  "batch": 4096,
+  "lr": 0.001,
+  "prev_noise": 0.15,
+  "extra": [
+   "data/dagger1"
+  ],
+  "init": "models/race_decider_xs.pt",
+  "out": "models/race_decider_xs_dagger.pt"
+ },
+ "test_accuracy": 0.992031514192179,
+ "test_macro_f1": 0.9550923789170445,
+ "aux": {
+  "collide_auc": 0.9668823552410368,
+  "pass_auc": 0.942633019658581,
+  "progress_mae_m": 0.4613812565803528
+ },
+ "single_row_latency_ms": 0.086,
+ "per_state": {
+  "CAR_STOPPED": {
+   "precision": 0.9494584837545126,
+   "recall": 0.994060475161987,
+   "f1-score": 0.9712476919018729,
+   "support": 1852.0
+  },
+  "OBSTACLE": {
+   "precision": 0.950510604870385,
+   "recall": 0.9649122807017544,
+   "f1-score": 0.9576573011476058,
+   "support": 1254.0
+  },
+  "OVERTAKE": {
+   "precision": 0.989878719134456,
+   "recall": 0.9876381997040132,
+   "f1-score": 0.9887571901690779,
+   "support": 22974.0
+  },
+  "CORNERING": {
+   "precision": 0.9882939175828521,
+   "recall": 0.9936381709741551,
+   "f1-score": 0.9909588389245777,
+   "support": 12575.0
+  },
+  "SPEED_UP": {
+   "precision": 0.9975349219391948,
+   "recall": 0.9937565902658305,
+   "f1-score": 0.9956421715469248,
+   "support": 72076.0
+  },
+  "SPEED_DOWN": {
+   "precision": 0.7236842105263158,
+   "recall": 0.962800875273523,
+   "f1-score": 0.8262910798122066,
+   "support": 457.0
+  },
+  "accuracy": 0.992031514192179,
+  "macro avg": {
+   "precision": 0.9332268096346193,
+   "recall": 0.9828010986802105,
+   "f1-score": 0.9550923789170445,
+   "support": 111188.0
+  },
+  "weighted avg": {
+   "precision": 0.9924511443260073,
+   "recall": 0.992031514192179,
+   "f1-score": 0.9921591201150544,
+   "support": 111188.0
+  }
+ },
+ "confusion": {
+  "CAR_STOPPED": {
+   "CAR_STOPPED": 1841,
+   "OBSTACLE": 21,
+   "OVERTAKE": 20,
+   "CORNERING": 17,
+   "SPEED_UP": 40,
+   "SPEED_DOWN": 0
+  },
+  "OBSTACLE": {
+   "CAR_STOPPED": 0,
+   "OBSTACLE": 1210,
+   "OVERTAKE": 31,
+   "CORNERING": 1,
+   "SPEED_UP": 31,
+   "SPEED_DOWN": 0
+  },
+  "OVERTAKE": {
+   "CAR_STOPPED": 0,
+   "OBSTACLE": 3,
+   "OVERTAKE": 22690,
+   "CORNERING": 32,
+   "SPEED_UP": 188,
+   "SPEED_DOWN": 9
+  },
+  "CORNERING": {
+   "CAR_STOPPED": 4,
+   "OBSTACLE": 5,
+   "OVERTAKE": 34,
+   "CORNERING": 12495,
+   "SPEED_UP": 102,
+   "SPEED_DOWN": 3
+  },
+  "SPEED_UP": {
+   "CAR_STOPPED": 1,
+   "OBSTACLE": 15,
+   "OVERTAKE": 130,
+   "CORNERING": 26,
+   "SPEED_UP": 71626,
+   "SPEED_DOWN": 5
+  },
+  "SPEED_DOWN": {
+   "CAR_STOPPED": 6,
+   "OBSTACLE": 0,
+   "OVERTAKE": 69,
+   "CORNERING": 4,
+   "SPEED_UP": 89,
+   "SPEED_DOWN": 440
+  }
+ }
+}

@@ -11,6 +11,8 @@ venv, env factory, `FollowTheGap`).
 | 2 | **Training data**: the teacher drives randomized scenarios, every decision logged | `features.py`, `generate.py`, `dataset_stats.py` |
 | 3 | **LightGBM** baseline: features → state | `train_lgbm.py`, `eval_closed_loop.py` |
 | 4 | **RaceDecider-XS** neural net | `race_decider.py`, `train_nn.py` |
+| 5 | **DAgger + counterfactual labels**: the net drives, the teacher relabels, sim branching finds better choices | `dagger.py`, `train_nn.py --extra` |
+| – | **Our track** (`track-20260731`) in the gym | `tools/port_track.py`, `teacher.MAP_PRESETS` |
 
 ## Setup
 ```bash
@@ -37,6 +39,17 @@ $PY dataset_stats.py data/v2
 $PY train_lgbm.py data/v2                                  # ~20 s → models/lgbm_state.txt
 $PY train_nn.py data/v2 --epochs 12 --batch 4096 --lr 3e-3 # ~16 min CPU → models/race_decider_xs.pt
 $PY eval_closed_loop.py --model models/race_decider_xs.pt --model models/lgbm_state.txt   # driving test
+
+# step 5
+$PY dagger.py --model models/race_decider_xs.pt --episodes 400 --out data/dagger1   # ~24 min
+$PY train_nn.py data/v2 --extra data/dagger1 --init models/race_decider_xs.pt --epochs 4 --batch 4096 --lr 1e-3 \
+    --out models/race_decider_xs_dagger.pt
+$PY eval_closed_loop.py --model models/race_decider_xs_dagger.pt --model models/race_decider_xs.pt
+
+# our competition track (iros-2026 map + raceline → gym map folder; rerun after setup.sh)
+$PY tools/port_track.py track-20260731
+$PY run_teacher.py --map track-20260731 --solo --seconds 60
+$PY run_teacher.py --map track-20260731 --opp-vmax 2 --gap 4 --seconds 40
 ```
 The trained models are committed in `models/`, so `eval_closed_loop.py` runs
 without retraining.
@@ -53,6 +66,7 @@ without retraining.
 
 - **Holds:** racing states hold for at least 0.3 s. CAR_STOPPED and OBSTACLE preempt immediately.
 - **Braking cap:** every raceline command is capped by braking distance to anything on the steering arc.
+- **Direction-aware speeds:** closing speed and time-to-collision use each car's speed along the track direction (speed × cos of its heading vs the raceline), so a car that's spun or turning around doesn't count as closing at full speed.
 - **Opponent sensor** (`common.OpponentSensor`): ground truth plus ForzaETH-level tracking noise (0.17 m position, 0.49 m/s speed). The car is only seen inside the 270° LiDAR fan, within 10 m, and not behind a wall. It stands in for LiDAR detection, which isn't built yet.
 - **Pass done:** the opponent is 0.6 m behind, or it was last seen alongside or behind and has dropped out of view (the blind wedge behind us). Then the passing line is held 0.2 s longer to open the gap. If it's lost while still ahead, the state is held up to 0.5 s.
 - **Static:** moved < 0.5 m since first seen, judged after 0.6 s of sightings (the LiDAR only sees 1.6 s ahead at 6 m/s). Once static, it has to move 1.0 m to count as moving again.
@@ -136,6 +150,55 @@ teacher's executors drive, on the 150 held-out test scenarios:
 | Closest car gap | 0.14 m | **0.22 m** |
 | Solo laps | 59.3–59.7 s | **58.6–59.0 s** |
 
+## Step 5: DAgger + counterfactual labels
+- **DAgger:** the neural net drives 400 fresh scenarios (seeds 1000–1399, none from the test split). Every row is labelled with what the teacher's rules, including their dwell, would pick *in the state the net got itself into*. The net learns to recover from its own mistakes.
+- **Counterfactuals:** at moments with the opponent in view (whenever the net disagrees with the rules, plus a random 15%), the whole sim is snapshotted (gym sim, controllers, sensor RNG; a restore reproduces the run exactly). Each candidate state is forced for 1.5 s, then the rules drive for 1.5 s.
+  - **Score:** raceline progress, −50 for a collision, −20 per metre of contact under 0.10 m.
+  - **Override:** if a candidate beats the teacher's pick by > 0.3 m, it becomes the label, weighted ×2 in training.
+- **Run 1:** 290,779 rows, 8,030 branch points, **2,957 labels overridden** (median gain 1.3 m per 3 s). 94.7% agreement with the rules while the net drove; 9 of 400 episodes crashed.
+- **What the sim says the teacher gets wrong:**
+  - OVERTAKE → SPEED_UP 1,238×: the opponent is off our line, so staying on the raceline is faster than FTG around it.
+  - OVERTAKE → SPEED_DOWN 506×: wait for a better moment.
+  - SPEED_UP → OVERTAKE 438×: go for it sooner.
+  - OVERTAKE → OBSTACLE 211×.
+
+**Driving test after one DAgger round** (150 test scenarios; teacher and step-4 net re-run with heading-aware closing speed):
+| | Teacher rules | RaceDecider-XS + DAgger | RaceDecider-XS (step 4) |
+|---|---|---|---|
+| Crashes | 3 | 2 | **1** |
+| Stuck (< 50 m) | 5 | 3 | **2** |
+| Passes | 116 | 116 | 115 |
+| Mean distance | 203.5 m | 204.1 m | **205.8 m** |
+| Agrees with the rules | 100% | 97.3% | 94.1% |
+
+**One round didn't improve on step 4.** Both nets beat the teacher, but the
+gap between them is within noise, so `race_decider_xs.pt` stays the main
+model and `race_decider_xs_dagger.pt` is kept for comparison. Next:
+- more rounds (the DAgger model drives the next batch)
+- longer branches (3 s + 3 s)
+- evaluating on more than 150 episodes so differences this small can be told apart
+
+## Our track: track-20260731 (gym)
+`tools/port_track.py` converts the iros-2026 SLAM map and raceline into a gym map:
+- Unknown cells become walls.
+- SLAM specks under 0.5 m² are removed.
+- The centerline is the midpoint between the walls along the raceline normals.
+- Width 1.1–2.5 m, median 1.4 m.
+
+`teacher.params_for("track-20260731")` scales the teacher for a 30.5 m loop: v_max 5, horizon 3 m, lookahead 0.6–2.5 m, 0.10 m wall margin. The Spielberg defaults are unchanged.
+
+| Test (40–60 s) | Result |
+|---|---|
+| Solo | laps 10.40 / 10.19 / 10.19 / 10.18 / 10.19 s, no collisions (raceline estimate 9.77 s) |
+| Opponent 1.5–2.5 m/s | 1–2 passes, no collisions, closest gap 0.10–0.16 m |
+| Opponent 3 m/s | no pass in 40 s (stuck in OVERTAKE) |
+| Parked car 12 m ahead | clean, 4 passes |
+| Parked car 8 m ahead | **crash** at 6 s |
+
+- **Slow passes:** passing is slow on 1.4 m corridors (FTG still has Spielberg tuning).
+- **Models not retrained:** the learned models are trained on Spielberg only. Next is generating data on this track (`generate.py` still hard-codes Spielberg).
+- **Not in AutoDRIVE yet:** that needs a ROS node like `iros-2026/.../pp_backup_node.py` calling `Teacher.plan`.
+
 ## Design notes (what broke and why it's built this way)
 - **The shipped raceline hugs walls** (about 5 cm clearance). `TrackModel` pulls it to 0.3 m and keeps the speed profile.
 - **Pure pursuit understeers at 6 m/s.** Added lateral + heading feedback, capped at 0.2 rad. Narrow gain window: re-tune after any dynamics change.
@@ -147,4 +210,5 @@ teacher's executors drive, on the 150 held-out test scenarios:
 ## Known limitations
 - About 2% of episodes crash (hard starts, FTG side-swipes while passing). About 2% get stuck: a car wedged on a wall recovers, then the gentle raceline rejoin drives it back.
 - Learned deciders touch the other car at least once in 150 episodes (closest gap 0.00 m).
-- One opponent; perception is ground truth plus noise (no LiDAR detection yet); Spielberg only.
+- **Parked-car squeeze loop:** in ~0.4% of episodes the car noses into a parked car while squeezing past. It reverses, picks the same gap, and repeats for up to 30 s (the "reversing" seen in runs).
+- **Scope:** one opponent; perception is ground truth plus noise (no LiDAR detection yet); learned models are Spielberg-only; nothing runs in AutoDRIVE yet.

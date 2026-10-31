@@ -68,9 +68,23 @@ class TeacherParams:
     heading_ok: float = 0.5       # rad; done turning when within this of the raceline heading
     misaligned: float = 0.6       # rad; this far off the raceline heading below misaligned_v → CAR_STOPPED
     misaligned_v: float = 2.0     # m/s  (spawned or spun facing a wall: launching drives into it)
+    ld_min: float = 0.9           # m, pure-pursuit lookahead clip
+    ld_max: float = 5.0
     wheelbase: float = 0.3302
     max_steer: float = 0.4189
     ftg: FTGParams = field(default_factory=lambda: FTGParams(v_max=6.0))
+
+
+# Per-map overrides of the Spielberg-tuned defaults. track-20260731 is our
+# mapped competition track (iros-2026): a 30.5 m loop, 0.7–2.6 m wide.
+MAP_PRESETS = {
+    "track-20260731": dict(v_max=5.0, aggression=1.0, horizon=3.0, lane=0.35, trail_gap=0.8, ld_min=0.6, ld_max=2.5,
+                           kappa_corner=0.6, ftg=FTGParams(v_max=5.0)),
+}
+
+
+def params_for(map_name: str) -> TeacherParams:
+    return TeacherParams(**MAP_PRESETS.get(map_name, {}))
 
 
 class RacelinePursuit:
@@ -84,7 +98,7 @@ class RacelinePursuit:
         s, d0, _ = line.project(x, y)
         # far off the line (race start, after an FTG pass): look further ahead so
         # the rejoin is a gradual merge, not a swerve into the wall the line hugs
-        ld = float(np.clip(max(0.6 * v - 0.18, self.p.rejoin_k * abs(d0)), 0.9, 5.0))
+        ld = float(np.clip(max(0.6 * v - 0.18, self.p.rejoin_k * abs(d0)), self.p.ld_min, self.p.ld_max))
         tx, ty = line.xy[line.index_at(s + ld)]
         alpha = np.arctan2(ty - y, tx - x) - yaw
         alpha = (alpha + np.pi) % (2 * np.pi) - np.pi
@@ -131,15 +145,19 @@ class Teacher:
     def _situation(self, ego, opp):
         """Everything the rules need, in the raceline Frenet frame."""
         line = self.tm.race
-        s_e, d_e, _ = line.project(ego["x"], ego["y"])
+        s_e, d_e, i_e = line.project(ego["x"], ego["y"])
         out = {"s": s_e, "d": d_e, "v": ego["v"], "opp": None}
         if opp is not None:
-            s_o, d_o, _ = line.project(opp["x"], opp["y"])
+            s_o, d_o, i_o = line.project(opp["x"], opp["y"])
             rel = line.ds(s_e, s_o)                    # centre-to-centre along s, + = opponent ahead
             fl, fr = self.tm.free_width(opp["x"], opp["y"])
+            # speeds along the track direction: a car turned sideways or backwards
+            # (spin, three-point turn) isn't closing / opening the gap at its full speed
+            v_es = ego["v"] * np.cos(ego["yaw"] - line.yaw[i_e])
+            v_os = opp["v"] * np.cos(opp["yaw"] - line.yaw[i_o])
             out["opp"] = {
                 "rel": rel, "gap": rel - CAR_L,       # gap = bumper-to-bumper when ahead
-                "d": d_o, "v": opp["v"], "dv": ego["v"] - opp["v"],
+                "d": d_o, "v": v_os, "dv": v_es - v_os,
                 "on_line": abs(d_o) < self.p.lane or abs(d_o - d_e) < self.p.lane,
                 "static": self._opp_static(),
                 "free_left": fl, "free_right": fr,

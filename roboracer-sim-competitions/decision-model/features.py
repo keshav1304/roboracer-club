@@ -77,21 +77,23 @@ class FeatureExtractor:
 
         opp = None
         if opp_sensed is not None:
-            s_o, d_o, _ = line.project(opp_sensed["x"], opp_sensed["y"])
+            s_o, d_o, i_o = line.project(opp_sensed["x"], opp_sensed["y"])
             rel = line.ds(s, s_o)
             if abs(rel) < OPP_RANGE:
-                opp = (opp_sensed, rel, d_o)
+                opp = (opp_sensed, rel, d_o, i_o)
         if opp is None:
             self.opp.clear()
             f += [0.0, OPP_RANGE, OPP_RANGE, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0]
             disp = 0.0
         else:
-            o, rel, d_o = opp
+            o, rel, d_o, i_o = opp
             gap = rel - CAR_L if rel > 0 else rel + CAR_L       # bumper-to-bumper, signed
-            dv = v - o["v"]
+            # speeds along the track direction (heading-aware), as in Teacher._situation
+            v_os = o["v"] * np.cos(o["yaw"] - line.yaw[i_o])
+            dv = v * np.cos(e_head) - v_os
             ttc = gap / dv if (rel > 0 and dv > 0.05) else 10.0
             ofl, ofr = tm.free_width(o["x"], o["y"])
-            f += [1.0, rel, gap, d_o, d_o - d, o["v"], dv, min(ttc, 10.0), ofl, ofr]
+            f += [1.0, rel, gap, d_o, d_o - d, v_os, dv, min(ttc, 10.0), ofl, ofr]
             self.opp.append((self.t, o["x"], o["y"]))
             while self.opp[0][0] < self.t - self.static_window:
                 self.opp.pop(0)
