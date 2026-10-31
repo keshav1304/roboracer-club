@@ -73,6 +73,7 @@ import os
 import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
+import random
 
 LIDAR_BINS = 108
 MAX_RANGE = 10.0
@@ -221,6 +222,10 @@ class RaceEnv(gym.Env):
 
     def step(self, action):
         action = np.clip(np.asarray(action, np.float32).reshape(2), -1.0, 1.0)
+
+        params_dict = {'mu': random.uniform(0.8, 1.2)}
+        self.sim.update_params(params_dict)
+
         throttle_cmd, _ = action_to_autodrive(action)
         collision = False
         for _ in range(self.substeps):                              # acceleration follows the speed each 10 ms
