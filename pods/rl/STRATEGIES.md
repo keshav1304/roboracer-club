@@ -65,13 +65,13 @@ Top left is the reward per episode during training and bottom right the clean la
 
 ### R trained longer
 
-We continued the one R seed that learned for another 5M steps on the same env. Its reward rose to about 1,700 at 5.4M, collapsed at 5.8M and stayed near zero. Only the 5.3M checkpoint drove clean laps (11.7 s). Every checkpoint from 5.8M to 9.8M crashed. More steps made it worse, which points at unstable training rather than too little training.
+We continued the one R seed that learned for another 5M steps with the same reward. By then the env had gained the 18° understeer (the car barely turns past 18°), so the physics also got harder at the restart. Its reward rose to about 1,700 at 5.4M, collapsed at 5.8M and stayed near zero. Its best checkpoint (5.25M) drove 5 clean laps out of 60 in our test and crashed in all 3 drives, and every checkpoint from 5.8M on crashed in the periodic test. Part of the drop may come from the new physics, so this does not prove R can never converge. It does show R did not adapt to the harder physics in 5M more steps, while P2, trained from scratch on that same physics, learned on all 3 seeds.
 
 ![Reward per episode of R, continued from 5M to 10M steps](media/r_trained_longer.png)
 
 ### What these results do and do not show
 
-The sweep ran on an earlier version of the env, with a grip cap of 8.5 m/s² and none of the slide physics in [env/AUTODRIVE_PHYSICS.md](env/AUTODRIVE_PHYSICS.md). The presets rebuild the same rewards on today's env, but nobody has rerun them yet, so results on today's physics may differ. A fair R vs P comparison on the current physics is still open. S also lowered the grip cap to 7.5, which has no equivalent in today's slide model, so the `s` preset keeps only its reward.
+The sweep ran on an earlier version of the env, with a grip cap of 8.5 m/s² and none of the slide physics in [env/AUTODRIVE_PHYSICS.md](env/AUTODRIVE_PHYSICS.md). The R policy from the sweep is in [policies/](policies/). On today's env it crashes in its first lap. The presets rebuild the same rewards on today's env, but nobody has rerun them yet, so results on today's physics may differ. A fair R vs P comparison on the current physics is still open. S also lowered the grip cap to 7.5, which has no equivalent in today's slide model, so the `s` preset keeps only its reward.
 
 ## After the sweep, P2 to P5
 
