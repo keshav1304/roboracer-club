@@ -1,0 +1,4 @@
+f1tenth_gym/
+.venv/
+__pycache__/
+*.png
