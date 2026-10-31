@@ -23,7 +23,7 @@ Pure pursuit on Keshav's club line does all the steering, with a speed plan 1.15
 
 ## How we got here
 
-Each step below fixed what the one before it crashed on. The physics behind them is in `env/AUTODRIVE_PHYSICS.md`.
+Each step below fixed what the one before it crashed on. The physics behind them is in `env/AUTODRIVE_PHYSICS.md`, and the end to end approaches we also tried are in [STRATEGIES.md](STRATEGIES.md).
 
 1. Our first PPO policies drove 10 s laps in the gym by cornering far harder than the AutoDRIVE car can. On the plain f1tenth_gym they cornered at up to 50 m/s². Even under a first grip cap they still cornered at 12 m/s².
 2. With AutoDRIVE's throttle response measured and grip capped at 8.5 m/s², a residual policy on pure pursuit did 60/60 clean gym laps at 10.93 s. In AutoDRIVE it crashed. The AutoDRIVE car barely turns past about 18° of steering, and the policy used full lock in the hairpin.

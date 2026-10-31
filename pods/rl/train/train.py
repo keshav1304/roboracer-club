@@ -3,6 +3,7 @@
 Usage (from pods/rl):
   python train/train.py --preset p5 --steps 8000000 --seed 0 --name p5_s0
   python train/train.py --preset p5 --steps 4000000 --resume train/runs/p5_s0/ckpt_4499928_steps.zip --name p5_s0_more
+  python train/train.py --preset r --steps 5000000 --seed 0 --name r_s0     # end to end, see ../STRATEGIES.md
   tensorboard --logdir train/runs/tb
 Hyperparameters are the pod doc's (n_steps 2048, batch 256, lr 3e-4, net [256, 256]), 8 workers.
 Saves train/runs/NAME/cfg.json (the env settings, read back by evaluate.py and export_policy.py),
@@ -24,11 +25,22 @@ from stable_baselines3.common.vec_env import SubprocVecEnv, VecMonitor  # noqa: 
 
 from race_env import make_env  # noqa: E402
 
+# reward v3 = 10 per metre - 1 per step + 50 per lap - 100 on a crash - 0.1 x steering change,
+# on top of the env's whiteboard defaults (see ../STRATEGIES.md)
+V3 = {'time': 1.0, 'collision': 100.0, 'center': 0.0}
+
 PRESETS = {
-    # P5: the policy only corrects pure pursuit's throttle (steering stays pure pursuit), base speeds
-    # x1.15, reward v3 = 10 per metre - 1 per step + 50 per lap - 100 on a crash - 0.1 x steering change
-    'p5': {'residual': 0.4, 'steer_residual': 0.0, 'ref_speed_scale': 1.15,
-           'reward_weights': {'time': 1.0, 'collision': 100.0, 'center': 0.0}},
+    # P5: the policy only corrects pure pursuit's throttle (steering stays pure pursuit), base speeds x1.15
+    'p5': {'residual': 0.4, 'steer_residual': 0.0, 'ref_speed_scale': 1.15, 'reward_weights': V3},
+    # The Oct 25 overnight sweep, same rewards on this env. R, T, S, X and M are end to end (the policy sets
+    # steering and throttle itself). P corrects both of pure pursuit's commands. S also lowered the grip cap
+    # to 7.5 back then, which has no equivalent in the slide model, so only its reward is kept.
+    'r': {'reward_weights': V3},
+    't': {'reward_weights': dict(V3, tal=1.0)},
+    's': {'reward_weights': dict(V3, collision=300.0, time=0.5)},
+    'x': {'reward_weights': dict(V3, collision=50.0, time=1.5)},
+    'm': {'reward_weights': dict(V3, steer_rate=0.5)},
+    'p': {'residual': 0.4, 'reward_weights': V3},
     'none': {},
 }
 
@@ -50,7 +62,10 @@ if __name__ == '__main__':
     ap.add_argument('--ckpt', type=int, default=100_000, help='save a checkpoint every this many steps')
     ap.add_argument('--resume', default=None, help='continue this saved model for --steps more steps')
     a = ap.parse_args()
-    cfg = dict(PRESETS[a.preset], **json.loads(a.cfg))
+    over = json.loads(a.cfg)
+    cfg = dict(PRESETS[a.preset], **over)
+    if 'reward_weights' in over:                                     # add to the preset's weights, don't replace them
+        cfg['reward_weights'] = dict(PRESETS[a.preset].get('reward_weights', {}), **over['reward_weights'])
     runs = os.path.join(HERE, 'runs')
     out = os.path.join(runs, a.name)
     os.makedirs(out, exist_ok=True)

@@ -38,6 +38,10 @@ This uses the P5 settings but does not rebuild P5 exactly (see below), and `ckpt
 
 The deployed P5 was trained in two stages. 4.5M steps on an earlier version of this env (one slide threshold instead of the wheel-angle limit, not in the repo), then `--resume` for 4M more on this one. Two seeds trained from scratch on this env for 8M steps reached 11.26 s and 11.33 s in the gym, faster than P5's 11.42. In AutoDRIVE the faster one crashed twice in lap 1. It turned out less tolerant of late control steps. The other one slides at nominal grip, so we never deployed it. The gym's lap time is not enough to pick a policy.
 
+## Other presets
+
+`--preset r`, `t`, `s`, `x`, `m` and `p` rebuild the six approaches of our overnight sweep on this env. R, T, S, X and M are end to end, and P corrects both of pure pursuit's commands. What each one changes and how it went are in [../STRATEGIES.md](../STRATEGIES.md). They have not been rerun on this env yet. `--cfg` adds to a preset's reward weights rather than replacing them.
+
 ## Picking a checkpoint
 
 - In our residual runs, reward and eval lap time were flat from about 3M steps. More steps did not help.

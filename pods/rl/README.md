@@ -30,7 +30,9 @@ The gym and AutoDRIVE disagree most at the grip limit, and RL drives at the limi
 | [env/](env/) | Rubi | `race_env.py`, the gym env with AutoDRIVE's physics, its tests, and `validate_vs_autodrive.py`, which checks the gym against real AutoDRIVE runs. Track files are in `env/tracks/` |
 | [train/](train/) | Nathaniel | `train.py`, `evaluate.py` and `export_policy.py` from the runs behind P5, as a starting point |
 | [deploy/](deploy/) | Rishabh | the P5 policy file and the ROS 2 node that ran it in AutoDRIVE, with the pitfalls we hit |
-| [media/](media/) | | replay of the AutoDRIVE runs |
+| [media/](media/) | | replay of the AutoDRIVE runs and training curves |
+
+[STRATEGIES.md](STRATEGIES.md) has every approach we trained (end to end R, T, S, X and M, and residual P to P5), how the reward got from the whiteboard to v3, and the full training log.
 
 `configs/` and `maps/` are empty placeholders from the pod scaffold.
 
