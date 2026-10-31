@@ -170,7 +170,28 @@ class RaceEnv(gym.Env):
             lidar_config=LiDARConfig(num_beams=NUM_BEAMS, field_of_view=FOV, range_max=MAX_RANGE),
             render_enabled=render_mode is not None,
         )
-        self.sim = gym.make('f1tenth_gym:f1tenth-v0', config=cfg, render_mode=render_mode)
+
+        params_dict = {
+               'mu': 1.0,
+               'C_Sf': 4.718,
+               'C_Sr': 5.4562,
+               'lf': 0.15875,
+               'lr': 0.17145,
+               'h': 0.07354,
+               'm': 3.74,
+               'I': 0.04712,
+               's_min': -0.4189,
+               's_max': 0.5236,
+               'sv_min': -3.2,
+               'sv_max': 3.2,
+               'v_switch':7.319,
+               'a_max': 5.2,
+               'v_min':-5.0,
+               'v_max': 20.0,
+               'width': 0.31,
+               'length': 0.58}
+        
+        self.sim = gym.make('f1tenth_gym:f1tenth-v0', config=cfg, render_mode=render_mode, params=params_dict)
         self.wheelbase = params.lf + params.lr
         self.track = self.sim.unwrapped.track
         self.track_len = float(self.track.centerline.length)
