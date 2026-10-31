@@ -56,7 +56,16 @@ def main(name):
     free = free | small
     out = GYM_MAPS / name
     out.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(np.where(free, 255, 0).astype(np.uint8)).save(out / f"{name}.png")
+    img_out = np.where(free, 255, 0).astype(np.uint8)
+    # f1tenth_gym's pygame renderer swaps width/height when it scales the map
+    # (fine for Spielberg's square image, stretched + rotated for ours): pad to
+    # a square with wall on the right and top. The origin is the bottom-left
+    # pixel, so the geometry the sim uses is unchanged.
+    side = max(img_out.shape)
+    img_out = np.pad(img_out, ((side - img_out.shape[0], 0), (0, side - img_out.shape[1])), constant_values=0)
+    tmp = out / f"{name}.tmp.png"
+    Image.fromarray(img_out).save(tmp)
+    tmp.replace(out / f"{name}.png")                    # atomic: running sims never read a half-written map
     yaml.safe_dump({"image": f"{name}.png", "resolution": res, "origin": [ox, oy, 0.0], "negate": 0,
                     "occupied_thresh": 0.45, "free_thresh": 0.196}, open(out / f"{name}_map.yaml", "w"))
 

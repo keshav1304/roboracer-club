@@ -29,7 +29,9 @@ def body(o):
 
 
 def race(ego="teacher", map_name="Spielberg", seconds=125.0, opp_v=3.5, gap=5.0, solo=False,
-         render=False, seed=0, params=None, verbose=True, opp_on_raceline=False):
+         render=False, seed=0, params=None, verbose=True, opp_on_raceline=False, model=None):
+    """model: optional .pt (RaceDecider) or .txt (LightGBM) that picks the state
+    each tick instead of the teacher's rules (the teacher's executors still drive)."""
     env = make_env(map_name, render, num_agents=1 if solo else 2)
     u = env.unwrapped
     ang = u.sim.agents[0].scan_angles
@@ -37,6 +39,17 @@ def race(ego="teacher", map_name="Spielberg", seconds=125.0, opp_v=3.5, gap=5.0,
     p = params or params_for(map_name)
     ego_ctrl = Teacher(tm, ang, p) if ego == "teacher" else FollowTheGap(ang, FTGParams(v_max=p.v_max))
     opp_ctrl = FollowTheGap(ang, FTGParams(v_max=opp_v))
+    decide, fx = None, None
+    if model and ego == "teacher":
+        from features import STATES as FSTATES, FeatureExtractor
+        fx = FeatureExtractor(tm, p.v_max, p.aggression, p.static_window, p.stuck_window, p.static_min)
+        if model.endswith(".pt"):
+            from race_decider import make_decider
+            decide = make_decider(model)
+        else:
+            import lightgbm as lgb
+            booster = lgb.Booster(model_file=model)
+            decide = lambda f: FSTATES[int(booster.predict(f[None], num_threads=1).argmax())]
     sensor = OpponentSensor(seed=seed)
     # same start as the baseline (centerline), so teacher vs FTG is a fair comparison;
     # the raceline start is 0.27 m from a wall and plain FTG can't pull away from it
@@ -64,7 +77,13 @@ def race(ego="teacher", map_name="Spielberg", seconds=125.0, opp_v=3.5, gap=5.0,
         t = (k + 1) * DT
         o0, o1 = obs["agent_0"], obs.get("agent_1")
         if ego == "teacher":
-            steer, v, st, _ = ego_ctrl.plan(o0, None if solo else sensor.sense(o1, o0))
+            sensed = None if solo else sensor.sense(o1, o0)
+            if decide is None:
+                steer, v, st, _ = ego_ctrl.plan(o0, sensed)
+            else:
+                feat, _ = fx(o0, sensed)
+                steer, v, st, _ = ego_ctrl.plan(o0, sensed, lambda sit: decide(feat))
+                fx.observe_decision(st)
         else:
             steer, v = ego_ctrl.plan(o0["scan"], 0.0)
             st = "FTG"
@@ -161,10 +180,11 @@ def main():
     ap.add_argument("--opp-on-raceline", action="store_true", help="start the opponent on the raceline")
     ap.add_argument("--render", action="store_true")
     ap.add_argument("--plot", default=None)
+    ap.add_argument("--model", default=None, help="drive with a learned decider: models/race_decider_xs.pt or models/lgbm_state.txt")
     args = ap.parse_args()
 
     res, trace, events = race(args.ego, args.map, args.seconds, args.opp_vmax, args.gap, args.solo, args.render,
-                              opp_on_raceline=args.opp_on_raceline)
+                              opp_on_raceline=args.opp_on_raceline, model=args.model)
     print(f"\n{res['ego']} ego: sim {res['time']} s in {res['wall']} s wall | distance {res['distance']} m")
     print(f"laps: {res['laps']}")
     print(f"overtakes: {len(res['passes'])} at {res['passes']} | collision: {res['collision']} | closest car gap: {res['car_gap']} m")
