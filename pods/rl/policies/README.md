@@ -45,3 +45,28 @@ python3 rl_deploy_node.py rl_policy_E2E_mu.npz --laps 3 --tag e2e_mu
 ```
 
 To make it run on f1tenth_gym dev-humble (bdaec14), the env needed two local changes, not pushed. That gym takes vehicle parameters as a `VehicleParameters` inside the env config rather than a `params=` argument to `gym.make`, and `update_params` takes a `VehicleParameters`, not a dict.
+
+## rl_policy_v2_s0_8M.npz
+
+End to end PPO on env_v2 ([../env_v2/README.md](../env_v2/README.md)). LiDAR, speed and the last action go in, steering and throttle come out. There is no pure pursuit underneath and no race line in the input. It is the first end to end policy that has finished clean laps in AutoDRIVE.
+
+| | |
+|---|---|
+| Training | `train_v2/train.py --preset e2e_v2 --seed 0 --gen 200 --holdout none --cfg '{"focus_track": "icra", "focus_share": 0.5}'`, 15 workers on a RunPod CPU pod, checkpoint at 8M steps |
+| ICRA in training | half of all episodes run on ICRA as raced, the other half on 200 generated tracks plus practice, mirrored and reversed |
+| Gates (`train_v2/evaluate.py`) | ICRA clean on both models, 11.11 s twin and 11.23 s empirical. Randomised physics 6/20 crashed with timing off and 4/20 with timing on (P5 6/20 and 13/20). Delay tolerance 70 ms. Unseen tracks 9/10 clean |
+| In AutoDRIVE (Rubi's Mac) | 9 laps tried in three runs, 7 clean, fastest 10.871 s (P5 best 11.455). One touch in the hairpin. Once the car missed the hairpin exit and drove into the open area below it |
+
+The Mac was heavily loaded during those runs (load average 130 to 218, simulator at 0.36 x real time, 11 to 13 control steps per run more than 100 ms late). P5's clean runs had 0 to 5. So the next test should be on a faster machine.
+
+Checkpoints next to this one were much worse (6M crashed on ICRA, 10M and later failed the randomised gates). Training longer made it faster on ICRA and less robust, which is why 8M was picked.
+
+To run it in AutoDRIVE, copy it into `../deploy/` and use the v2 node, with AutoDRIVE in the background. Grip shield is off by default because the policy was trained without it.
+
+```bash
+python3 tools/reset.py
+python3 rl_deploy_node_v2.py rl_policy_v2_s0_8M.npz --laps 3 --tag v2_s0_8M
+python3 rl_deploy_node_v2.py rl_policy_v2_s0_8M.npz --laps 10 --tag v2_s0_8M_10
+```
+
+The node prints late steps at the end. If there are more than a handful, the result says more about the machine than the policy. To watch it in the gym first, run `python3 train_v2/view_icra.py policies/rl_policy_v2_s0_8M.npz` from `pods/rl`.
