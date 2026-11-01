@@ -33,7 +33,8 @@ def load(path):
             return np.clip(P['w3'] @ h + P['b3'], -1, 1).astype(np.float32)
         return act
     from stable_baselines3 import PPO
-    m = PPO.load(path, device='cpu')
+    # the schedules are pickled lambdas, which segfault on another Python version; only the weights are needed
+    m = PPO.load(path, device='cpu', custom_objects={'learning_rate': 0.0, 'lr_schedule': lambda _: 0.0, 'clip_range': lambda _: 0.0})
     return lambda o: m.predict(o, deterministic=True)[0]
 
 

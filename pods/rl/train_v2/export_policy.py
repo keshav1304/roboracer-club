@@ -17,7 +17,8 @@ import contract as C                         # noqa: E402
 
 def export(ckpt, out):
     from stable_baselines3 import PPO
-    model = PPO.load(ckpt, device='cpu')
+    # the schedules are pickled lambdas, which segfault on another Python version; only the weights are needed
+    model = PPO.load(ckpt, device='cpu', custom_objects={'learning_rate': 0.0, 'lr_schedule': lambda _: 0.0, 'clip_range': lambda _: 0.0})
     pol = model.policy
     lin = [m for m in pol.mlp_extractor.policy_net if hasattr(m, 'weight')]
     assert len(lin) == 2, 'expected net_arch [256, 256]'
