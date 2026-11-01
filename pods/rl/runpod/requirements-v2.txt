@@ -1,0 +1,13 @@
+# env_v2 + train_v2 (Python 3.11 to 3.13). torch comes from the CPU index in the Dockerfile / script.
+gymnasium==0.29.1
+numpy>=1.26
+numba>=0.60
+scipy>=1.13
+pillow>=10
+opencv-python-headless>=4.9
+pandas>=2.0
+PyYAML>=6
+yamldataclassconfig>=1.5,<2
+requests>=2.31
+stable-baselines3>=2.3,<3
+tensorboard>=2.15

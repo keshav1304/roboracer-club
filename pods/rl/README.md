@@ -32,6 +32,10 @@ The gym and AutoDRIVE disagree most at the grip limit, and RL drives at the limi
 | [deploy/](deploy/) | Rishabh | the P5 policy file and the ROS 2 node that ran it in AutoDRIVE, with the pitfalls we hit |
 | [policies/](policies/) | | other trained policies. R (end to end, old env, crashes on today's) and E2E_mu (end to end on Rishabh's env, not yet run in AutoDRIVE) |
 | [media/](media/) | | replay of the AutoDRIVE runs and training curves |
+| [env_v2/](env_v2/) | Rubi | the end to end env. AutoDRIVE's tyre friction, all-wheel drive, throttle-0 braking and steering logic from its source, fitted to our logs, plus delays and late steps, on 200 generated tracks. Start with its README |
+| [train_v2/](train_v2/) | | PPO on env_v2 from a behaviour-cloned teacher, the gates a policy must pass, export |
+| [runpod/](runpod/) | | Dockerfile and launch script for training env_v2 on a RunPod CPU pod |
+| [deploy/rl_deploy_node_v2.py](deploy/rl_deploy_node_v2.py), [deploy/probe/](deploy/probe/) | | the node for env_v2 policies, and short AutoDRIVE tests that measure what env_v2 still guesses |
 
 [STRATEGIES.md](STRATEGIES.md) has every approach we trained (end to end R, T, S, X and M, and residual P to P5), how the reward got from the whiteboard to v3, and the full training log.
 

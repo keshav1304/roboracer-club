@@ -4,3 +4,7 @@
 tb/
 runs/
 wandb/
+
+# env_v2: generated tracks are rebuilt from fixed seeds on each machine
+env_v2/tracks/generated/
+__pycache__/
