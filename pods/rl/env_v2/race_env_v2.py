@@ -62,7 +62,8 @@ class RaceEnvV2(gym.Env):
                  empirical_share: float = 0.3, reward_weights: dict | None = None, slide_is_crash: bool = True,
                  use_envelope: bool = True, grip_shield: bool = False, n_generated: int = 200,
                  tracks_per_worker: int = 40, max_steps: int = 3000, max_laps: int = 10, gamma: float = 0.995,
-                 timing: bool = True, model: int | None = None, holdout=T.HOLDOUT):
+                 timing: bool = True, model: int | None = None, holdout=T.HOLDOUT,
+                 focus_track: str | None = None, focus_share: float = 0.0):
         super().__init__()
         unknown = set(reward_weights or {}) - set(REWARD_WEIGHTS)
         if unknown:
@@ -72,6 +73,9 @@ class RaceEnvV2(gym.Env):
         self.slide_is_crash, self.use_envelope, self.grip_shield = slide_is_crash, use_envelope, grip_shield
         self.max_steps, self.max_laps, self.gamma, self.timing = max_steps, max_laps, gamma, timing
         self.fixed_model = model
+        # focus_share of episodes run on focus_track as raced (not mirrored or reversed), the rest on the bank
+        self.focus = (T.REAL[focus_track], False, False) if focus_track and focus_share > 0 else None
+        self.focus_share = focus_share
         self._rng0 = np.random.default_rng(seed)
         if tracks is None:                                   # training bank, a fixed subset per worker
             bank = T.training_bank(n_generated, holdout=tuple(holdout or ()))
@@ -108,7 +112,10 @@ class RaceEnvV2(gym.Env):
         super().reset(seed=seed if seed is not None else self._seed)
         self._seed = None
         r = self.np_random
-        self.track = self._track(self.bank[int(r.integers(len(self.bank)))])
+        if self.focus is not None and r.uniform() < self.focus_share:
+            self.track = self._track(self.focus)
+        else:
+            self.track = self._track(self.bank[int(r.integers(len(self.bank)))])
         model = self.fixed_model if self.fixed_model is not None else (
             V.MODEL_EMPIRICAL if r.uniform() < self.empirical_share else V.MODEL_TWIN)
         self.params = V.sample_params(r, model, self.randomize)
