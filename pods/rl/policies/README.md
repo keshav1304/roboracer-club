@@ -55,9 +55,9 @@ End to end PPO on env_v2 ([../env_v2/README.md](../env_v2/README.md)). LiDAR, sp
 | Training | `train_v2/train.py --preset e2e_v2 --seed 0 --gen 200 --holdout none --cfg '{"focus_track": "icra", "focus_share": 0.5}'`, 15 workers on a RunPod CPU pod, checkpoint at 8M steps |
 | ICRA in training | half of all episodes run on ICRA as raced, the other half on 200 generated tracks plus practice, mirrored and reversed |
 | Gates (`train_v2/evaluate.py`) | ICRA clean on both models, 11.11 s twin and 11.23 s empirical. Randomised physics 6/20 crashed with timing off and 4/20 with timing on (P5 6/20 and 13/20). Delay tolerance 70 ms. Unseen tracks 9/10 clean |
-| In AutoDRIVE (Rubi's Mac) | 9 laps tried in three runs, 7 clean, fastest 10.871 s (P5 best 11.455). One touch in the hairpin. Once the car missed the hairpin exit and drove into the open area below it |
+| In AutoDRIVE (Rubi's Mac) | 19 laps tried in seven runs, 11 clean, one full clean 3 lap run, fastest 10.797 s (P5 best 11.455). Most failures were spins in the corner before the start straight. After one spin it drove the track backwards for two laps (it only sees LiDAR and trained on reversed tracks too). The cause is in [../env_v2/README.md](../env_v2/README.md#refit-2026-11-01) |
 
-The Mac was heavily loaded during those runs (load average 130 to 218, simulator at 0.36 x real time, 11 to 13 control steps per run more than 100 ms late). P5's clean runs had 0 to 5. So the next test should be on a faster machine.
+The Mac was heavily loaded during the first runs (load average 130 to 218, 11 to 13 control steps per run more than 100 ms late), but the spins also happened at low load. Use `rl_policy_v2_refit_s0_12M.npz` below instead.
 
 Checkpoints next to this one were much worse (6M crashed on ICRA, 10M and later failed the randomised gates). Training longer made it faster on ICRA and less robust, which is why 8M was picked.
 
@@ -70,3 +70,33 @@ python3 rl_deploy_node_v2.py rl_policy_v2_s0_8M.npz --laps 10 --tag v2_s0_8M_10
 ```
 
 The node prints late steps at the end. If there are more than a handful, the result says more about the machine than the policy. To watch it in the gym first, run `python3 train_v2/view_icra.py policies/rl_policy_v2_s0_8M.npz` from `pods/rl`.
+
+## rl_policy_v2_refit_s0_12M.npz
+
+The same end to end setup, continued from `rl_policy_v2_s0_8M` on the refit env_v2 (envelope 0.82 instead of 0.95, twin refit to AutoDRIVE replays, see [../env_v2/README.md](../env_v2/README.md#refit-2026-11-01)). Use this one.
+
+| | |
+|---|---|
+| Training | `train_v2/train.py --resume <the 8M checkpoint> --device mps --seed 0 --workers 8 --steps 12000000 --preset e2e_v2 --gen 200 --holdout none --cfg '{"focus_track": "icra", "focus_share": 0.5}'` on a Mac (networks on the GPU), checkpoint at 12M steps (4M after the resume), two seeds in 77 minutes |
+| Gates | ICRA clean on both models, 11.12 s. Randomised physics 0/20 crashed with timing off and 3/20 with timing on. Delay tolerance 90 ms. Unseen tracks 10/10. One of 2 checkpoints out of 24 that pass every gate |
+| In AutoDRIVE (Rubi's Mac) | 10 laps tried in two runs, 8 clean. 3 lap run all clean (11.918, 11.203 s). In the 10 lap run laps 3 to 5 were 11.268, 11.161 and 11.272 s; it touched the wall in laps 2 and 7 and the node stopped. 2 to 3 late steps per run |
+
+| | old 8M | refit 12M |
+|---|---|---|
+| Clean laps in AutoDRIVE | 11 / 19 | 8 / 10 |
+| Best clean lap | 10.797 s | 11.161 s |
+| Where it fails | spins before the start straight | both touches on the start straight just after that corner, at 7.5 m/s |
+
+The old spin corner is clean now. The new touches are a different case (the car yaws right at 12 to 14 m/s² while the policy already steers left and brakes) and are not diagnosed yet. It is about 0.36 s slower than the old policy's best lap, the price of the lower envelope, and still faster than P5.
+
+![Training, old run vs refit](../media/refit_training_curves.png)
+
+![Gym race on ICRA, 5 laps, old vs refit](../media/refit_gym_race.png)
+
+In the gym race both cars use the envelope they were trained with. The old policy is faster there (10.89 s vs 11.08 s) because the gym does not punish riding the envelope the way AutoDRIVE does.
+
+```bash
+python3 tools/reset.py
+python3 rl_deploy_node_v2.py rl_policy_v2_refit_s0_12M.npz --laps 3 --tag refit_3
+python3 rl_deploy_node_v2.py rl_policy_v2_refit_s0_12M.npz --laps 10 --tag refit_10
+```
