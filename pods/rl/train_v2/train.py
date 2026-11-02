@@ -130,9 +130,10 @@ def behaviour_cloning(model, vec, steps, gamma, noise=0.15, epochs=30, batch=512
         run = R[t] + gamma * run * (1.0 - D[t])
         G[t] = run
     keep = slice(0, max(1, int(len(R) * 0.8)))                                # last 20 %: returns are cut short
-    obs_t = torch.as_tensor(O[keep].reshape(-1, O.shape[-1]))
-    act_t = torch.as_tensor(A[keep].reshape(-1, 2))
-    ret_t = torch.as_tensor(G[keep].reshape(-1), dtype=torch.float32)
+    dev = model.device
+    obs_t = torch.as_tensor(O[keep].reshape(-1, O.shape[-1]), device=dev)
+    act_t = torch.as_tensor(A[keep].reshape(-1, 2), device=dev)
+    ret_t = torch.as_tensor(G[keep].reshape(-1), dtype=torch.float32, device=dev)
     pol = model.policy
     opt = torch.optim.Adam(pol.parameters(), lr=lr)
     idx = np.arange(len(obs_t))
@@ -140,7 +141,7 @@ def behaviour_cloning(model, vec, steps, gamma, noise=0.15, epochs=30, batch=512
         rng.shuffle(idx)
         la = lv = 0.0
         for i in range(0, len(idx), batch):
-            j = torch.as_tensor(idx[i:i + batch])
+            j = torch.as_tensor(idx[i:i + batch], device=dev)
             dist = pol.get_distribution(obs_t[j])
             mean = dist.distribution.mean
             loss_a = ((mean - act_t[j]) ** 2).mean()
@@ -179,6 +180,7 @@ if __name__ == '__main__':
     ap.add_argument('--eval-every', type=int, default=1_000_000)
     ap.add_argument('--ckpt', type=int, default=2_000_000)
     ap.add_argument('--resume', default=None)
+    ap.add_argument('--device', default='cpu', help="torch device for the networks: cpu, mps or cuda")
     a = ap.parse_args()
 
     out = os.path.join(HERE, 'runs', a.name)
@@ -194,13 +196,16 @@ if __name__ == '__main__':
     vec = VecMonitor(SubprocVecEnv([factory(1000 * a.seed + i, cfg) for i in range(a.workers)]))
     tb = os.path.join(HERE, 'runs', 'tb')
     if a.resume:
-        model = PPO.load(a.resume, env=vec, device='cpu', tensorboard_log=tb)
+        # the schedules are pickled lambdas, which segfault on another Python version; rebuild them here
+        lr_fn = lambda f: a.lr * (0.3 + 0.7 * f)                       # noqa: E731
+        model = PPO.load(a.resume, env=vec, device=a.device, tensorboard_log=tb,
+                         custom_objects={'learning_rate': lr_fn, 'lr_schedule': lr_fn, 'clip_range': lambda _: 0.2})
     else:
         model = PPO('MlpPolicy', vec, n_steps=a.n_steps, batch_size=min(4096, a.n_steps * a.workers),
                     n_epochs=10, gamma=a.gamma,
                     gae_lambda=0.95, learning_rate=lambda f: a.lr * (0.3 + 0.7 * f), clip_range=0.2,
                     ent_coef=0.0, target_kl=0.03, policy_kwargs={'net_arch': [256, 256], 'log_std_init': -0.5},
-                    tensorboard_log=tb, verbose=1, device='cpu', seed=a.seed)
+                    tensorboard_log=tb, verbose=1, device=a.device, seed=a.seed)
         if a.bc_steps:
             print(f'behaviour cloning on {a.bc_steps} teacher steps', flush=True)
             behaviour_cloning(model, vec, a.bc_steps, a.gamma, epochs=a.bc_epochs,

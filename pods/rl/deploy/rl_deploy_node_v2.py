@@ -3,6 +3,8 @@
   python3 rl_deploy_node_v2.py rl_policy_v2.npz --laps 3 --tag first_try
   --grip-shield    add P5's grip shield (off by default: v2 policies are trained without it)
   --no-envelope    send the raw action as steering (only for policies trained with use_envelope False)
+  --power-limit A  while speed x yaw rate > A m/s^2, throttle may not exceed the value that holds the current speed
+                   (no extra drive force mid-corner, never 0 so the wheels do not brake). Off by default
 
 Same loop as rl_deploy_node.py (every 50 ms of SIMULATOR time, watchdog, zeros on exit, log), with the
 v2 contract from the .npz:
@@ -34,6 +36,7 @@ ap.add_argument('--tag', default='v2')
 ap.add_argument('--grip-shield', action='store_true')
 ap.add_argument('--no-envelope', action='store_true')
 ap.add_argument('--max-contacts', type=int, default=2)
+ap.add_argument('--power-limit', type=float, default=0.0)
 ap.add_argument('--log-dir', default='.')
 a = ap.parse_args()
 P = dict(np.load(a.policy))
@@ -88,7 +91,7 @@ pub_s = node.create_publisher(Float32, T + 'steering_command', 1)
 rows, laps0, col0, lap_seen, hits_seen = [], None, None, 0, 0
 last_steer, last_thr_action = 0.0, -1.0
 v_hist, prev_yaw, prev_sim = None, None, None
-over, coasting = 0, False
+over, coasting, limited = 0, False, 0
 running = True
 
 
@@ -105,7 +108,8 @@ def stop(*_):
 signal.signal(signal.SIGINT, stop)
 signal.signal(signal.SIGTERM, stop)
 print(f'policy {P["source"]}, {a.laps} laps, envelope {"off" if a.no_envelope else "on"}, '
-      f'grip shield {"on" if a.grip_shield else "off"}', flush=True)
+      f'grip shield {"on" if a.grip_shield else "off"}, '
+      f'power limit {a.power_limit if a.power_limit else "off"}', flush=True)
 t0, next_sim = time.time(), None
 try:
     while running and rclpy.ok():
@@ -149,6 +153,9 @@ try:
             coasting = (coasting and dem > 8.8) or over >= 2
             if coasting:
                 thr_cmd = 0.0
+        if a.power_limit and abs(v * yaw_rate) > a.power_limit and thr_cmd > max(MIN_T, v / 24.6):
+            thr_cmd = max(MIN_T, v / 24.6)                  # 24.6 m/s per unit throttle, measured
+            limited += 1
         send(thr_cmd, steer_cmd)
         last_steer, last_thr_action = steer_cmd, float(act[1])
         rows.append((now - t0, sim, p.x, p.y, yaw, v, yaw_rate, *act, steer_cmd, thr_cmd,
@@ -176,6 +183,6 @@ finally:
     np.savez(log, rows=r, cols=np.array(['t', 'sim_t', 'x', 'y', 'yaw', 'v', 'yaw_rate', 'act_steer', 'act_thr',
                                          'steer_cmd', 'thr_cmd', 'col']))
     print(f'stopped: {lap_seen} laps, wall contacts {(S["col"] or 0) - (col0 or 0)}, {len(rows)} steps, '
-          f'{late} late steps (>0.1 s), log {log}', flush=True)
+          f'{late} late steps (>0.1 s), power limit active {limited} steps, log {log}', flush=True)
     node.destroy_node()
     rclpy.shutdown()
