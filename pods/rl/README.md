@@ -2,6 +2,8 @@
 
 On the ICRA 2026 track in AutoDRIVE, our RL policy (P5) runs 10 laps with no wall contact at 11.52 s average. Pure pursuit on the same race line, at the fastest speed we could run it without crashing, averages 12.67 s. Results, video and how we got there are in [RESULTS.md](RESULTS.md).
 
+Update 2026-11-02. Our end to end PPO policy (LiDAR in, steering and throttle out, no pure pursuit underneath) now also runs 10 of 10 clean laps there, at 11.24 s average against 11.50 s for P5 and 12.66 s for pure pursuit in the same session. It is `policies/rl_policy_v2_margin_s1_27M.npz`; the results and video are in [policies/README.md](policies/README.md#rl_policy_v2_margin_s1_27mnpz).
+
 ![Top-down replay of the 10-lap runs, RL P5 in red, RL P4 in blue, pure pursuit in green](media/autodrive_P5_vs_P4_vs_pp.png)
 
 ## Read this first
@@ -30,7 +32,7 @@ The gym and AutoDRIVE disagree most at the grip limit, and RL drives at the limi
 | [env/](env/) | Rubi | `race_env.py`, the gym env with AutoDRIVE's physics, its tests, and `validate_vs_autodrive.py`, which checks the gym against real AutoDRIVE runs. Track files are in `env/tracks/` |
 | [train/](train/) | Nathaniel | `train.py`, `evaluate.py` and `export_policy.py` from the runs behind P5, as a starting point |
 | [deploy/](deploy/) | Rishabh | the P5 policy file and the ROS 2 node that ran it in AutoDRIVE, with the pitfalls we hit |
-| [policies/](policies/) | | other trained policies. R (end to end, old env, crashes on today's) and E2E_mu (end to end on Rishabh's env, not yet run in AutoDRIVE) |
+| [policies/](policies/) | | other trained policies. The end to end env_v2 policies (use `rl_policy_v2_margin_s1_27M`, 10/10 clean in AutoDRIVE), R (end to end, old env, crashes on today's) and E2E_mu (end to end on Rishabh's env, not yet run in AutoDRIVE) |
 | [media/](media/) | | replay of the AutoDRIVE runs and training curves |
 | [env_v2/](env_v2/) | Rubi | the end to end env. AutoDRIVE's tyre friction, all-wheel drive, throttle-0 braking and steering logic from its source, fitted to our logs, plus delays and late steps, on 200 generated tracks. Start with its README |
 | [train_v2/](train_v2/) | | PPO on env_v2 from a behaviour-cloned teacher, the gates a policy must pass, export |
