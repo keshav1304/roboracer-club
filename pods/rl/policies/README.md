@@ -79,21 +79,23 @@ The same end to end setup, continued from `rl_policy_v2_s0_8M` on the refit env_
 |---|---|
 | Training | `train_v2/train.py --resume <the 8M checkpoint> --device mps --seed 0 --workers 8 --steps 12000000 --preset e2e_v2 --gen 200 --holdout none --cfg '{"focus_track": "icra", "focus_share": 0.5}'` on a Mac (networks on the GPU), checkpoint at 12M steps (4M after the resume), two seeds in 77 minutes |
 | Gates | ICRA clean on both models, 11.12 s. Randomised physics 0/20 crashed with timing off and 3/20 with timing on. Delay tolerance 90 ms. Unseen tracks 10/10. One of 2 checkpoints out of 24 that pass every gate |
-| In AutoDRIVE (Rubi's Mac) | 10 laps tried in two runs, 8 clean. 3 lap run all clean (11.918, 11.203 s). In the 10 lap run laps 3 to 5 were 11.268, 11.161 and 11.272 s; it touched the wall in laps 2 and 7 and the node stopped. 2 to 3 late steps per run |
+| In AutoDRIVE (Rubi's Mac) | 18 laps tried in five runs, 11 clean, fastest clean lap 10.955 s. The first 3 lap run was all clean (11.918, 11.203 s); the next three 3 lap runs each touched the wall once or twice. 0 to 9 late steps per run (during the 9 a viewer app was open on the same Mac) |
 
 | | old 8M | refit 12M |
 |---|---|---|
-| Clean laps in AutoDRIVE | 11 / 19 | 8 / 10 |
-| Best clean lap | 10.797 s | 11.161 s |
-| Where it fails | spins before the start straight | both touches on the start straight just after that corner, at 7.5 m/s |
+| Clean laps in AutoDRIVE | 11 / 19 (58 %) | 11 / 18 (61 %) |
+| Best clean lap | 10.797 s | 10.955 s |
+| Where it fails | spins before the start straight | mostly on the start straight just after that corner (4 of 7 touches), also twice in the first left corner after the start line |
 
-The old spin corner is clean now. The new touches are a different case (the car yaws right at 12 to 14 m/s² while the policy already steers left and brakes) and are not diagnosed yet. It is about 0.36 s slower than the old policy's best lap, the price of the lower envelope, and still faster than P5.
+The old spin corner is clean now, but the clean share hardly moved. The touches moved to the start straight just after that corner, a different case (the car yaws right at 12 to 14 m/s² while the policy already steers left and brakes), not diagnosed yet. P5 and pure pursuit x1.15 are still the reliable drivers in AutoDRIVE (10/10 each); this policy is the fastest in the gym but not yet reliable in AutoDRIVE.
 
-![Training, old run vs refit](../media/refit_training_curves.png)
+![Training from scratch to 20M: 0 to 8M on the old env, then both refit seeds from the 8M checkpoint](../media/e2e_training_curve.png)
 
-![Gym race on ICRA, 5 laps, old vs refit](../media/refit_gym_race.png)
+![Gym race on ICRA, 5 laps: pure pursuit x1.15, P5 and this policy](../media/gym_race_pp_p5_e2e.png)
 
-In the gym race both cars use the envelope they were trained with. The old policy is faster there (10.89 s vs 11.08 s) because the gym does not punish riding the envelope the way AutoDRIVE does.
+The training curve is one history. From scratch to 8M it ran on RunPod on the env before the refit (reward climbs from 0 to about 2,500, with one collapse near 6M), the dashed line marks the switch to the refit env, and both seeds then hold at 2,000 to 3,000 while the ICRA lap falls from 11.25 to about 10.9 s.
+
+The gym race puts the three drivers on the same map, physics and start, 5 laps each, with lag on. Flying laps (twin model) were pure pursuit x1.15 12.59 s, P5 11.42 s and this policy 11.08 s, all clean (empirical model 12.50, 11.28 and 11.10 s). Pure pursuit and P5 share the club line, since P5 only changes the throttle. This policy picks its own line, tighter on the long left and through the top left corner, and gains its time between 20 and 25 m and out of both hairpins.
 
 ```bash
 python3 tools/reset.py
