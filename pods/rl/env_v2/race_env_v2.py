@@ -63,7 +63,8 @@ class RaceEnvV2(gym.Env):
                  use_envelope: bool = True, grip_shield: bool = False, n_generated: int = 200,
                  tracks_per_worker: int = 40, max_steps: int = 3000, max_laps: int = 10, gamma: float = 0.995,
                  timing: bool = True, model: int | None = None, holdout=T.HOLDOUT,
-                 focus_track: str | None = None, focus_share: float = 0.0):
+                 focus_track: str | None = None, focus_share: float = 0.0,
+                 power_lat: float | None = None, power_thr: float = 0.25, wall_margin: float = 0.0):
         super().__init__()
         unknown = set(reward_weights or {}) - set(REWARD_WEIGHTS)
         if unknown:
@@ -76,6 +77,13 @@ class RaceEnvV2(gym.Env):
         # focus_share of episodes run on focus_track as raced (not mirrored or reversed), the rest on the bank
         self.focus = (T.REAL[focus_track], False, False) if focus_track and focus_share > 0 else None
         self.focus_share = focus_share
+        # optional crash rule from AutoDRIVE logs (2026-11-02): lateral accel (speed x yaw rate over the control step)
+        # above power_lat with throttle >= power_thr for 2 steps. Every AutoDRIVE spin of the refit policy came after
+        # this; pure pursuit x1.15 and P5, always clean in AutoDRIVE, never do it at 8.0 in this env
+        self.power_lat, self.power_thr = power_lat, power_thr
+        # optional room around the collision box (m): a wall closer than this to the car's outline is a crash. In AutoDRIVE
+        # pure pursuit and P5 never came closer than 0.10 m, the end to end policies rode at 0 to 0.05 m and touched there
+        self.wall_margin, self._edt_m = wall_margin, (None, None)
         self._rng0 = np.random.default_rng(seed)
         if tracks is None:                                   # training bank, a fixed subset per worker
             bank = T.training_bank(n_generated, holdout=tuple(holdout or ()))
@@ -153,6 +161,7 @@ class RaceEnvV2(gym.Env):
         self._obs_pose = (x, y, yaw, 0.0)
         self.snapshot = (x, y, yaw, v0)
         self._stall_t, self._shield_over, self._coasting = 0.0, 0, False
+        self._power_over = 0
         self.prev_phi = self._phi(self.prev_i, self._ey(x, y))
         obs = self._observe(x, y, yaw, v0, 0.0)
         return obs, self._info_base()
@@ -216,6 +225,10 @@ class RaceEnvV2(gym.Env):
             if r.uniform() < self.late_prob:
                 dt += float(r.uniform(*TIMING['late_extra']))
         ed, ox, oy, res = self.track.edt, self.track.ox, self.track.oy, self.track.res
+        if self.wall_margin:
+            if self._edt_m[0] is not self.track:
+                self._edt_m = (self.track, np.ascontiguousarray(ed - self.wall_margin))
+            ed = self._edt_m[1]
         t_obs = max(0.001, dt - self.obs_delay)
         out1 = self.car.run(t_obs, ed, ox, oy, res)
         snap = (self.car.x, self.car.y, self.car.yaw, self.car.speed)
@@ -228,7 +241,13 @@ class RaceEnvV2(gym.Env):
         spin = bool(out[V.O_BETA] > SPIN_BETA)
         self._stall_t = self._stall_t + dt if (c.speed < STALL_SPEED and c.t > STALL_GRACE) else 0.0
         stall = self._stall_t > STALL_TIME
-        crash = wall or spin or stall or (slide and self.slide_is_crash)
+        power = False
+        if self.power_lat:
+            pyaw = self._obs_pose[2]
+            lat = abs(snap[3] * math.atan2(math.sin(snap[2] - pyaw), math.cos(snap[2] - pyaw)) / max(1e-3, dt))
+            self._power_over = self._power_over + 1 if (lat > self.power_lat and thr_cmd >= self.power_thr) else 0
+            power = self._power_over >= 2
+        crash = wall or spin or stall or power or (slide and self.slide_is_crash)
         # progress
         s, ey, i = self.track.project(c.x, c.y, self.prev_i)
         ds = s - self.prev_s
@@ -268,7 +287,7 @@ class RaceEnvV2(gym.Env):
         obs = self._observe(snap[0], snap[1], snap[2], snap[3], yaw_rate)
         terminated = crash
         truncated = (not crash) and (self.laps >= self.max_laps or self.steps >= self.max_steps)
-        info = dict(self._info_base(), wall=wall, slide=slide, spin=spin, stall=stall, crash=crash, laps=self.laps,
+        info = dict(self._info_base(), wall=wall, slide=slide, spin=spin, stall=stall, power=power, crash=crash, laps=self.laps,
                     lap_times=list(self.lap_times), s=float(s), ey=float(ey), speed=c.speed, sim_time=c.t,
                     steer_cmd=steer_cmd, thr_cmd=thr_cmd, shield=shielded, demand_ratio=ratio,
                     slip_front=float(out[V.O_SF]), slip_rear=float(out[V.O_SR]), progress_m=self.progress,

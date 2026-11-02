@@ -75,6 +75,33 @@ Two changes came out of it.
 
 The policy that came out of this is `../policies/rl_policy_v2_refit_s0_12M.npz`.
 
+## Power rule and wall margin, 2026-11-02
+
+The refit policy was clean on only about 57 % of AutoDRIVE laps (16 of 28). Two more crash rules, both optional `make_env` arguments and both off by default, fixed that.
+
+1. **`power_lat`, no full throttle while turning hard.** Lateral acceleration (speed x yaw rate over the control step) above `power_lat` with throttle at or above `power_thr` (0.25) for 2 steps is a crash. In AutoDRIVE pure pursuit, P4 and P5 never hold more than 7.3 to 9.2 m/s² for 0.1 s, the refit policy reached 13 to 18 exactly where it touched. The gym never gets that high, so 8.0 is used as a proxy. At 8.0 pure pursuit and P5 trigger it 0 times per lap in the gym, the refit policy 8.4 times. Trained alone (`1102_power`, 19M) it removed the start straight touches, but the policy then ran 0 to 5 cm from the wall in the bottom left hairpin and was clean on 6 of 12 AutoDRIVE laps.
+2. **`wall_margin`, room around the car.** The collision box is already the car's 0.58 x 0.31 m outline, and every AutoDRIVE contact happened when that box reached the wall on our map, so the size is right. What was missing is room. With `wall_margin` a wall within that distance of the box is a crash. In AutoDRIVE pure pursuit and P5 never come closer than 0.10 m. At 0.08 m the gym ranks drivers the way AutoDRIVE does (pure pursuit and P5 clean on both models, the refit policy crashes on twin, the power policy on both); at 0.10 m P5 crashes on twin.
+
+| AutoDRIVE, ICRA | Clean laps | Wall contacts | Clean flying laps |
+|---|---|---|---|
+| refit 12M | 16 / 28 (57 %) | 15 | mean 11.54 s |
+| + power rule (19M) | 6 / 12 (50 %) | 9 | mean 12.38 s |
+| + power rule + 0.08 m margin (27M) | **31 / 31** | **0** | mean 11.24 s |
+
+`../train_v2/margin_gate.py CKPT.zip` runs a checkpoint with both rules on (2 nominal and 10 randomised episodes on ICRA). The policy is `../policies/rl_policy_v2_margin_s1_27M.npz`.
+
+### What the gym still gets wrong (2026-11-02)
+
+Pure pursuit drives the same line and speeds in the gym and in AutoDRIVE (min speeds within 0.15 m/s, line within 0.03 m). The end to end policies do not, because they drive nearer the limit. Replaying 5,794 half-second AutoDRIVE windows in the twin (logged state and commands, real delays) shows where.
+
+| What the car is doing | Gym vs AutoDRIVE |
+|---|---|
+| 3 to 5.5 m/s, 6 to 15° of steering, part throttle | same (turn ratio 1.00) |
+| throttle 0 while turning | twin turns 10 % more and loses 0.5 m/s less in 0.5 s. AutoDRIVE brakes about 1 m/s² harder and braking takes cornering grip (`k_couple` about 0.7 fits, nominal is 0) |
+| full throttle while turning | twin turns 10 % less and gains 0.3 m/s less. AutoDRIVE accelerates harder and rotates more under power, whatever `k_couple` is |
+
+None of these are in `vehicle.py` yet. The wall margin covers the scatter they cause, not the cause.
+
 ## Lag and timing
 
 These are modelled in four layers. The randomisation is wide on purpose.
