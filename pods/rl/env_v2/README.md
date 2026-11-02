@@ -38,7 +38,7 @@ We read AutoDRIVE's Unity source (`Tinker-Twins/AutoDRIVE`, branch `AutoDRIVE-Si
 | Geometry | l_f 0.1747, l_r 0.1553 (L = 0.33), LiDAR 0.268 m ahead of the rear axle | prefab wheel colliders, COM and LIDAR transforms |
 | Steering | 30 ms delay, then `Steer()` line by line. Grows at 183°/s, but a smaller command than the current angle is reached in **one physics step** | `VehicleController.Steer()`, our logs |
 | Coupling | F_y × sqrt(1 − k · u²), u = share of forward grip in use; nominal k 0, randomised 0 to 0.2 | unknown, the probe measures it |
-| Balance | front peak × 0.95, rear × 1.25, yaw inertia 0.10 | fitted, see below |
+| Balance | front peak × 0.921, rear × 1.289, yaw inertia 0.115, centre of mass 2 cm forward (l_f 0.156) | refit 2026-11-01, see Refit below |
 
 The forward constants are fitted so the totals with drag match the logs. Balance needed a fit of its own. Every slide in our logs was the front running wide. AutoDRIVE holds 10.4 m/s² of demand for a moment, but slides when about 9.5 is held for half a second. Braking in corners (the grip shield) never spun the car. A grid search on `validate_v2.py` found that front peak 0.95, rear 1.25 and yaw inertia 0.10 reproduce all of these together. The whole neighbourhood (inertia 0.07 to 0.14, rear 1.2 to 1.35) also matches, so this is not a lucky point.
 
@@ -57,6 +57,23 @@ The longitudinal model is a servo toward v* that friction limits. That is what y
 | P5 + grip shield | clean, 11.51 s | clean, 11.42 s | clean 10/10, 11.52 s |
 
 The twin is the first env that gets x1.20 right. The old env was optimistic right at the edge.
+
+## Refit, 2026-11-01
+
+`rl_policy_v2_s0_8M` spun in AutoDRIVE in the corner before the start straight. The logs show why. The policy steered right at its envelope there (95 % of the nominal limit, 9.3 m/s² of demand). With the wheel snapped to that angle, AutoDRIVE gave only 72 to 84 % of the demand, so the front was past the peak of Unity's sideways curve and the car ran wide. When the policy then eased off, the front gripped again and the car rotated more than the wheel asked for (111 %), lateral acceleration jumped to 10 to 16 m/s² and the rear let go. The gym gave 87 to 93 % at the envelope and about 95 % after, so the policy had learned that riding the envelope is safe. Smooth pure pursuit steering never saturates the front, which is why the pure pursuit probe (`../deploy/probe/oversteer_probe.py`, 18 runs through that corner) never slid.
+
+| Achieved ÷ demanded lateral acceleration | At the envelope | Just after easing off |
+|---|---|---|
+| AutoDRIVE, s 28 to 36 | 0.83 | 1.11 |
+| AutoDRIVE, rest of the lap | 0.72 | 0.91 |
+| twin before the refit, s 28 to 36 | 0.91 | 0.95 |
+
+Two changes came out of it.
+
+1. **Envelope 0.95 → 0.82** (`contract.ENVELOPE_FRACTION`). The policy can now ask for about 8.0 m/s², which is what AutoDRIVE holds when the wheel is snapped there. The envelope is exported in every policy file, so a policy trained with 0.95 still deploys with 0.95.
+2. **Twin refit by open-loop replay.** 16,194 half-second windows from AutoDRIVE logs (the v2 policy, P5 and P4 10-lap runs, pure pursuit and the probe, pure pursuit x1.20 and x1.25): start the twin in the logged state, replay the logged commands with the real delays, compare the heading after 0.5 s. A random search kept every `validate_v2.py` outcome and lowered the median heading error from 1.45° to 1.15° (v2 policy 2.91° → 2.47°, P5/P4 1.23° → 1.07°, pure pursuit 0.46° → 0.32°). The top candidates agree on understeer gain about 1.0 (was 0.955) and the centre of mass about 2 cm further forward. `test_v2.py` passes with the new values (pure pursuit x1.10 13.13 s, x1.15 12.59 s, x1.20 slides, P5 11.40 s).
+
+The policy that came out of this is `../policies/rl_policy_v2_refit_s0_12M.npz`.
 
 ## Lag and timing
 

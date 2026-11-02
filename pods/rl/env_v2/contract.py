@@ -56,7 +56,9 @@ ACCEL_NORM = 10.0            # m/s^2
 # (v^2 tan(wheel) / L) up to 14 deg of wheel, falling to ~7.4 m/s^2 at 18 deg and beyond.
 LIM_HI, LIM_D1 = 9.81, 14.0
 LIM_LO, LIM_D2 = 7.4, 18.0
-ENVELOPE_FRACTION = 0.95     # the policy can ask for at most this fraction of the nominal limit
+# 0.95 -> 0.82 on 2026-11-01: riding the 0.95 envelope, AutoDRIVE delivered only 72-84 % of the demand (front
+# saturated at ~7-7.8 m/s^2), then over-rotated when the policy unwound (111 %, p90 10.1) and spun.
+ENVELOPE_FRACTION = 0.82     # the policy can ask for at most this fraction of the nominal limit
 ENVELOPE_FREE_SPEED = 2.0    # m/s, below this the full 30 deg is allowed (hairpins, recovery)
 
 

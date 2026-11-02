@@ -79,17 +79,19 @@ NOMINAL = dict(
     mu=1.0,                       # TireFriction.frictionCoefficient (1.0 = the scene's own curves)
     sy=1.0,                       # sideways stiffness, prefab
     ext_s=0.01, ext_v=1.0, asy_s=0.1, asy_v=0.5,      # sideways curve, prefab
-    g_lo=0.75, d1=math.radians(14.0), d2=math.radians(18.0),   # front grip by wheel angle, fitted to logs
-    k_us=0.955,                   # logs
+    # 2026-11-01 refit by open-loop replay of 16k AutoDRIVE windows (README.md, Refit): median
+    # heading error over 0.5 s fell 1.45 -> 1.15 deg (v2 policy 2.91 -> 2.47, P5/P4 1.23 -> 1.07), validate_v2 unchanged
+    g_lo=0.81, d1=math.radians(13.9), d2=math.radians(17.9),   # front grip by wheel angle, refit
+    k_us=1.007,                   # refit (was 0.955 from steady-state steering vs yaw, without the command delay)
     k_couple=0.0,                 # unknown. Braking in corners (the grip shield) never spun the car, so nominal 0
     xpeak=0.72,                   # forward curve extremum 0.9 x stiffness 0.8, prefab
     a_drive=5.4, a_eb=2.9, a_brake=4.1,   # m/s^2 at mu 1, fitted so totals with drag match the logs
     k_servo=8.0,                  # 1/s, logs (how sharply speed settles onto v*)
     v_per_thr=25.25,              # 428 / 4 * 0.059 / 0.25, Sim Racing scene + prefab
     drag=0.273, ang_drag=0.1,     # Rigidbody m_Drag, m_AngularDrag
-    m=MASS, iz=0.10,              # Unity derives it from the colliders (prefab tensor is a placeholder); 0.07 to 0.14
+    m=MASS, iz=0.115,             # refit (was 0.10); Unity derives it from the colliders (prefab tensor is a placeholder); 0.07 to 0.14
                                   # all reproduce AutoDRIVE, 0.044 (the gym's, scaled) does not
-    lf=0.1747, lr=0.1553,         # prefab: wheel colliders at +0.17 / -0.16 m, COM 4.7 mm behind the origin
+    lf=0.156, lr=0.174,           # refit, centre of mass ~2 cm further forward than the prefab's 0.1747 / 0.1553
     h=0.065,                      # m, prefab COM y 0.064 with the body origin at ground level (wheel centre 0.06, r 0.059)
     steer_rate=math.radians(STEER_RATE_DEG),
     delay_s=0.030, delay_t=0.040,  # s, logs
@@ -97,17 +99,17 @@ NOMINAL = dict(
     e_a_hi=10.4, e_a_lo=7.0, e_d1=math.radians(14.0), e_d2=math.radians(18.0), e_slide_trig=0.08,
     e_a_slide=4.5, e_turn_drag=3.0, e_a_up=4.7, e_coast=4.5, e_coast_zero=5.7, e_k_speed=8.0,
     e_v_per_thr=24.6,
-    rear_grip=1.25,               # rear sideways grip relative to the scene's curve (see Balance)
-    front_peak=0.95,               # front axle peak relative to the curve (see Balance)
+    rear_grip=1.289,              # rear sideways grip relative to the scene's curve (see Balance), refit (was 1.25)
+    front_peak=0.921,             # front axle peak relative to the curve (see Balance), refit (was 0.95)
 )
 
 # per-episode randomisation: name -> (low, high). Wider than what we believe on purpose.
 DR_RANGES = dict(
     # friction: about the calibration's own uncertainty. P5 and PP x1.15 sit ~9 % of demand under the slide,
     # so wider bands only teach "always slower", which AutoDRIVE does not need (the probe node can widen them)
-    mu=(0.97, 1.03), sy=(0.99, 1.01), ext_s=(0.009, 0.012), asy_v=(0.45, 0.55), g_lo=(0.72, 0.78),
-    d1=(math.radians(13.5), math.radians(14.5)), k_us=(0.945, 0.965), k_couple=(0.0, 0.2), rear_grip=(1.2, 1.35),
-    front_peak=(0.94, 0.97), iz=(0.08, 0.13), h=(0.055, 0.075),
+    mu=(0.97, 1.03), sy=(0.99, 1.01), ext_s=(0.009, 0.012), asy_v=(0.45, 0.55), g_lo=(0.77, 0.85),
+    d1=(math.radians(13.4), math.radians(14.4)), k_us=(0.99, 1.025), k_couple=(0.0, 0.2), rear_grip=(1.22, 1.36),
+    front_peak=(0.90, 0.945), iz=(0.09, 0.14), h=(0.055, 0.075),
     # drivetrain
     a_drive=(5.1, 5.7), a_eb=(2.7, 3.1), a_brake=(3.9, 4.3), k_servo=(7.0, 9.0), v_per_thr=(24.9, 25.6),
     drag=(0.26, 0.285), m=(3.40, 3.55),

@@ -30,7 +30,7 @@ def main():
     ok.append(close('throttle 0 (brakes), 8 -> 4 m/s mean decel', 4 / t, 5.7, 0.3))
     ok.append(close('throttle 0, 8 -> 4 m/s distance', d, 4.2, 0.3))
     print('lateral (twin)')
-    ok.append(close('yaw rate / kinematic at 4 deg', K.steady_turn(tw, 4.0, 0.16)[3], 0.955, 0.012))
+    ok.append(close('yaw rate / kinematic at 4 deg', K.steady_turn(tw, 4.0, 0.16)[3], 1.0, 0.03))   # refit 2026-11-01
     held16, slide16, axle16 = K.grip_limit(tw, 16)
     ok.append(close('sliding lateral accel', slide16, 4.9, 0.8))
     ok.append(axle16 == 'front')
