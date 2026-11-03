@@ -1,6 +1,7 @@
 """Pure pursuit on a saved map, following a raceline drawn in the editor.
 
-Generalizes ../circle_pursuit.py: the raceline comes from
+Generalizes labs/tests/circle_pursuit.py (in ~/jupyter_ws/neoracer-os on the
+car): the raceline comes from
 <maps>/<name>_raceline.csv (written by raceline_editor.py) instead of a
 hardcoded rounded rectangle, and the map is chosen with --map.
 

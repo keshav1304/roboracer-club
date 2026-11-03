@@ -17,7 +17,7 @@ export RACING_MAPS_DIR="${RACING_MAPS_DIR:-$HOME/osracer_ws/src/osracer/osracer_
 RACECAR_TOOL="$HOME/ros2_ws/src/neoracer_ros2_driver/scripts/racecar-tool.sh"
 
 ros_env() {
-    # Same order as run_circle_pursuit.sh: osracer underlay, neoracer overlay,
+    # Source order matters: osracer underlay, neoracer overlay,
     # and the neoracer driver/lakibeam packages first on the prefix path.
     set +u
     source /opt/ros/humble/setup.bash
