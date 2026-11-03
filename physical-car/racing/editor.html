@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raceline Editor</title>
+<style>
+  :root { --bg:#111418; --panel:#1a1f26; --line:#2a313b; --text:#e6e9ee; --dim:#8b95a3; --accent:#3fb950; --warn:#f0a020; --bad:#f04848; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.4 system-ui, sans-serif; display:flex; height:100vh; overflow:hidden; }
+  aside { width:300px; flex:none; background:var(--panel); border-right:1px solid var(--line); padding:14px; overflow-y:auto; }
+  main { flex:1; position:relative; }
+  canvas { display:block; width:100%; height:100%; cursor:crosshair; }
+  h1 { font-size:16px; margin:0 0 12px; }
+  h2 { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); margin:18px 0 8px; }
+  select, input[type=number] { width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:6px; padding:6px 8px; font:inherit; }
+  label { display:block; margin:8px 0 3px; color:var(--dim); font-size:12px; }
+  .row { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  button { background:#262d37; color:var(--text); border:1px solid var(--line); border-radius:6px; padding:6px 10px; font:inherit; cursor:pointer; }
+  button:hover { background:#2f3844; }
+  button.primary { background:var(--accent); color:#06140a; border-color:var(--accent); font-weight:600; width:100%; padding:9px; }
+  button:disabled { opacity:.5; cursor:default; }
+  .stats div { display:flex; justify-content:space-between; padding:2px 0; }
+  .stats b { font-weight:600; }
+  .ok { color:var(--accent); } .warn { color:var(--warn); } .bad { color:var(--bad); }
+  .help { color:var(--dim); font-size:12px; }
+  .help kbd { background:var(--bg); border:1px solid var(--line); border-radius:4px; padding:0 4px; font-size:11px; }
+  #msg { margin-top:10px; font-size:12px; min-height:1.4em; word-break:break-all; }
+  .legend span { display:inline-block; width:14px; height:4px; vertical-align:middle; margin-right:4px; }
+  #coords { position:absolute; right:10px; bottom:8px; color:var(--dim); font-size:12px; background:rgba(0,0,0,.5); padding:2px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+<aside>
+  <h1>Raceline Editor</h1>
+  <label for="map">Map</label>
+  <select id="map"></select>
+
+  <h2>Raceline</h2>
+  <div class="stats" id="stats"></div>
+  <div class="legend help" style="margin-top:6px">
+    <span style="background:var(--accent)"></span>ok
+    <span style="background:var(--warn);margin-left:8px"></span>tight turn
+    <span style="background:var(--bad);margin-left:8px"></span>near wall
+  </div>
+
+  <h2>Checks</h2>
+  <label for="margin">Min wall clearance (m)</label>
+  <input id="margin" type="number" step="0.05" min="0" value="0.25">
+  <label for="minr">Min turn radius (m)</label>
+  <input id="minr" type="number" step="0.05" min="0" value="0.50">
+
+  <h2>Edit</h2>
+  <div class="row">
+    <button id="undo">Undo</button>
+    <button id="reverse">Reverse dir</button>
+    <button id="clear">Clear</button>
+    <button id="fit">Fit view</button>
+  </div>
+  <div class="row" style="margin-top:14px">
+    <button id="save" class="primary">Save raceline</button>
+  </div>
+  <div id="msg"></div>
+
+  <h2>How to</h2>
+  <div class="help">
+    <p><b>Click</b> empty space to add a waypoint at the end. <b>Click on the line</b> to insert one there.</p>
+    <p><b>Drag</b> a waypoint to move it. <b>Right-click</b> one to delete it.</p>
+    <p><b>Drag</b> empty space to pan, <b>scroll</b> to zoom. <kbd>Ctrl/⌘ Z</kbd> undo.</p>
+    <p>Waypoint <b>1</b> (larger) is the start; arrows show driving direction. The loop closes automatically.</p>
+    <p>Then on the car: <code>race run &lt;map&gt;</code></p>
+  </div>
+</aside>
+<main>
+  <canvas id="c"></canvas>
+  <div id="coords"></div>
+</main>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const canvas = $("c"), ctx = canvas.getContext("2d");
+const DS = 0.05;              // raceline spacing (m)
+
+let meta = null, img = null, dist = null;  // dist: clearance (m) per map cell
+let wps = [];                 // waypoints [[x,y]] in map frame (m)
+let line = [];                // dense raceline [{x,y,seg,clear,radius}]
+let undoStack = [];
+let view = { scale: 1, tx: 0, ty: 0 };
+let dirty = false;
+
+// ---------- coordinates ----------
+// map px: col from left, row from top. World: x right, y up.
+const w2p = (x, y) => [(x - meta.origin[0]) / meta.resolution, meta.height - (y - meta.origin[1]) / meta.resolution];
+const p2w = (c, r) => [meta.origin[0] + c * meta.resolution, meta.origin[1] + (meta.height - r) * meta.resolution];
+const p2s = (c, r) => [c * view.scale + view.tx, r * view.scale + view.ty];
+const s2p = (sx, sy) => [(sx - view.tx) / view.scale, (sy - view.ty) / view.scale];
+const w2s = (x, y) => p2s(...w2p(x, y));
+const s2w = (sx, sy) => p2w(...s2p(sx, sy));
+
+// ---------- map loading ----------
+async function loadMaps() {
+  const maps = await (await fetch("api/maps")).json();
+  const sel = $("map");
+  sel.innerHTML = "";
+  maps.sort((a, b) => b.mtime - a.mtime);
+  for (const m of maps) {
+    const o = document.createElement("option");
+    o.value = m.name;
+    o.textContent = m.name + (m.has_raceline ? "  ✓ raceline" : "");
+    sel.appendChild(o);
+  }
+  const want = localStorageGet("map");
+  if (want && maps.some((m) => m.name === want)) sel.value = want;
+  if (maps.length) await selectMap(sel.value);
+  else msg("No maps yet. Run: race map, then race save <name>", "warn");
+}
+
+async function selectMap(name) {
+  if (dirty && !confirm("Discard unsaved changes?")) { $("map").value = meta.name; return; }
+  localStorageSet("map", name);
+  meta = await (await fetch(`api/maps/${name}`)).json();
+  img = new Image();
+  img.src = `api/maps/${name}/image.png?t=${Date.now()}`;
+  await img.decode();
+  buildDistance();
+  const rl = await (await fetch(`api/maps/${name}/raceline`)).json();
+  wps = rl.waypoints || [];
+  if (rl.params) {
+    if (rl.params.margin != null) $("margin").value = rl.params.margin;
+    if (rl.params.min_radius != null) $("minr").value = rl.params.min_radius;
+  }
+  undoStack = []; dirty = false;
+  fitView(); rebuild();
+  msg(wps.length ? `Loaded ${wps.length} saved waypoints.` : "Click around the track to add waypoints.");
+}
+
+// Distance (m) from each cell to the nearest non-free cell (occupied or unknown).
+function buildDistance() {
+  const W = meta.width, H = meta.height;
+  const off = document.createElement("canvas");
+  off.width = W; off.height = H;
+  const o = off.getContext("2d");
+  o.drawImage(img, 0, 0);
+  const px = o.getImageData(0, 0, W, H).data;
+  const INF = 1e9;
+  const d = new Float32Array(W * H);
+  for (let i = 0; i < W * H; i++) {
+    let v = px[i * 4];
+    if (meta.negate) v = 255 - v;
+    d[i] = v >= 250 ? INF : 0;  // free = white (254); unknown (205) and walls count as blocked
+  }
+  // Two-pass chamfer distance (1, sqrt2).
+  const S = Math.SQRT2;
+  for (let r = 0; r < H; r++) for (let c = 0; c < W; c++) {
+    const i = r * W + c; let v = d[i];
+    if (c > 0) v = Math.min(v, d[i - 1] + 1);
+    if (r > 0) {
+      v = Math.min(v, d[i - W] + 1);
+      if (c > 0) v = Math.min(v, d[i - W - 1] + S);
+      if (c < W - 1) v = Math.min(v, d[i - W + 1] + S);
+    }
+    d[i] = v;
+  }
+  for (let r = H - 1; r >= 0; r--) for (let c = W - 1; c >= 0; c--) {
+    const i = r * W + c; let v = d[i];
+    if (c < W - 1) v = Math.min(v, d[i + 1] + 1);
+    if (r < H - 1) {
+      v = Math.min(v, d[i + W] + 1);
+      if (c < W - 1) v = Math.min(v, d[i + W + 1] + S);
+      if (c > 0) v = Math.min(v, d[i + W - 1] + S);
+    }
+    d[i] = v;
+  }
+  for (let i = 0; i < W * H; i++) d[i] *= meta.resolution;
+  dist = d;
+}
+
+function clearanceAt(x, y) {
+  const [c, r] = w2p(x, y);
+  const ci = Math.floor(c), ri = Math.floor(r);
+  if (ci < 0 || ri < 0 || ci >= meta.width || ri >= meta.height) return 0;
+  return dist[ri * meta.width + ci];
+}
+
+// ---------- spline ----------
+// Closed centripetal Catmull-Rom through the waypoints, resampled every DS m.
+function catmull(p0, p1, p2, p3, t) {
+  const a = 0.5;
+  const tj = (ti, pa, pb) => ti + Math.pow(Math.hypot(pb[0] - pa[0], pb[1] - pa[1]) || 1e-6, a);
+  const t0 = 0, t1 = tj(t0, p0, p1), t2 = tj(t1, p1, p2), t3 = tj(t2, p2, p3);
+  const tt = t1 + (t2 - t1) * t;
+  const lerp = (pa, pb, ta, tb) => [
+    ((tb - tt) * pa[0] + (tt - ta) * pb[0]) / (tb - ta),
+    ((tb - tt) * pa[1] + (tt - ta) * pb[1]) / (tb - ta),
+  ];
+  const A1 = lerp(p0, p1, t0, t1), A2 = lerp(p1, p2, t1, t2), A3 = lerp(p2, p3, t2, t3);
+  const B1 = lerp(A1, A2, t0, t2), B2 = lerp(A2, A3, t1, t3);
+  return lerp(B1, B2, t1, t2);
+}
+
+function rebuild() {
+  line = [];
+  const n = wps.length;
+  if (n >= 3) {
+    const dense = [];
+    for (let i = 0; i < n; i++) {
+      const p0 = wps[(i - 1 + n) % n], p1 = wps[i], p2 = wps[(i + 1) % n], p3 = wps[(i + 2) % n];
+      const steps = Math.max(8, Math.ceil(Math.hypot(p2[0] - p1[0], p2[1] - p1[1]) / 0.01));
+      for (let k = 0; k < steps; k++) dense.push({ p: catmull(p0, p1, p2, p3, k / steps), seg: i });
+    }
+    dense.push({ p: dense[0].p, seg: n - 1 });
+    // Uniform resample.
+    let acc = 0, next = 0;
+    line.push({ x: dense[0].p[0], y: dense[0].p[1], seg: 0 });
+    for (let i = 1; i < dense.length; i++) {
+      const a = dense[i - 1].p, b = dense[i].p;
+      const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      while (acc + L >= next + DS) {
+        next += DS;
+        const t = (next - acc) / L;
+        line.push({ x: a[0] + (b[0] - a[0]) * t, y: a[1] + (b[1] - a[1]) * t, seg: dense[i].seg });
+      }
+      acc += L;
+    }
+    // Drop the last point if it duplicates the start.
+    const f = line[0], l = line[line.length - 1];
+    if (line.length > 3 && Math.hypot(f.x - l.x, f.y - l.y) < DS * 0.5) line.pop();
+    // Clearance and turn radius (circumradius over +-3 points = +-15 cm).
+    const m = line.length, k = 3;
+    for (let i = 0; i < m; i++) {
+      const P = line[i], A = line[(i - k + m) % m], B = line[(i + k) % m];
+      P.clear = clearanceAt(P.x, P.y);
+      const a = Math.hypot(P.x - A.x, P.y - A.y), b = Math.hypot(B.x - P.x, B.y - P.y), c = Math.hypot(B.x - A.x, B.y - A.y);
+      const cross = Math.abs((P.x - A.x) * (B.y - A.y) - (P.y - A.y) * (B.x - A.x));
+      P.radius = cross < 1e-9 ? Infinity : (a * b * c) / (2 * cross);
+    }
+  }
+  updateStats();
+  draw();
+}
+
+function updateStats() {
+  const margin = +$("margin").value, minr = +$("minr").value;
+  const el = $("stats");
+  if (line.length < 3) {
+    el.innerHTML = `<div><span>Waypoints</span><b>${wps.length}</b></div><div class="help">Add at least 3 waypoints.</div>`;
+    $("save").disabled = true;
+    return;
+  }
+  let len = 0;
+  for (let i = 0; i < line.length; i++) {
+    const a = line[i], b = line[(i + 1) % line.length];
+    len += Math.hypot(b.x - a.x, b.y - a.y);
+  }
+  const minC = Math.min(...line.map((p) => p.clear));
+  const minR = Math.min(...line.map((p) => p.radius));
+  const cls = (v, lim) => (v >= lim ? "ok" : "bad");
+  el.innerHTML = `
+    <div><span>Waypoints</span><b>${wps.length}</b></div>
+    <div><span>Length</span><b>${len.toFixed(2)} m</b></div>
+    <div><span>Points (5 cm)</span><b>${line.length}</b></div>
+    <div><span>Min clearance</span><b class="${cls(minC, margin)}">${minC.toFixed(2)} m</b></div>
+    <div><span>Min turn radius</span><b class="${minR >= minr ? "ok" : "warn"}">${isFinite(minR) ? minR.toFixed(2) + " m" : "∞"}</b></div>`;
+  $("save").disabled = false;
+}
+
+// ---------- drawing ----------
+function resize() {
+  const r = canvas.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  draw();
+}
+
+function fitView() {
+  if (!meta) return;
+  const r = canvas.getBoundingClientRect();
+  const s = Math.min(r.width / meta.width, r.height / meta.height) * 0.95;
+  view.scale = s;
+  view.tx = (r.width - meta.width * s) / 2;
+  view.ty = (r.height - meta.height * s) / 2;
+  draw();
+}
+
+function draw() {
+  const r = canvas.getBoundingClientRect();
+  ctx.fillStyle = "#0b0d10";
+  ctx.fillRect(0, 0, r.width, r.height);
+  if (!meta || !img) return;
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(img, view.tx, view.ty, meta.width * view.scale, meta.height * view.scale);
+
+  // Map origin axes (x red, y green), 0.5 m.
+  const [ox, oy] = w2s(0, 0), [ax, ay] = w2s(0.5, 0), [bx, by] = w2s(0, 0.5);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#e04040"; ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ax, ay); ctx.stroke();
+  ctx.strokeStyle = "#40c040"; ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(bx, by); ctx.stroke();
+
+  const margin = +$("margin").value, minr = +$("minr").value;
+  if (line.length >= 3) {
+    ctx.lineWidth = 3; ctx.lineCap = "round";
+    for (let i = 0; i < line.length; i++) {
+      const a = line[i], b = line[(i + 1) % line.length];
+      ctx.strokeStyle = a.clear < margin ? "#f04848" : a.radius < minr ? "#f0a020" : "#3fb950";
+      const [x1, y1] = w2s(a.x, a.y), [x2, y2] = w2s(b.x, b.y);
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    }
+    // Direction arrows every 0.5 m.
+    ctx.fillStyle = "#ffffff";
+    for (let i = 5; i < line.length; i += 10) {
+      const a = line[i], b = line[(i + 1) % line.length];
+      const [x1, y1] = w2s(a.x, a.y), [x2, y2] = w2s(b.x, b.y);
+      const ang = Math.atan2(y2 - y1, x2 - x1), s = 6;
+      ctx.beginPath();
+      ctx.moveTo(x1 + Math.cos(ang) * s, y1 + Math.sin(ang) * s);
+      ctx.lineTo(x1 + Math.cos(ang + 2.5) * s, y1 + Math.sin(ang + 2.5) * s);
+      ctx.lineTo(x1 + Math.cos(ang - 2.5) * s, y1 + Math.sin(ang - 2.5) * s);
+      ctx.closePath(); ctx.fill();
+    }
+  } else if (wps.length === 2) {
+    ctx.strokeStyle = "#3fb95088"; ctx.lineWidth = 2;
+    const [x1, y1] = w2s(...wps[0]), [x2, y2] = w2s(...wps[1]);
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  }
+
+  ctx.font = "bold 11px system-ui"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  wps.forEach((w, i) => {
+    const [x, y] = w2s(...w), rad = i === 0 ? 10 : 8;
+    ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2);
+    ctx.fillStyle = i === 0 ? "#2f81f7" : "#e6e9ee"; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = "#0b0d10"; ctx.stroke();
+    ctx.fillStyle = i === 0 ? "#fff" : "#0b0d10";
+    ctx.fillText(String(i + 1), x, y + 0.5);
+  });
+}
+
+// ---------- interaction ----------
+function pushUndo() { undoStack.push(JSON.stringify(wps)); if (undoStack.length > 200) undoStack.shift(); dirty = true; }
+function undo() { if (undoStack.length) { wps = JSON.parse(undoStack.pop()); rebuild(); } }
+
+function hitWaypoint(sx, sy) {
+  for (let i = wps.length - 1; i >= 0; i--) {
+    const [x, y] = w2s(...wps[i]);
+    if (Math.hypot(x - sx, y - sy) <= 11) return i;
+  }
+  return -1;
+}
+
+function hitLine(sx, sy) {
+  let best = -1, bd = 10;
+  for (const p of line) {
+    const [x, y] = w2s(p.x, p.y), d = Math.hypot(x - sx, y - sy);
+    if (d < bd) { bd = d; best = p.seg; }
+  }
+  return best;
+}
+
+let drag = null;  // {mode:'wp'|'pan', i, sx, sy, moved}
+const evPos = (e) => { const r = canvas.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+
+canvas.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  const [sx, sy] = evPos(e), i = hitWaypoint(sx, sy);
+  if (i >= 0) { pushUndo(); wps.splice(i, 1); rebuild(); }
+});
+
+canvas.addEventListener("mousedown", (e) => {
+  if (e.button !== 0 || !meta) return;
+  const [sx, sy] = evPos(e), i = hitWaypoint(sx, sy);
+  drag = i >= 0 ? { mode: "wp", i, sx, sy, moved: false, pushed: false }
+                : { mode: "pan", sx, sy, tx: view.tx, ty: view.ty, moved: false };
+});
+
+window.addEventListener("mousemove", (e) => {
+  if (!meta) return;
+  const [sx, sy] = evPos(e);
+  const [wx, wy] = s2w(sx, sy);
+  $("coords").textContent = `x ${wx.toFixed(2)}  y ${wy.toFixed(2)} m  ·  clearance ${clearanceAt(wx, wy).toFixed(2)} m`;
+  if (!drag) return;
+  if (Math.hypot(sx - drag.sx, sy - drag.sy) > 3) drag.moved = true;
+  if (!drag.moved) return;
+  if (drag.mode === "wp") {
+    if (!drag.pushed) { pushUndo(); drag.pushed = true; }
+    wps[drag.i] = [wx, wy];
+    rebuild();
+  } else {
+    view.tx = drag.tx + (sx - drag.sx); view.ty = drag.ty + (sy - drag.sy);
+    draw();
+  }
+});
+
+window.addEventListener("mouseup", (e) => {
+  if (!drag) return;
+  const d = drag; drag = null;
+  if (d.moved || d.mode !== "pan" || e.target !== canvas) return;
+  const [sx, sy] = evPos(e), [wx, wy] = s2w(sx, sy);
+  pushUndo();
+  const seg = line.length >= 3 ? hitLine(sx, sy) : -1;
+  if (seg >= 0) wps.splice(seg + 1, 0, [wx, wy]);
+  else wps.push([wx, wy]);
+  rebuild();
+});
+
+canvas.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const [sx, sy] = evPos(e), f = Math.exp(-e.deltaY * 0.0015);
+  view.tx = sx - (sx - view.tx) * f; view.ty = sy - (sy - view.ty) * f; view.scale *= f;
+  draw();
+}, { passive: false });
+
+window.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") { e.preventDefault(); undo(); }
+});
+
+$("undo").onclick = undo;
+$("reverse").onclick = () => { if (wps.length < 2) return; pushUndo(); wps = [wps[0], ...wps.slice(1).reverse()]; rebuild(); };
+$("clear").onclick = () => { if (!wps.length || !confirm("Clear all waypoints?")) return; pushUndo(); wps = []; rebuild(); };
+$("fit").onclick = fitView;
+$("margin").oninput = $("minr").oninput = () => { updateStats(); draw(); };
+$("map").onchange = (e) => selectMap(e.target.value);
+window.addEventListener("resize", resize);
+window.addEventListener("beforeunload", (e) => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
+
+$("save").onclick = async () => {
+  if (line.length < 3) return;
+  const margin = +$("margin").value;
+  if (Math.min(...line.map((p) => p.clear)) < margin &&
+      !confirm("Part of the raceline is closer to a wall than the clearance limit. Save anyway?")) return;
+  const body = {
+    waypoints: wps,
+    raceline: line.map((p) => [p.x, p.y]),
+    params: { margin, min_radius: +$("minr").value },
+  };
+  const res = await fetch(`api/maps/${meta.name}/raceline`, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+  });
+  const out = await res.json();
+  if (res.ok) {
+    dirty = false;
+    msg(`Saved ${out.points} points → ${out.csv}. Run on the car: race run ${meta.name}`, "ok");
+    const opt = [...$("map").options].find((o) => o.value === meta.name);
+    if (opt) opt.textContent = meta.name + "  ✓ raceline";
+  } else msg(out.error || "Save failed", "bad");
+};
+
+function msg(t, cls = "") { const m = $("msg"); m.textContent = t; m.className = cls; }
+function localStorageGet(k) { try { return localStorage.getItem("raceline." + k); } catch { return null; } }
+function localStorageSet(k, v) { try { localStorage.setItem("raceline." + k, v); } catch {} }
+
+resize();
+loadMaps().catch((e) => msg("Failed to load maps: " + e, "bad"));
+</script>
+</body>
+</html>
