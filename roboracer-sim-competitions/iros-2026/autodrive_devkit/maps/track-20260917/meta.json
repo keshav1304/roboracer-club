@@ -1,0 +1,17 @@
+{
+  "name": "track-20260917",
+  "created": 1789685634.7534719,
+  "resolution": 0.05,
+  "origin": [
+    -0.138,
+    -16.8,
+    0
+  ],
+  "version": 13,
+  "map_to_world": {
+    "tx": 0.0575,
+    "ty": -0.0984,
+    "yaw": 0.01903,
+    "frame": "map_to_world"
+  }
+}
