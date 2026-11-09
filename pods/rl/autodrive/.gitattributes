@@ -1,0 +1,6 @@
+# Shell scripts must keep LF line endings or Git Bash fails on them.
+*.bash text eol=lf
+*.sh   text eol=lf
+*.py   text eol=lf
+*.zip  binary
+*.png  binary

@@ -1,0 +1,289 @@
+"""Gymnasium environment for PPO: f1tenth_gym (dev-humble API) wrapped for stable-baselines3.
+
+    from race_env import make_env
+    env = make_env("Spielberg", seed=0)
+    obs, info = env.reset()
+    obs, reward, terminated, truncated, info = env.step(env.action_space.sample())
+
+Tracks: "Spielberg" (bundled with the gym), and the AutoDRIVE tracks built from the club's maps by
+tracks/build_tracks.py, "icra" (ICRA 2026 compete track, 58 m) and "practice" (30.7 m). On those
+two, s = 0 is the AutoDRIVE spawn (0.8, 3.16), facing the way the car starts.
+
+Contract shared with train/ (Nathaniel) and deploy/ (Rishabh). Change these numbers only together.
+
+Action, 2 floats in [-1, 1], in AutoDRIVE's own terms
+    action[0]  steering_command, +1 = full left = 0.5236 rad
+    action[1]  throttle: -1 = throttle_command 0, +1 = throttle_command MAX_THROTTLE (0.32)
+    action_to_autodrive(action) -> (throttle_command, steering_command), published as is.
+    Normalised to [-1, 1] because SB3's check_env warns on any other Box range. Throttle is capped
+    at 0.32 because the fitted model below is only measured at low throttle, and AutoDRIVE's full
+    range would make random exploration crash every episode. Negative throttle does nothing in
+    AutoDRIVE (the car only coasts), so the range starts at 0.
+
+Throttle is not speed. The gym runs in acceleration mode and the env turns throttle into an
+acceleration with a model fitted to AutoDRIVE recordings (throttle_to_accel):
+    throttle > 0   accel = 82.0 * throttle - 3.31 * speed    (lag 0.30 s, settles at 24.7 x throttle m/s)
+    throttle = 0   accel = -3.0 m/s^2 until stopped           (coasting, braking is not stronger)
+Fitted on runs up to throttle 0.08 and 2 m/s; above that it is an extrapolation to check in AutoDRIVE.
+(The gym's own speed mode tracks a target with a 0.08 s lag and brakes much harder, which a
+policy would learn to rely on and the AutoDRIVE car cannot do.)
+
+Grip. The gym's tyre model holds about 20 m/s^2 of cornering at 4 m/s (measured with a full-lock
+circle), and a first policy learned to take hairpins at 50 m/s^2. The AutoDRIVE car is near its
+limit around 6 m/s^2 (a 5.8 m/s^2 race line touched the wall there). So the env caps the steering
+angle at speed v to atan(A_LAT_MAX * wheelbase / v^2): a car that arrives too fast cannot make the
+corner and hits the wall, which teaches braking. A_LAT_MAX = 6.0 is an estimate to measure in
+AutoDRIVE (make_env(..., a_lat_max=...) to change it). It does not change the action or observation.
+
+Observation, 110 float32, the RL Structure (LiDAR, current speed, current steering)
+    [0:108]    LiDAR: 1081 beams over 270 deg, split in order (right to left) into 108 groups,
+               mean of each group, clipped at 10 m, divided by 10 -> 0..1
+    [108]      current speed / 8 m/s, clipped to 0..1          (AutoDRIVE /odom twist.linear.x)
+    [109]      current steering angle / 0.5236 rad, -1..1      (AutoDRIVE /steering, in rad)
+    build_observation(ranges, speed_mps, steering_rad) does all of this and has no gym or ROS
+    imports, so the deploy node can feed AutoDRIVE's topics straight in.
+
+Reward per control step (20 Hz), from the pod doc and the whiteboard, weights in REWARD_WEIGHTS
+    progress * ds        metres gained along the centre line, ds = s_now - s_prev (10)
+    - center * |ey|      distance from the centre line, m (0.05)
+    + lap_bonus          when a lap is completed (50); a contact ends the episode, so every lap
+                         that completes is a clean one
+    - collision          on a wall contact, which also ends the episode, terminated (10)
+    + speed * v          speed in m/s (0, off). ds already pays for speed: at a fixed time step,
+                         ds per step is speed along the track
+    - steer_rate * |steer_now - steer_prev|
+                         change of the steering action this step, both in -1..1 (0.1). Keeps the
+                         wheel from flicking left and right on straights. The previous command is
+                         close to the measured steering angle in the observation (it lags by at
+                         most about 0.3 per step), so this is nearly Markov
+s and ey come from the car's pose (x, y), not from the LiDAR: cartesian_to_frenet projects the
+pose onto the centre line, s = arc length from the start line, ey = sideways offset (+ left).
+info carries each term (r_progress, r_center, r_lap, r_collision, r_speed, r_steer_rate) for
+TensorBoard.
+Lap time is deliberately not a reward term: "last lap minus this lap" depends on history the
+policy cannot see (breaks the Markov property, see the pod doc). Eval ranks policies by
+consecutive clean laps, then lap time; info['laps'] and info['lap_times'] give both.
+Episodes are truncated after max_laps laps or max_steps control steps.
+"""
+from __future__ import annotations
+
+import dataclasses
+import os
+
+import gymnasium as gym
+import numpy as np
+from gymnasium import spaces
+import random
+
+LIDAR_BINS = 108
+MAX_RANGE = 10.0
+NUM_BEAMS = 1081                 # AutoDRIVE RoboRacer LiDAR
+FOV = 4.712389                   # 270 deg
+MAX_STEER = 0.5236               # rad at steering command 1.0, measured in AutoDRIVE
+SPEED_PER_THROTTLE = 24.8        # m/s per unit throttle command, measured in AutoDRIVE
+MAX_THROTTLE = 0.32              # throttle_command at action[1] = +1
+SPEED_NORM = 8.0                 # m/s, speed scale in the observation
+THROTTLE_GAIN = 82.0             # m/s^2 per unit throttle, fitted to AutoDRIVE runs
+SPEED_DRAG = 3.31                # 1/s, fitted (time constant 0.30 s)
+COAST_DECEL = 3.0                # m/s^2 with throttle 0, measured
+A_LAT_MAX = 6.0                  # m/s^2 cornering limit, AutoDRIVE estimate (see Grip)
+CONTROL_HZ = 20
+MAX_LAPS = 10
+MAX_STEPS = 3000                 # 150 s at 20 Hz
+OBS_DIM = LIDAR_BINS + 2
+TRACKS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tracks')
+REWARD_WEIGHTS = {'progress': 10.0, 'center': 0.05, 'lap_bonus': 50.0, 'collision': 10.0, 'speed': 0.0,
+                  'steer_rate': 0.1}
+
+
+# ---- shared with deploy/ ------------------------------------------------------------------
+def preprocess_scan(ranges) -> np.ndarray:
+    """1081 (or any number of) LiDAR ranges -> 108 values in 0..1."""
+    scan = np.asarray(ranges, dtype=np.float32)
+    scan = np.clip(np.nan_to_num(scan, nan=MAX_RANGE, posinf=MAX_RANGE, neginf=0.0), 0.0, MAX_RANGE)
+    bins = np.array([c.mean() for c in np.array_split(scan, LIDAR_BINS)], dtype=np.float32)
+    return bins / MAX_RANGE
+
+
+def build_observation(ranges, speed_mps: float, steering_rad: float) -> np.ndarray:
+    return np.concatenate([preprocess_scan(ranges),
+                           [np.clip(speed_mps / SPEED_NORM, 0.0, 1.0),
+                            np.clip(steering_rad / MAX_STEER, -1.0, 1.0)]]).astype(np.float32)
+
+
+def throttle_to_accel(throttle: float, speed_mps: float) -> float:
+    """AutoDRIVE's longitudinal response, fitted: m/s^2 for a throttle_command at a given speed."""
+    if throttle > 0.0:
+        return THROTTLE_GAIN * throttle - SPEED_DRAG * speed_mps
+    return -COAST_DECEL if speed_mps > 0.05 else -speed_mps / 0.01   # coast, then stop at 0
+
+
+def action_to_autodrive(action) -> tuple[float, float]:
+    """(throttle_command, steering_command) for /autodrive/roboracer_1/*_command."""
+    a = np.clip(np.asarray(action, dtype=np.float64), -1.0, 1.0)
+    return float((a[1] + 1.0) * 0.5 * MAX_THROTTLE), float(a[0])
+
+
+def action_to_gym(action, speed_mps: float) -> tuple[float, float]:
+    """(steering angle rad, acceleration m/s^2) for f1tenth_gym in acceleration mode."""
+    throttle, steering = action_to_autodrive(action)
+    return steering * MAX_STEER, throttle_to_accel(throttle, speed_mps)
+
+
+# ---- environment --------------------------------------------------------------------------
+class RaceEnv(gym.Env):
+    metadata = {'render_modes': ['human', 'human_fast', 'rgb_array'], 'render_fps': CONTROL_HZ}
+
+    def __init__(self, track_name: str = 'Spielberg', seed: int = 0, render_mode: str | None = None,
+                 random_start: bool = True, reward_weights: dict | None = None,
+                 max_laps: int = MAX_LAPS, max_steps: int = MAX_STEPS, a_lat_max: float = A_LAT_MAX):
+        super().__init__()
+        unknown = set(reward_weights or {}) - set(REWARD_WEIGHTS)
+        if unknown:
+            raise ValueError(f'unknown reward weights {sorted(unknown)}; have {sorted(REWARD_WEIGHTS)}')
+        self.w = dict(REWARD_WEIGHTS, **(reward_weights or {}))
+        self.max_laps, self.max_steps = max_laps, max_steps
+        self.a_lat_max = a_lat_max
+        from f1tenth_gym.envs.action import LongitudinalActionType
+        from f1tenth_gym.envs.dynamic_models import F1TENTH_VEHICLE_PARAMETERS
+        from f1tenth_gym.envs.env_config import (ControlConfig, EnvConfig, ObservationConfig,
+                                                 ResetConfig, SimulationConfig)
+        from f1tenth_gym.envs.lidar.config import LiDARConfig
+        from f1tenth_gym.envs.observation import ObservationType
+
+        params = dataclasses.replace(F1TENTH_VEHICLE_PARAMETERS, s_min=-MAX_STEER, s_max=MAX_STEER,
+                                     v_max=12.0)
+        local = os.path.join(TRACKS_DIR, track_name)
+        if os.path.isfile(os.path.join(local, f'{track_name}_map.yaml')):     # our AutoDRIVE tracks
+            from f1tenth_gym.envs.track import Track
+            map_name = Track.from_track_path(os.path.join(local, track_name))
+        else:                                                                # a track bundled with the gym
+            map_name = track_name
+        cfg = EnvConfig(
+            seed=seed,
+            map_name=map_name,
+            params=params,
+            num_agents=1,
+            control_config=ControlConfig(longitudinal_mode=LongitudinalActionType.ACCL),
+            simulation_config=SimulationConfig(timestep=0.01, max_laps=10_000),   # laps counted here
+            observation_config=ObservationConfig(type=ObservationType.DIRECT),
+            reset_config=ResetConfig(),
+            lidar_config=LiDARConfig(num_beams=NUM_BEAMS, field_of_view=FOV, range_max=MAX_RANGE),
+            render_enabled=render_mode is not None,
+        )
+
+        params_dict = {
+               'mu': 1.0,
+               'C_Sf': 4.718,
+               'C_Sr': 5.4562,
+               'lf': 0.15875,
+               'lr': 0.17145,
+               'h': 0.07354,
+               'm': 3.74,
+               'I': 0.04712,
+               's_min': -0.4189,
+               's_max': 0.5236,
+               'sv_min': -3.2,
+               'sv_max': 3.2,
+               'v_switch':7.319,
+               'a_max': 5.2,
+               'v_min':-5.0,
+               'v_max': 20.0,
+               'width': 0.31,
+               'length': 0.58}
+        
+        self.sim = gym.make('f1tenth_gym:f1tenth-v0', config=cfg, render_mode=render_mode, params=params_dict)
+        self.wheelbase = params.lf + params.lr
+        self.track = self.sim.unwrapped.track
+        self.track_len = float(self.track.centerline.length)
+        self.render_mode = render_mode
+        self.random_start = random_start
+        self.substeps = int(round(1.0 / (CONTROL_HZ * 0.01)))
+        self.action_space = spaces.Box(-1.0, 1.0, shape=(2,), dtype=np.float32)
+        low = np.concatenate([np.zeros(LIDAR_BINS + 1), -np.ones(1)]).astype(np.float32)
+        self.observation_space = spaces.Box(low, np.ones(OBS_DIM, np.float32), dtype=np.float32)
+        self._seed = seed
+
+    def reset(self, *, seed=None, options=None):
+        super().reset(seed=seed if seed is not None else self._seed)
+        self._seed = None                                           # seed once, then keep the stream
+        s0 = float(self.np_random.uniform(0.0, self.track_len)) if self.random_start else 0.0
+        x, y, yaw = self.track.frenet_to_cartesian(s0, 0.0, 0.0)
+        self.sim.reset(options={'poses': np.array([[x, y, yaw]])})
+        obs, *_ = self.sim.step(np.array([[0.0, 0.0]]))            # the scan is all zeros until one step
+        a = obs['agent_0']
+        st = a['std_state']
+        self.prev_s, _, _ = self.track.cartesian_to_frenet(st[0], st[1], st[4], s_guess=s0)
+        self.prev_action = np.zeros(2, np.float32)
+        self.progress, self.t, self.steps, self.laps = 0.0, 0.0, 0, 0
+        self.lap_start_t, self.lap_times = 0.0, []
+        self.speed = float(st[3])
+        return build_observation(a['scan'], st[3], st[2]), {'s': float(self.prev_s)}
+
+    def step(self, action):
+        action = np.clip(np.asarray(action, np.float32).reshape(2), -1.0, 1.0)
+
+        params_dict = {'mu': random.uniform(0.8, 1.2)}
+        self.sim.update_params(params_dict)
+
+        throttle_cmd, _ = action_to_autodrive(action)
+        collision = False
+        for _ in range(self.substeps):                              # acceleration follows the speed each 10 ms
+            steer, accel = action_to_gym(action, self.speed)
+            if self.speed > 0.5:                                    # grip limit, see the module docstring
+                lim = np.arctan(self.a_lat_max * self.wheelbase / self.speed ** 2)
+                steer = float(np.clip(steer, -lim, lim))
+            obs, *_ = self.sim.step(np.array([[steer, accel]]))
+            self.t += 0.01
+            a = obs['agent_0']
+            self.speed = float(a['std_state'][3])
+            if a['collision']:
+                collision = True
+                break
+        st = a['std_state']                                         # x, y, steer, v, yaw, yaw rate, slip
+        s, ey, _ = self.track.cartesian_to_frenet(st[0], st[1], st[4], s_guess=self.prev_s)
+        ds = s - self.prev_s
+        if ds < -self.track_len / 2:                                # crossed the line forwards, s wrapped to 0
+            ds += self.track_len
+        elif ds > self.track_len / 2:                               # crossed it backwards
+            ds -= self.track_len
+        self.prev_s = s
+        self.progress += ds
+        self.steps += 1
+
+        lap_completed = self.progress >= (self.laps + 1) * self.track_len
+        if lap_completed:
+            self.laps += 1
+            self.lap_times.append(round(self.t - self.lap_start_t, 3))
+            self.lap_start_t = self.t
+        terms = {'r_progress': self.w['progress'] * ds,
+                 'r_center': -self.w['center'] * abs(ey),
+                 'r_lap': self.w['lap_bonus'] if lap_completed else 0.0,
+                 'r_collision': -self.w['collision'] if collision else 0.0,
+                 'r_speed': self.w['speed'] * float(st[3]),
+                 'r_steer_rate': -self.w['steer_rate'] * abs(float(action[0]) - float(self.prev_action[0]))}
+        reward = sum(terms.values())
+
+        terminated = collision
+        truncated = self.laps >= self.max_laps or self.steps >= self.max_steps
+        self.prev_action = action
+        info = {'collision': collision, 'laps': self.laps, 'lap_times': list(self.lap_times),
+                's': float(s), 'ey': float(ey), 'speed': float(st[3]), 'yaw_rate': float(st[5]), 'progress_m': float(self.progress),
+                'sim_time': round(self.t, 3), 'throttle_cmd': throttle_cmd,
+                **{k: float(v) for k, v in terms.items()}}
+        if self.render_mode == 'human':
+            self.render()
+        return build_observation(a['scan'], st[3], st[2]), float(reward), terminated, truncated, info
+
+    def render(self):
+        return self.sim.render()
+
+    def close(self):
+        self.sim.close()
+
+
+def make_env(track_name: str = 'Spielberg', seed: int = 0, **kwargs) -> RaceEnv:
+    """The interface for train/: make_env("Spielberg", seed=i), like gym.make("Pendulum-v1").
+    Optional overrides, e.g. make_env("Spielberg", seed=0, reward_weights={"center": 0.1},
+    max_laps=50) for a long eval run."""
+    return RaceEnv(track_name=track_name, seed=seed, **kwargs)

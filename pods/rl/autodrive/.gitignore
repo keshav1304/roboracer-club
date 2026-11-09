@@ -1,0 +1,26 @@
+# Personal settings (simulator paths)
+launch.local.bash
+
+# Training output. Only the final models listed in models/README.md are committed.
+models/**
+!models/README.md
+!models/ppo_20261107_182816/
+!models/ppo_20261107_182816/final.zip
+!models/ppo_20261108_054349/
+!models/ppo_20261108_054349/final.zip
+!models/ppo_20261106_062208/
+!models/ppo_20261106_062208/final.zip
+runs/
+logs/
+archive/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Editors and OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
