@@ -214,7 +214,7 @@ The repository includes the complete 24-position evaluation traces for both Stag
 [Download the complete data archive](https://github.com/AUnknownZ/aggressive-overtaking-model/releases/download/v2026.11.13/all-models-training-test-data-20261113.zip) (approximately 496 MB).
 
 ```bash
-python3 download-data.py
+gym-two-car-reactive/.venv/bin/python download-data.py
 ```
 
 This downloads the archive, verifies its SHA-256, and extracts it into this package. No API key is needed. `DATA_RELEASE.json` pins the URL, size and checksum. `DATA_ARCHIVE_INDEX.json` lists original and exported hashes for every data file. Text metadata replaces local home paths with placeholders; executable source and NPZ checkpoint bytes are retained. The archive includes historical and invalidated records for provenance: do not train on evaluation data or the abandoned `reactive_branches_v1` collection.
