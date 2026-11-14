@@ -1,0 +1,883 @@
+{
+  "jobs": [
+    {
+      "id": "case-000-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540700,
+        "s": 1.5092786690767743,
+        "gap": 1.2076604563973035,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-000-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540700,
+        "s": 1.5092786690767743,
+        "gap": 1.2076604563973035,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-001-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540701,
+        "s": 3.318963546645399,
+        "gap": 1.392464070591477,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-001-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540701,
+        "s": 3.318963546645399,
+        "gap": 1.392464070591477,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-002-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540702,
+        "s": 5.329936214390847,
+        "gap": 0.8736961228253389,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-002-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540702,
+        "s": 5.329936214390847,
+        "gap": 0.8736961228253389,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-003-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540703,
+        "s": 8.328242279639463,
+        "gap": 1.0945239765975048,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-003-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540703,
+        "s": 8.328242279639463,
+        "gap": 1.0945239765975048,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-004-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540704,
+        "s": 11.769654538096917,
+        "gap": 1.1632957358999885,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-004-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540704,
+        "s": 11.769654538096917,
+        "gap": 1.1632957358999885,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-005-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540705,
+        "s": 12.747157031252785,
+        "gap": 1.3936785014189665,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-005-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540705,
+        "s": 12.747157031252785,
+        "gap": 1.3936785014189665,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-006-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540706,
+        "s": 15.073020329041837,
+        "gap": 1.3868943129096136,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-006-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540706,
+        "s": 15.073020329041837,
+        "gap": 1.3868943129096136,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-007-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540707,
+        "s": 18.833624715910283,
+        "gap": 1.3104015152173045,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-007-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540707,
+        "s": 18.833624715910283,
+        "gap": 1.3104015152173045,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-008-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540708,
+        "s": 20.313988447873893,
+        "gap": 0.8848158839533425,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-008-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540708,
+        "s": 20.313988447873893,
+        "gap": 0.8848158839533425,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-009-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540709,
+        "s": 24.13558042109933,
+        "gap": 1.1096182106498864,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-009-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540709,
+        "s": 24.13558042109933,
+        "gap": 1.1096182106498864,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-010-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540710,
+        "s": 25.501466333436596,
+        "gap": 1.3683920387685775,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-010-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540710,
+        "s": 25.501466333436596,
+        "gap": 1.3683920387685775,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-011-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540711,
+        "s": 28.631646116689847,
+        "gap": 0.8715012304790782,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-011-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540711,
+        "s": 28.631646116689847,
+        "gap": 0.8715012304790782,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-012-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540712,
+        "s": 30.6043974320432,
+        "gap": 1.2421303217076072,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-012-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540712,
+        "s": 30.6043974320432,
+        "gap": 1.2421303217076072,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-013-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540713,
+        "s": 33.610276465092916,
+        "gap": 1.3895041007359943,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-013-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540713,
+        "s": 33.610276465092916,
+        "gap": 1.3895041007359943,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-014-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540714,
+        "s": 35.31372897507573,
+        "gap": 1.085388243164421,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-014-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540714,
+        "s": 35.31372897507573,
+        "gap": 1.085388243164421,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-015-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540715,
+        "s": 38.38333930480642,
+        "gap": 1.2923367850994887,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-015-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540715,
+        "s": 38.38333930480642,
+        "gap": 1.2923367850994887,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-016-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540716,
+        "s": 40.08398610697191,
+        "gap": 0.9591468340802027,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-016-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540716,
+        "s": 40.08398610697191,
+        "gap": 0.9591468340802027,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-017-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540717,
+        "s": 43.223330628979966,
+        "gap": 0.8724178172816602,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-017-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540717,
+        "s": 43.223330628979966,
+        "gap": 0.8724178172816602,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-018-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540718,
+        "s": 45.34537312069076,
+        "gap": 1.1487335482359373,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-018-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540718,
+        "s": 45.34537312069076,
+        "gap": 1.1487335482359373,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-019-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540719,
+        "s": 47.81416512865301,
+        "gap": 0.8837837077773004,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-019-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540719,
+        "s": 47.81416512865301,
+        "gap": 0.8837837077773004,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-020-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540720,
+        "s": 50.863069324920794,
+        "gap": 0.8824853856210256,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-020-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540720,
+        "s": 50.863069324920794,
+        "gap": 0.8824853856210256,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-021-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540721,
+        "s": 52.62743930075721,
+        "gap": 1.242293683528455,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-021-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540721,
+        "s": 52.62743930075721,
+        "gap": 1.242293683528455,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-022-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540722,
+        "s": 54.70377740543873,
+        "gap": 1.1299423404023468,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-022-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540722,
+        "s": 54.70377740543873,
+        "gap": 1.1299423404023468,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-023-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540723,
+        "s": 58.307497372242466,
+        "gap": 1.3155166775170988,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "case-023-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 91540723,
+        "s": 58.307497372242466,
+        "gap": 1.3155166775170988,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    }
+  ],
+  "controller": "LearnedStage4",
+  "all_opponents_reactive": true,
+  "seed": 915407,
+  "source_sha256": {
+    "world.py": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5",
+    "maneuver_core.py": "ca55ca7b5d6bb26e0f35419c9a9566bc84476eb3dd0c74f1fbc780b95cd3f10c",
+    "response_stage4.py": "d804400b963f46c4bf10e3b876690865bc8b3d4c268be9252e8fbb0971048344",
+    "learned_stage4.py": "c0ae30e89d2f06a9e716e840f7a280e9e2a8c1136d9370f2e142ad75c3b84316",
+    "expanded_planner.py": "9e989439ae97a73b71dee558d34a183606a49207f252cb0eaca696bc62aabe7d",
+    "reactive_pressure_experiment.py": "fd296f0a5a7d225fd8835ed007ef4e92cefb9be8b40befcf891addc836307e4a",
+    "learned_opponent.py": "402419573e69144a0025941aa76c61f122c0c6a94621a802ab065a6945bb459f",
+    "run_experiment.py": "9817e7639e2a8abcc9aa479d011883d2a97deadf2e917ec8f677b4edf2aa20e0",
+    "opponent_forecast.npz": "d36e5d4e4bcc2fa2ab548c0055f713de86a5557c2605781ef998f72136d54579"
+  },
+  "api_calls": 0
+}

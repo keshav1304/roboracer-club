@@ -1,0 +1,13 @@
+{
+  "repository": "AUnknownZ/aggressive-overtaking-model",
+  "tag": "v2026.11.13",
+  "assets": [
+    {
+      "name": "all-models-training-test-data-20261113.zip",
+      "bytes": 496474200,
+      "sha256": "6890ee1929ca91697260abfdaa8791026882a8b9de858954771ecee65ab26c01",
+      "url": "https://github.com/AUnknownZ/aggressive-overtaking-model/releases/download/v2026.11.13/all-models-training-test-data-20261113.zip"
+    }
+  ],
+  "file_count": 9222
+}

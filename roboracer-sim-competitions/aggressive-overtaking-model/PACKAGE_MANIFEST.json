@@ -1,0 +1,1580 @@
+{
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 108,
+      "sha256": "d6e591f12aedad6ed6702af0eaf85ddf876cbd886d8445aeab8a83a3f96bd5cd"
+    },
+    {
+      "path": "DATA_ARCHIVE_INDEX.json",
+      "bytes": 3185231,
+      "sha256": "c5a9e192c542a31cb1ba73bd5293b616d66ab731e7634d82d08939ddff1fc7d4"
+    },
+    {
+      "path": "DATA_RELEASE.json",
+      "bytes": 452,
+      "sha256": "76f4c5c20fe279463316be14113b0574b8463d2d0d825afb2a911c7b742827f1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 22001,
+      "sha256": "c88eea523e6215873e3fab3eefa7d40fcbb6bfc86dba79d269d557b630038689"
+    },
+    {
+      "path": "SOURCE_EXPORT_INDEX.json",
+      "bytes": 91168,
+      "sha256": "ef602e7c7515b36ff6715187663dfddf9ab9bb4483847de2513956134905c13a"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 536,
+      "sha256": "0f48d591e0d0746d3046a625a8bb05bcb188513b7bcfd740ec5aa69e0c28ba71"
+    },
+    {
+      "path": "VALIDATION.json",
+      "bytes": 848,
+      "sha256": "fcadbe573c1468f409ab78e0ee7de547a4215b2ef812f19966002767c898a1a9"
+    },
+    {
+      "path": "download-data.py",
+      "bytes": 1348,
+      "sha256": "7fe262fd8fa2e3f9adea8817a95dacffc9a820364368c4aecca2c25008a38942"
+    },
+    {
+      "path": "gym-two-car-reactive/contact_check.py",
+      "bytes": 2592,
+      "sha256": "f7ba965c1e0daf84aa209446551d60ffb23a0d20d3d2af36ef76c91a6546a1a2"
+    },
+    {
+      "path": "gym-two-car-reactive/direction_guard.py",
+      "bytes": 3728,
+      "sha256": "e13cb3ab60bba908e25ebd7526cd1f0a5507619d80d4fd162d53c09de710b739"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/.gitignore",
+      "bytes": 3205,
+      "sha256": "634be6ac90f360593878b9aeec6af610eb078e286929b4bd8051e3c3380081de"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/Dockerfile",
+      "bytes": 2017,
+      "sha256": "ded209bac4f0cadb0fd6653a2b37d99388be4d2481c5e9882a37442fdc292c89"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/LICENSE",
+      "bytes": 1196,
+      "sha256": "f97d9b8a0d287aaa156d52677f8d4aad3bb5050ffbfc03ad99242350a3fc256e"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/README.md",
+      "bytes": 2211,
+      "sha256": "64a7f7c1ea3c107a240988125e33780761ede66b113c9d835fdf6e674e1f3b95"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/__init__.py",
+      "bytes": 106,
+      "sha256": "01e6d74941fdf10c49d49270b86e3bf58360c694688529ba3ca2414af32f11f7"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/__init__.py",
+      "bytes": 85,
+      "sha256": "14c31c095d09229593898173eda55cb9317d874fdb9627118e75ac0778b994ae"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/action.py",
+      "bytes": 7067,
+      "sha256": "cd792a0d572ad3a042ed67da4ad29977048201c13557948ab5a69d074804f1d4"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/base_classes.py",
+      "bytes": 18425,
+      "sha256": "06b39d27a87c52c385616dc8fd1731e4b076c501a200509d0f9e8ef2089b2630"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/collision_models.py",
+      "bytes": 7400,
+      "sha256": "62ed262d010f9cd43b26a3d0596fb62e325372491db6a19cc9904a4cef1e5233"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/dynamic_models.py",
+      "bytes": 15322,
+      "sha256": "af21283202e7983032107c9938da009593dc5e0c5250975dff0fb1c1d1862466"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/f110_env.py",
+      "bytes": 16554,
+      "sha256": "cfb7306aabe2d1476ad55117ab0006f78d365fc612bf1b17541b5439a4252019"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/integrator.py",
+      "bytes": 3856,
+      "sha256": "90a61598db8eab248ad7d09d6c7b6143b4f1ae9120d12eba1d6189422438362a"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/laser_models.py",
+      "bytes": 23569,
+      "sha256": "8b850c5b7cb8d6c23007f9b1456134cd6d34c73ca713ce96b2671715848886a1"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/observation.py",
+      "bytes": 10696,
+      "sha256": "93059d29f90efff442ec6a509ecbef861a3c816b55922f0d993d2941fe7eb361"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/rendering/__init__.py",
+      "bytes": 1304,
+      "sha256": "7ba1ed2e9f3afd53ec5ab557c5a02d6a75a0d24a560d798b9a6c47a28d0b9566"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/rendering/objects.py",
+      "bytes": 8537,
+      "sha256": "624dbc31d1f274cd4db1197985cc56b69d9f811288613e1e4bcb2e7017ae8106"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/rendering/renderer.py",
+      "bytes": 4330,
+      "sha256": "845a1476e6bb4ffdbe24426cc06ca7fe64cf270021dd0a38977429049bfc789e"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/rendering/rendering.yaml",
+      "bytes": 644,
+      "sha256": "2f33d4d0d1ec2baac515e93b8416843dfd481db38b62d4b03e382e691eedaabe"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/rendering/rendering_pygame.py",
+      "bytes": 13694,
+      "sha256": "c70fef2b1d10ad7779c9c068eef8a872f311eaf22891ad1c4c8f3da35c02aee2"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/reset/__init__.py",
+      "bytes": 935,
+      "sha256": "0a1cf2c6ff361053faff954c99811e7f933b7f408377654702dc13509666598f"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/reset/masked_reset.py",
+      "bytes": 3001,
+      "sha256": "3eead9b0bde26666ebea6233ec6036566c17702968f1e5e06b1db4b637fdbed9"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/reset/reset_fn.py",
+      "bytes": 137,
+      "sha256": "e2bd036dd145ae3e1afb0057b2d69f6a1a013303547d360ee8e5b7b8358d0e83"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/reset/utils.py",
+      "bytes": 3090,
+      "sha256": "bc7d1b1e5a5c74df3ce8c0d5d4ccd244fdb166aebdd50b2330d69a029be3ca22"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/track/__init__.py",
+      "bytes": 101,
+      "sha256": "87ebf3cfc5033a5483c6b6b960a4ee095dd82f0a0f0a56f959ab781d9f98ff85"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/track/cubic_spline.py",
+      "bytes": 6096,
+      "sha256": "eb98db38024acc09c3537088631086707e1e571e7dc56ea5cdaffd89221ddec6"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/track/raceline.py",
+      "bytes": 5074,
+      "sha256": "8184f4c61e960e64738959721cf128c6ed6df049a51b3f63db2ab04ff2c61d53"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/track/track.py",
+      "bytes": 8576,
+      "sha256": "d2eaea0a17099b71cebb883ebf4a45300c9298e663bb247ffdbfd29c747843c0"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/track/utils.py",
+      "bytes": 3545,
+      "sha256": "6b1f975128935a0562dd9029e6bb9fef22fceefc63bb4cb25883d3da89508d69"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/f1tenth_gym/envs/utils.py",
+      "bytes": 828,
+      "sha256": "fa1c55808e72f750adaca87d83d3ded37b331fbd11648b37cc5c97db009d4a1b"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/Spielberg/Spielberg.png",
+      "bytes": 62176,
+      "sha256": "3378ea1da231e00b4c41015311f7f3a63fb62420d8c54aaa23b6d1ca7c947e56"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/Spielberg/Spielberg.yaml",
+      "bytes": 150,
+      "sha256": "43fa0026ecb663ce8a68f6d8959f01303bbcda122379070edcbd9f332747e6de"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/Spielberg/Spielberg_DonkeySim_waypoints.txt",
+      "bytes": 35002,
+      "sha256": "9b904759007e39cb1255c2eeb0e2840bdd9525bf43875eaa229deacc4e39d49f"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/Spielberg/Spielberg_centerline.csv",
+      "bytes": 42080,
+      "sha256": "3c690173dda7772bffc36190e6d6f0e11e61be86a65e3910cd78cdd0c098c602"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/Spielberg/Spielberg_map.yaml",
+      "bytes": 150,
+      "sha256": "43fa0026ecb663ce8a68f6d8959f01303bbcda122379070edcbd9f332747e6de"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/Spielberg/Spielberg_raceline.csv",
+      "bytes": 127005,
+      "sha256": "4b79179d42e712c9121ffbfb045cd0b06689d96607ffa5701324360450d1f0bd"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/autodrive-default/autodrive-default.png",
+      "bytes": 5621,
+      "sha256": "5a888eb03c4bcc93e2b798737540c3b6f67f87133dd3d0de2c287cac290f021e"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/autodrive-default/autodrive-default_centerline.csv",
+      "bytes": 56917,
+      "sha256": "100d9b0804f9315f53ea2f5b90080a8c8cf72e4a04189eb53b327da84ca1f29e"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/autodrive-default/autodrive-default_map.yaml",
+      "bytes": 138,
+      "sha256": "dd3ecc25db45368f8e0bacddb8d559b674260b82688e1794a3db623d2cacd19f"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/autodrive-default/autodrive-default_raceline.csv",
+      "bytes": 101480,
+      "sha256": "389468fdc061b8b0a75cd780d93131762683ac124876ca0e38d7483c979fb64b"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/autodrive-default/import.json",
+      "bytes": 416,
+      "sha256": "9fa7a91c68aad600d48039955656d2746c828e66b7f989fd4d3d7a6376d18ea7"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/track-20260731/import.json",
+      "bytes": 406,
+      "sha256": "5e38efc35301c1d0c2b9a88bd6431ca0f512bc42ae88bc903ec8dca1207ab14a"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/track-20260731/track-20260731.png",
+      "bytes": 1690,
+      "sha256": "209130bd65fa0e4389de4e743a8cd556d460831b74242863a900c1ed4970aeaf"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/track-20260731/track-20260731_centerline.csv",
+      "bytes": 36145,
+      "sha256": "5c16891df381947ffd2fbeefc02340325ac7889d9b753e9ef26a7d44667dcb39"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/track-20260731/track-20260731_map.yaml",
+      "bytes": 121,
+      "sha256": "5710d794fbef9d413ac22e9869dc8cc67b4b4cb679bf2566152d0ceb8b45b828"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/maps/track-20260731/track-20260731_raceline.csv",
+      "bytes": 64096,
+      "sha256": "a4b2cb1b2d56c4a11098670443bb2897343eb26dc1c77d2eb7a68205fa65bb8a"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/poetry.lock",
+      "bytes": 174708,
+      "sha256": "e691d0cb716ebe12325543f88d054d983f5cccb32682d775ce4290492376171e"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/pyproject.toml",
+      "bytes": 1187,
+      "sha256": "36b896718e4dd37cd01a422d182e5456314c7e0e3ccdd3253ed3afb4f0a436e4"
+    },
+    {
+      "path": "gym-two-car-reactive/f1tenth_gym/setup.cfg",
+      "bytes": 115,
+      "sha256": "489fa6cfb4ce436208000cc8fe5c7c4891635bd9ee3253af09d094262185cd83"
+    },
+    {
+      "path": "gym-two-car-reactive/gap_follower.py",
+      "bytes": 1983,
+      "sha256": "5147579cae28a1700595a85465f049ca488440b24594ce710c7ac66186baace7"
+    },
+    {
+      "path": "gym-two-car-reactive/gap_preview.py",
+      "bytes": 484,
+      "sha256": "4ef29745161a35b381d95e404b15984480bcb6daf9172d5ed22be176b685468f"
+    },
+    {
+      "path": "gym-two-car-reactive/import_iros_track.py",
+      "bytes": 7010,
+      "sha256": "078942ec469ab09c93adf8de26a80ccc413506f1f9d3a2da315ec8e9e63e6986"
+    },
+    {
+      "path": "gym-two-car-reactive/import_unity_track.py",
+      "bytes": 10198,
+      "sha256": "e18204f69ca0dea53b81b89f14b632ced0a1e30c6a6cafef0d70a033c268a75a"
+    },
+    {
+      "path": "gym-two-car-reactive/imported_tracks/autodrive-default/maps/autodrive-default/map.pgm",
+      "bytes": 695725,
+      "sha256": "7374dedefc474698d6aaf76831fccd112bbee59b51d8fbf90813a71ac8eedf76"
+    },
+    {
+      "path": "gym-two-car-reactive/imported_tracks/autodrive-default/maps/autodrive-default/map.yaml",
+      "bytes": 124,
+      "sha256": "bb494054ae6174c162cb04ba0812ff229afa63619f50be0aef0fabdf2758dbc4"
+    },
+    {
+      "path": "gym-two-car-reactive/imported_tracks/autodrive-default/racelines/autodrive-default-line/waypoints.csv",
+      "bytes": 72479,
+      "sha256": "2d72f04cdee06e98439d5d2ee6c815030df65ecb8c958c32dd80af3dfb364b53"
+    },
+    {
+      "path": "gym-two-car-reactive/imported_tracks/autodrive-default/source.json",
+      "bytes": 3757,
+      "sha256": "a273b0fa9994d9539819bdc0aaffa5d96066cd5607ae5776c9cef1ee9751ae9d"
+    },
+    {
+      "path": "gym-two-car-reactive/installed-packages.txt",
+      "bytes": 1039,
+      "sha256": "25d99dcf5b6973aadfc637cc522010e35274c209f451a8b681101630b636c95e"
+    },
+    {
+      "path": "gym-two-car-reactive/lidar_preview.py",
+      "bytes": 6500,
+      "sha256": "ea27f60946b2fdb6d501996cd0832cb09f52a38500beb1eff50585268a5d1651"
+    },
+    {
+      "path": "gym-two-car-reactive/reactive.py",
+      "bytes": 9810,
+      "sha256": "967119b936603cc7806360ea684b6bbb18c236ba3ec51b2c52cc49cf245519be"
+    },
+    {
+      "path": "gym-two-car-reactive/reactive_safety.py",
+      "bytes": 2373,
+      "sha256": "5a52a149c2745fc4e2afb82c1ffbece918661c95be63e2fd8a2ebbf7d03014ea"
+    },
+    {
+      "path": "gym-two-car-reactive/requirements-import.txt",
+      "bytes": 95,
+      "sha256": "3cb4f57e7368987a9d0b7fec0356913f30e316d897268d369fa927f6afe2b6df"
+    },
+    {
+      "path": "gym-two-car-reactive/requirements.txt",
+      "bytes": 139,
+      "sha256": "30467521614080dd89898803f52c7e6c43f77d5732b10124a195efca929eb088"
+    },
+    {
+      "path": "gym-two-car-reactive/run_two_cars.py",
+      "bytes": 7453,
+      "sha256": "7d054f419cb813eda7d07807448fc2af69472006f66a695c6aa6e0ad078be13e"
+    },
+    {
+      "path": "gym-two-car-reactive/run_wall_gap.py",
+      "bytes": 12172,
+      "sha256": "9d7718424991666850b1ac3e5a3187bb24bc295e23ba2b51c42cf43ae74c472f"
+    },
+    {
+      "path": "gym-two-car-reactive/sweep.py",
+      "bytes": 2181,
+      "sha256": "6fbfe94dfe1efd58e6df383c58ff78d16cc273357e7d38fea940d995150908b6"
+    },
+    {
+      "path": "gym-two-car-reactive/test_direction_guard.py",
+      "bytes": 3706,
+      "sha256": "da441af5636660e65979ec9dab884a133c49e4a6e06debc4a4c6ff5c6afd6c0f"
+    },
+    {
+      "path": "gym-two-car-reactive/test_iros_track.py",
+      "bytes": 3468,
+      "sha256": "cc821751d422d327eba95fa1d0b4f3d026e52f1012738def0c1814bd5762c447"
+    },
+    {
+      "path": "gym-two-car-reactive/test_reactive_drivers.py",
+      "bytes": 6891,
+      "sha256": "dce85c225116f6a61ee9075adda2f3fb99a365c1c76abb9e30a04e4f4bd6eabf"
+    },
+    {
+      "path": "gym-two-car-reactive/test_unity_track.py",
+      "bytes": 3446,
+      "sha256": "b27ddd6b69f42d72e3afc716aa41a67a06863ebe705b79ca8f5cb147c24fa626"
+    },
+    {
+      "path": "gym-two-car-reactive/wall_follower.py",
+      "bytes": 3006,
+      "sha256": "222e031b86e8d2a447dbf8924045adef74456ef05c6328286d81e8f743f60b53"
+    },
+    {
+      "path": "gym-two-car-reactive/wall_preview.py",
+      "bytes": 1503,
+      "sha256": "137ac6ac6a1b09edeeaece82de1e8832a8d028ccf3ce996902c8d53ddd28f539"
+    },
+    {
+      "path": "overtaking-models/ROLLOUT_WORKFLOW.md",
+      "bytes": 7418,
+      "sha256": "a0693854f671bfc862f6e559a0d1556a714a6dad257c25bc3a939661d70f894a"
+    },
+    {
+      "path": "overtaking-models/STAGE4_LEARNED_REACTION_RESULTS.txt",
+      "bytes": 8191,
+      "sha256": "7425dc9d3b650eb3d35c9b114b3909ca51eb9dc33a8c0dce9ba1c23362a314bf"
+    },
+    {
+      "path": "overtaking-models/aggressive_moving_model.py",
+      "bytes": 347,
+      "sha256": "0b3b2a7f8f29eabc3e7a5d9dce166e22cab4f5d58c0d512e0bc3bc6df8aadb0a"
+    },
+    {
+      "path": "overtaking-models/analyze_round_metrics.py",
+      "bytes": 20699,
+      "sha256": "063dc0301f16679bfeb9ac3745533e206bed798c90603628b8fb84eff2b37ad0"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-000-baseline.json",
+      "bytes": 633484,
+      "sha256": "67c6407f60c5333a7cdb8efe5e02496a242129275adbd9bc20bad6f46f2ba8fb"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-000-response.json",
+      "bytes": 633488,
+      "sha256": "efc3f8ca473c40c582ca911556a485bf0c1dae7f3238f4e1e330d618c6394cb3"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-001-baseline.json",
+      "bytes": 758197,
+      "sha256": "074ffd99a02a222e64e214cb4a8ae2e4ac07553985c01d1b1e4427754557f77d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-001-response.json",
+      "bytes": 758185,
+      "sha256": "c6eae6b6a1c41e02865fed709a464be6007404bfeb93a74d30eeedae8481f6ad"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-002-baseline.json",
+      "bytes": 759599,
+      "sha256": "1f2862e9a53761eab3e5508c8e7b53296e0347b632d9dcff64b1a5c060e7886d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-002-response.json",
+      "bytes": 759595,
+      "sha256": "e82b20ed025df1c428be779d14b82d0326b2c680fa8c415fd5878a6fb62e5cf1"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-003-baseline.json",
+      "bytes": 458425,
+      "sha256": "65e9c3f9d23f79b47774abbedd23feb15038d1f1ef9927a611035ad875cd7e6b"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-003-response.json",
+      "bytes": 458404,
+      "sha256": "b858b18d86d76d8517658b6c5107375e5ce30ee8c06f26f12b319f550c4eb528"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-004-baseline.json",
+      "bytes": 758312,
+      "sha256": "de4769c4e5c605b424a2271e5fda969fecb510fa76a48583c1184085c89009d8"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-004-response.json",
+      "bytes": 758305,
+      "sha256": "3db348ce7f6281d6a2b9864eb44746897b6c971eb0c334097dc7c1428835ce81"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-005-baseline.json",
+      "bytes": 575957,
+      "sha256": "5631f06cdae97711cf3421f5267f83d57bee9bcda1e2bddb147298c61c06222f"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-005-response.json",
+      "bytes": 575953,
+      "sha256": "14a17524bff6943181d5a7b2d9abb58eccbf1eaffca73bcb14e3ff084673f857"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-006-baseline.json",
+      "bytes": 519161,
+      "sha256": "d2b8eff9fde8af4b2a892c91161ad6a31410bedc9c6dc3c26aa90c72de2a42fc"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-006-response.json",
+      "bytes": 519169,
+      "sha256": "c78562663056e2c31600f546e1d231442aa2c339177f73f00a937d82f0504a14"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-007-baseline.json",
+      "bytes": 597751,
+      "sha256": "a69e99081b1af269ab1c2058fcbfc26b7a12d1cd0eeb02a5f3254d74b87bf226"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-007-response.json",
+      "bytes": 597753,
+      "sha256": "598e4446bb8fee4d542f8b69c2da597dc2a9e11a9087ce978299d0af64b23677"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-008-baseline.json",
+      "bytes": 473302,
+      "sha256": "a81483284c96bf36087d73c649fba966c85216a120ee606189525a68c5ffbb67"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-008-response.json",
+      "bytes": 473304,
+      "sha256": "843980e7c339564b1127ce465dc9af20457cd94d6c03f86a5d3360ba06d52d57"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-009-baseline.json",
+      "bytes": 759791,
+      "sha256": "717e13590023ee72dc271560342fe88dd3b917cefa42079135c887c81810c597"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-009-response.json",
+      "bytes": 759809,
+      "sha256": "368b3f6467e59fb41c2095463a9a4b97c144f1e0e781da07d0d99755ba1fb038"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-010-baseline.json",
+      "bytes": 763973,
+      "sha256": "1cade2e2adb6518e8443e672166d96bb24533d79dc2e73a255dbbc93412629c8"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-010-response.json",
+      "bytes": 763987,
+      "sha256": "d6fb6f11da539e8d799416833d614ab1c89a933758768ba4bf3ca4380e1174cf"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-011-baseline.json",
+      "bytes": 402602,
+      "sha256": "ad33247a3ceeabd6df646f0b33a5feeda45eb5994c2a839ab008cca279d173ec"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-011-response.json",
+      "bytes": 402615,
+      "sha256": "e177826ca66bb7fefdc92725823d2a9e4d1888caa0aeff561e07e0fe7c72b978"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-012-baseline.json",
+      "bytes": 257380,
+      "sha256": "d6b1528fdcd4939536305efa707a9bd1e507bd55fbdd708c6ea98614c4234db1"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-012-response.json",
+      "bytes": 270947,
+      "sha256": "5c070ce3a2cd44c9d33a47245e0789d56cbbc0320724bc0ca6a5d318bee53c8d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-013-baseline.json",
+      "bytes": 757993,
+      "sha256": "ba603eb3c5cc201e10ba4fde538d287a44ef46211960dd01438fbae5bedb3d60"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-013-response.json",
+      "bytes": 758032,
+      "sha256": "885cb174daa848b21fba925d706833214e1788449580774c69d944091822863d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-014-baseline.json",
+      "bytes": 209195,
+      "sha256": "bc94efa7a81f7017888aab89db6b0ed84069bfe20557ec861422e8ea5e524288"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-014-response.json",
+      "bytes": 209198,
+      "sha256": "3a0c0e2362a2cf457eeb2c8562109cd7f4fa7938ed30e2ee197bdef58000cd5a"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-015-baseline.json",
+      "bytes": 755184,
+      "sha256": "bd7464b485c1075e06137e2b2dc7cb6dda018256c43613d0b1c1fc3a4d540f38"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-015-response.json",
+      "bytes": 755188,
+      "sha256": "81c8d9193c2538081dedacb37a2f27074f8245b0aa5b926fe8baaaaffd0b26ba"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-016-baseline.json",
+      "bytes": 474577,
+      "sha256": "c2ac0112c35fd8c01f00ecc2f24f0c23c5fdb79ce81007c9272cb4352ea133b4"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-016-response.json",
+      "bytes": 355892,
+      "sha256": "5cb51bc06461926fbafaea1e2810406211b2f7aa7656ccee76767f72c4c619d3"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-017-baseline.json",
+      "bytes": 236188,
+      "sha256": "2e08ca26e5255322a190c23b64e2c4cf30c5ece026d152467f46dff4b21a80f9"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-017-response.json",
+      "bytes": 838230,
+      "sha256": "9716d523fe4c758c367c99e8ba9617254b8e480d86f1cd555188ac80b457e701"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-018-baseline.json",
+      "bytes": 236665,
+      "sha256": "e33f3cd5ff8b36616206d45b1831028b772bdda33cf22b394bad29bdc0f7af5f"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-018-response.json",
+      "bytes": 236682,
+      "sha256": "9fbf4cd183d1ec7319d685bc56897a3683c94a000b7ae9c93394c092730df5c3"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-019-baseline.json",
+      "bytes": 754650,
+      "sha256": "fc63e6908afed91a8c488c944436a91433aadcb66e553c7dba160df2f7e33c68"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-019-response.json",
+      "bytes": 754663,
+      "sha256": "ce01213f91a347c7334b549faf804252b512c9f197de7336d458de0c59ff7cbf"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-020-baseline.json",
+      "bytes": 226057,
+      "sha256": "d1d6580a8d24b0c403d55bc3d85987a5afbf99641c4ec880c19f0fde1a48a523"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-020-response.json",
+      "bytes": 889717,
+      "sha256": "4add0654c655162eedcd7fc5cbdb1c529f213961b79439737161efc06da91557"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-021-baseline.json",
+      "bytes": 258396,
+      "sha256": "19b622570c73aa7e206af233a8f80f13f7cfad3b47cb7b825a66fb747c521543"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-021-response.json",
+      "bytes": 221483,
+      "sha256": "af74641a114481e5311fcc4db1a5b6891293a72c8c1bc9322bdb2712f3ed72b1"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-022-baseline.json",
+      "bytes": 785358,
+      "sha256": "42fc39ad32b20e485372f8cfa362e18fe69bfb6f2f81887fabb98f1a4f46be35"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-022-response.json",
+      "bytes": 688226,
+      "sha256": "5a2fb3fdf0be40e6eebd59febb68d3818cbd902a6a68c50d283f559a798b76a6"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-023-baseline.json",
+      "bytes": 645548,
+      "sha256": "299fae741b6c479de613e34ad34e86573f3b83b3649cda1bc414538181d58e6c"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-023-response.json",
+      "bytes": 645544,
+      "sha256": "9a775ce569030a4b896adce90262d359470624b74dcf1448f9238fd2c8fa6cb9"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/manifest.json",
+      "bytes": 21892,
+      "sha256": "fc0fa929f23221d959cbe313caada633fafe04ec89eda6d0c9070b2fa117f112"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/rviz_examples.json",
+      "bytes": 454,
+      "sha256": "0f83096f22682d7095531cb37d08ca148a4766abc7f90ef0f180e99fdbef47bc"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/expanded_planner.py",
+      "bytes": 10025,
+      "sha256": "9e989439ae97a73b71dee558d34a183606a49207f252cb0eaca696bc62aabe7d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/learned_opponent.py",
+      "bytes": 3071,
+      "sha256": "402419573e69144a0025941aa76c61f122c0c6a94621a802ab065a6945bb459f"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/learned_stage4.py",
+      "bytes": 8971,
+      "sha256": "c0ae30e89d2f06a9e716e840f7a280e9e2a8c1136d9370f2e142ad75c3b84316"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/maneuver_core.py",
+      "bytes": 35005,
+      "sha256": "ca55ca7b5d6bb26e0f35419c9a9566bc84476eb3dd0c74f1fbc780b95cd3f10c"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/opponent_forecast.npz",
+      "bytes": 34377,
+      "sha256": "d36e5d4e4bcc2fa2ab548c0055f713de86a5557c2605781ef998f72136d54579"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/reactive_pressure_experiment.py",
+      "bytes": 6429,
+      "sha256": "fd296f0a5a7d225fd8835ed007ef4e92cefb9be8b40befcf891addc836307e4a"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/response_stage4.py",
+      "bytes": 12241,
+      "sha256": "d804400b963f46c4bf10e3b876690865bc8b3d4c268be9252e8fbb0971048344"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/run_experiment.py",
+      "bytes": 22791,
+      "sha256": "9817e7639e2a8abcc9aa479d011883d2a97deadf2e917ec8f677b4edf2aa20e0"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/source/world.py",
+      "bytes": 9726,
+      "sha256": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/summary.json",
+      "bytes": 648,
+      "sha256": "9b449713e05d4f804ce3f1fa9266c4eb78d1a43bdbcd4aede700b632dfeb32e2"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r1/yield_audit.json",
+      "bytes": 881,
+      "sha256": "9a201dd95f0da1d8fe66023f5e54309e512f6a26e22c5c73606da7bcc08b37ea"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-000-baseline.json",
+      "bytes": 633484,
+      "sha256": "67c6407f60c5333a7cdb8efe5e02496a242129275adbd9bc20bad6f46f2ba8fb"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-000-response.json",
+      "bytes": 633913,
+      "sha256": "257782bd927e151dce7b464eebb7e39a1d17899ae08e184cfa8996ec9cbdddba"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-001-baseline.json",
+      "bytes": 758197,
+      "sha256": "074ffd99a02a222e64e214cb4a8ae2e4ac07553985c01d1b1e4427754557f77d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-001-response.json",
+      "bytes": 758630,
+      "sha256": "3928aafbc72f65d0a2dc4a40448d8637ac23f115d884ccb1bb56bd62cef67377"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-002-baseline.json",
+      "bytes": 759599,
+      "sha256": "1f2862e9a53761eab3e5508c8e7b53296e0347b632d9dcff64b1a5c060e7886d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-002-response.json",
+      "bytes": 760033,
+      "sha256": "9714b9dbf51a11627645c82e4ac3c2931fde1eaeca6477c7b3fe448d37ba77ae"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-003-baseline.json",
+      "bytes": 458425,
+      "sha256": "65e9c3f9d23f79b47774abbedd23feb15038d1f1ef9927a611035ad875cd7e6b"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-003-response.json",
+      "bytes": 458858,
+      "sha256": "48c5f6244cf729d6550cdefef4dd03224d6195f03e969e31cedcc06070b509dd"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-004-baseline.json",
+      "bytes": 758312,
+      "sha256": "de4769c4e5c605b424a2271e5fda969fecb510fa76a48583c1184085c89009d8"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-004-response.json",
+      "bytes": 758755,
+      "sha256": "2bacfb486ff1c4f81c5cc62cc1085cf02be912e9eab0f89ed4ed1e7e2db650cf"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-005-baseline.json",
+      "bytes": 575957,
+      "sha256": "5631f06cdae97711cf3421f5267f83d57bee9bcda1e2bddb147298c61c06222f"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-005-response.json",
+      "bytes": 576416,
+      "sha256": "d89ac6bc533a5462dd0fe646c535c903d99f231ffebb28c1dd5b34fe3fb62f3d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-006-baseline.json",
+      "bytes": 519161,
+      "sha256": "d2b8eff9fde8af4b2a892c91161ad6a31410bedc9c6dc3c26aa90c72de2a42fc"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-006-response.json",
+      "bytes": 519590,
+      "sha256": "dc4f33cd4fc7b89673ecbb1f252dea3d038efe45e2624b8266e29ce69d3220a6"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-007-baseline.json",
+      "bytes": 597751,
+      "sha256": "a69e99081b1af269ab1c2058fcbfc26b7a12d1cd0eeb02a5f3254d74b87bf226"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-007-response.json",
+      "bytes": 598182,
+      "sha256": "fd21ad55e49f660c761071794b1d76394719cd120dcee22d6fc3751d8e3ce0dd"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-008-baseline.json",
+      "bytes": 473302,
+      "sha256": "a81483284c96bf36087d73c649fba966c85216a120ee606189525a68c5ffbb67"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-008-response.json",
+      "bytes": 473739,
+      "sha256": "5fe3b2c2bfb18aa6baa370ad172e13903de78a627bffbbe85828bfff745b5a7c"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-009-baseline.json",
+      "bytes": 759791,
+      "sha256": "717e13590023ee72dc271560342fe88dd3b917cefa42079135c887c81810c597"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-009-response.json",
+      "bytes": 760227,
+      "sha256": "390e7526970ae631b4d5f0e19a56cb8f5d0a7c479a86c9d558da4d8daaee1e46"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-010-baseline.json",
+      "bytes": 763973,
+      "sha256": "1cade2e2adb6518e8443e672166d96bb24533d79dc2e73a255dbbc93412629c8"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-010-response.json",
+      "bytes": 764410,
+      "sha256": "a674eeca3aa3ec5a9eccf6e241928bcd4aeedfd6e7922a2370200e08f18c402b"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-011-baseline.json",
+      "bytes": 402602,
+      "sha256": "ad33247a3ceeabd6df646f0b33a5feeda45eb5994c2a839ab008cca279d173ec"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-011-response.json",
+      "bytes": 403053,
+      "sha256": "19925ee302e55a0a29151a2881373d2b0ce5102f831bd47c107275194f62c48e"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-012-baseline.json",
+      "bytes": 257380,
+      "sha256": "d6b1528fdcd4939536305efa707a9bd1e507bd55fbdd708c6ea98614c4234db1"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-012-response.json",
+      "bytes": 257820,
+      "sha256": "8f1f06a8bef8c4b790de22fa7e597274fa3a30ce025aff26f612aab5390503e5"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-013-baseline.json",
+      "bytes": 757993,
+      "sha256": "ba603eb3c5cc201e10ba4fde538d287a44ef46211960dd01438fbae5bedb3d60"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-013-response.json",
+      "bytes": 758424,
+      "sha256": "4597f4daeaae8c1fb82463c2e38df23cbd7aabeb673f313c65236bb500c9fd62"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-014-baseline.json",
+      "bytes": 209195,
+      "sha256": "bc94efa7a81f7017888aab89db6b0ed84069bfe20557ec861422e8ea5e524288"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-014-response.json",
+      "bytes": 209632,
+      "sha256": "6c9212d7d7da5506927b244c6d0ffafd5549a6fad7881315327886624fed8bc5"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-015-baseline.json",
+      "bytes": 755184,
+      "sha256": "bd7464b485c1075e06137e2b2dc7cb6dda018256c43613d0b1c1fc3a4d540f38"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-015-response.json",
+      "bytes": 755628,
+      "sha256": "933411aae373d4d79e870ffeab6746f100b58b02bc8e3fe251a5e3978ac43644"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-016-baseline.json",
+      "bytes": 474577,
+      "sha256": "c2ac0112c35fd8c01f00ecc2f24f0c23c5fdb79ce81007c9272cb4352ea133b4"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-016-response.json",
+      "bytes": 475019,
+      "sha256": "f53b5f0a2d901acbdece673582d319bc293d4f211b0d29c85d292becafd97763"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-017-baseline.json",
+      "bytes": 236188,
+      "sha256": "2e08ca26e5255322a190c23b64e2c4cf30c5ece026d152467f46dff4b21a80f9"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-017-response.json",
+      "bytes": 245710,
+      "sha256": "34c49a30570e1a9280630bb75124fa5669102d54300cde0689b841e7fa54da89"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-018-baseline.json",
+      "bytes": 236665,
+      "sha256": "e33f3cd5ff8b36616206d45b1831028b772bdda33cf22b394bad29bdc0f7af5f"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-018-response.json",
+      "bytes": 237102,
+      "sha256": "c7cd48198072c6509fcf5b4d1ab621ffcbae735b5799c744c8cf5998b2a5808f"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-019-baseline.json",
+      "bytes": 754650,
+      "sha256": "fc63e6908afed91a8c488c944436a91433aadcb66e553c7dba160df2f7e33c68"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-019-response.json",
+      "bytes": 755079,
+      "sha256": "aaf95bc535429ec03876c2e05546ac37eb660adb76f130b9ddaf4c7eee0e5c75"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-020-baseline.json",
+      "bytes": 226057,
+      "sha256": "d1d6580a8d24b0c403d55bc3d85987a5afbf99641c4ec880c19f0fde1a48a523"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-020-response.json",
+      "bytes": 257210,
+      "sha256": "e85774186cfbf37da099c735b3f962063b16fe46e689ff00fb2af70ed36eb86c"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-021-baseline.json",
+      "bytes": 258396,
+      "sha256": "19b622570c73aa7e206af233a8f80f13f7cfad3b47cb7b825a66fb747c521543"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-021-response.json",
+      "bytes": 221917,
+      "sha256": "bb1b8bfe8cdc49678f3fd0ebafc4f0d02f5ee2e318cdd03ac3a2b51628220e8d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-022-baseline.json",
+      "bytes": 785358,
+      "sha256": "42fc39ad32b20e485372f8cfa362e18fe69bfb6f2f81887fabb98f1a4f46be35"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-022-response.json",
+      "bytes": 688664,
+      "sha256": "09b4e363fff83266138cdbeeb13b16322af4d62482e883b98ee8e7e7bcc91b61"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-023-baseline.json",
+      "bytes": 645548,
+      "sha256": "299fae741b6c479de613e34ad34e86573f3b83b3649cda1bc414538181d58e6c"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/case-023-response.json",
+      "bytes": 645980,
+      "sha256": "716a2b2e65a39067e92764ad2488ae8c6c8f4860307b6e88818962d74536a548"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/manifest.json",
+      "bytes": 22059,
+      "sha256": "b553e9d87e6de9cc8842d32e8f7eeccb7e20efe9858e0bb855eb4dbd31c33f48"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/report.txt",
+      "bytes": 8191,
+      "sha256": "7425dc9d3b650eb3d35c9b114b3909ca51eb9dc33a8c0dce9ba1c23362a314bf"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/audit_pressure_results.py",
+      "bytes": 3260,
+      "sha256": "67a5d9f6b2150a66f9f461890f8dc5ad1819f9df5f694d75f00cfea37b94fabb"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/expanded_planner.py",
+      "bytes": 10025,
+      "sha256": "9e989439ae97a73b71dee558d34a183606a49207f252cb0eaca696bc62aabe7d"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/learned_opponent.py",
+      "bytes": 3071,
+      "sha256": "402419573e69144a0025941aa76c61f122c0c6a94621a802ab065a6945bb459f"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/learned_stage4.py",
+      "bytes": 9978,
+      "sha256": "0f111be7da624cb435cb2026ac9ec9f6df95ac12107143587760e4d2f335e310"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/maneuver_core.py",
+      "bytes": 35005,
+      "sha256": "ca55ca7b5d6bb26e0f35419c9a9566bc84476eb3dd0c74f1fbc780b95cd3f10c"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/opponent_forecast.npz",
+      "bytes": 34377,
+      "sha256": "d36e5d4e4bcc2fa2ab548c0055f713de86a5557c2605781ef998f72136d54579"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/reactive_pressure_experiment.py",
+      "bytes": 6404,
+      "sha256": "90e1d4ef287c72e6c4d6b8d598f7f3827f2441fa3d6f98f76fa0fcc8ade35067"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/response_stage4.py",
+      "bytes": 12241,
+      "sha256": "d804400b963f46c4bf10e3b876690865bc8b3d4c268be9252e8fbb0971048344"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/run_experiment.py",
+      "bytes": 22791,
+      "sha256": "9817e7639e2a8abcc9aa479d011883d2a97deadf2e917ec8f677b4edf2aa20e0"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/source/world.py",
+      "bytes": 9726,
+      "sha256": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/summary.json",
+      "bytes": 650,
+      "sha256": "d8e87054df060e266835d906e5328caca5b20e55e4b90d506a507e3d8a423797"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_pressure_random_r2/yield_audit.json",
+      "bytes": 883,
+      "sha256": "b573a57f8deac6bd188429ecff842cc1813a95d52f40c99412987df911147430"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_reaction_v2/inference_timing.json",
+      "bytes": 245,
+      "sha256": "bf0c607c2a05ab232aa951633f754754ebef37b7f1ba8cb5e745b1e7f023d651"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_reaction_v2/model.npz",
+      "bytes": 34377,
+      "sha256": "d36e5d4e4bcc2fa2ab548c0055f713de86a5557c2605781ef998f72136d54579"
+    },
+    {
+      "path": "overtaking-models/artifacts/learned_reaction_v2/report.json",
+      "bytes": 36840,
+      "sha256": "58b4a01410e378742f6d553e2e5e4696a2752a26bb1fcbcdca086a0b3f4ee709"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage1.early.npz",
+      "bytes": 12336,
+      "sha256": "62c8f4f284de7e6afac8c660fda0d381174d13e3f2719b87601856fc17d282af"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage1.history.json",
+      "bytes": 27721,
+      "sha256": "be003da9a4413122d6871d24eb5e7e2b63c903ada0fed84a2d945770df2ae4da"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage1.mid.npz",
+      "bytes": 12393,
+      "sha256": "61f2f29d0950c461de61b299da6efb3c9bfcd8c4d362e202618afcd022a7a568"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage1.npz",
+      "bytes": 12424,
+      "sha256": "10090a5c41dcde0909f277d3eeeb63d63fc349ce2822f2b3a57e9c282ef00217"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage2.early.npz",
+      "bytes": 12060,
+      "sha256": "abe28e9c6409b2f17b3309071118563310649d43ea16ea15bb2d8d146a221695"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage2.history.json",
+      "bytes": 27838,
+      "sha256": "47662a88371ecf25c477e4df38850a026e1f011d00aec753347b9696b3618368"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage2.mid.npz",
+      "bytes": 12037,
+      "sha256": "8c1e34af1c6b5cc9a083520a1b84d67e464eb0a24d5664b81b10e1444c373aa3"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage2.npz",
+      "bytes": 13063,
+      "sha256": "98d2fdb270248134902453614fc96590c51bef1ee3e599fbfcde6fbea9c3b55c"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage2.value.npz",
+      "bytes": 13586,
+      "sha256": "5c86ad309edec703192f5243e2e7e2c5c964539470f05d2335db0bc9a60ce0ca"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage3.early.npz",
+      "bytes": 12284,
+      "sha256": "f573e70a43790ff85ca2f650614b6f5260442408c1a530fa5515ce813a493d22"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage3.history.json",
+      "bytes": 27852,
+      "sha256": "4dd43222f763528395f1c21f3f7b378b002ed58e98461e5ccfce72bc4cdf122a"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage3.mid.npz",
+      "bytes": 12287,
+      "sha256": "2781cab7af4a11379f953396089467be8f6aae0d45d43d7da3b8dbc53ae5f6cc"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage3.npz",
+      "bytes": 13617,
+      "sha256": "0576a92bc21e46c6225768a3d091d09358b26b36a41d9ff72257fbf27ed14bbf"
+    },
+    {
+      "path": "overtaking-models/artifacts/models/stage3.value.npz",
+      "bytes": 13758,
+      "sha256": "dff6e4dcc1ca88d065f0ae05bc9c24941378b130f40f472e54f97cf06193cd07"
+    },
+    {
+      "path": "overtaking-models/artifacts/reference_737143145ea6d7b9.npz",
+      "bytes": 5794,
+      "sha256": "6968bd8d433ff97ccf1f05ef46d3c0045163e3c9d590354917bf9356015d0b71"
+    },
+    {
+      "path": "overtaking-models/artifacts/reference_lap_time_v3_737143145ea6d7b9.npz",
+      "bytes": 6536,
+      "sha256": "6e7b2bc17eedef1eba379d1ad53edab2e53b305b441960998dab2f101e850050"
+    },
+    {
+      "path": "overtaking-models/audit_pressure_results.py",
+      "bytes": 3260,
+      "sha256": "67a5d9f6b2150a66f9f461890f8dc5ad1819f9df5f694d75f00cfea37b94fabb"
+    },
+    {
+      "path": "overtaking-models/benchmark.py",
+      "bytes": 10163,
+      "sha256": "6b910c873e7fad5e2e3d6eebee37c3f0d160bb649544d1d388c1f125199966c5"
+    },
+    {
+      "path": "overtaking-models/benchmark_expanded_planner.py",
+      "bytes": 1940,
+      "sha256": "33df764b7138e1902651ecfd381154543e8d611fae96f18d951c894b092748a8"
+    },
+    {
+      "path": "overtaking-models/benchmark_v3.py",
+      "bytes": 3463,
+      "sha256": "c246c0cf7a00ddd2ffec385a261bc0467c7fc07808afc485d87b4ca700f04cb3"
+    },
+    {
+      "path": "overtaking-models/bootstrap.py",
+      "bytes": 346,
+      "sha256": "acc76ebd8364fb041b0656ad323a7b0cc6fa80798d0d073d3ddc7fa63fd824a2"
+    },
+    {
+      "path": "overtaking-models/collect_reactive_branches.py",
+      "bytes": 6022,
+      "sha256": "713630ab80634e96214002265e63a944f2187d9de1e3f0d4cc36cf17ea248cba"
+    },
+    {
+      "path": "overtaking-models/evaluate.py",
+      "bytes": 7012,
+      "sha256": "81ef0d65c0a5e9a8e3acd011a8a7f8b26e43ff38545daaeaf2f59be3230d105e"
+    },
+    {
+      "path": "overtaking-models/evaluation_metrics.py",
+      "bytes": 4423,
+      "sha256": "cfdc8ea3a3e439324038af515c67aa57888d2cbd14c8e5f70b2d50d134b79661"
+    },
+    {
+      "path": "overtaking-models/expanded_planner.py",
+      "bytes": 10025,
+      "sha256": "9e989439ae97a73b71dee558d34a183606a49207f252cb0eaca696bc62aabe7d"
+    },
+    {
+      "path": "overtaking-models/export_revision.py",
+      "bytes": 1805,
+      "sha256": "4f965704d9dfb731fc736c7e210a089a00050aa42d8d6305e2c5af0ad9484d72"
+    },
+    {
+      "path": "overtaking-models/export_stage2.py",
+      "bytes": 6380,
+      "sha256": "50589a50bca3b1e70336fd1d0ab44097d03c8ced6a08445cdf491649a9ecf761"
+    },
+    {
+      "path": "overtaking-models/export_training_data.py",
+      "bytes": 9480,
+      "sha256": "5d6a39ea64643446e7a0820fd9c6bdef9a2e4e6e590f3fe532c2a194740dff1f"
+    },
+    {
+      "path": "overtaking-models/finetune_reactive_forecast.py",
+      "bytes": 3161,
+      "sha256": "0f3913cc3ce73fffdbc244ed356662e43b6d67d87c01e947f10a364789dda846"
+    },
+    {
+      "path": "overtaking-models/interactive_model.py",
+      "bytes": 335,
+      "sha256": "4f787b7785b08a690d5698adcd4c5beb11a581c9d3c325a7b0a3d64f7995e656"
+    },
+    {
+      "path": "overtaking-models/learned_opponent.py",
+      "bytes": 3071,
+      "sha256": "402419573e69144a0025941aa76c61f122c0c6a94621a802ab065a6945bb459f"
+    },
+    {
+      "path": "overtaking-models/learned_stage4.py",
+      "bytes": 9978,
+      "sha256": "0f111be7da624cb435cb2026ac9ec9f6df95ac12107143587760e4d2f335e310"
+    },
+    {
+      "path": "overtaking-models/llm_teacher.py",
+      "bytes": 14193,
+      "sha256": "fe84c03bd7b54764e76edd5bd01617b6fc8b261cd725b2b0111a397c1e25f1c3"
+    },
+    {
+      "path": "overtaking-models/make_demos.py",
+      "bytes": 2459,
+      "sha256": "df28dc607b5cb30a5abc2cfefdb71da20fd1851f086cdf6c6252c4837829c95f"
+    },
+    {
+      "path": "overtaking-models/maneuver_core.py",
+      "bytes": 35005,
+      "sha256": "ca55ca7b5d6bb26e0f35419c9a9566bc84476eb3dd0c74f1fbc780b95cd3f10c"
+    },
+    {
+      "path": "overtaking-models/moving_model.py",
+      "bytes": 262,
+      "sha256": "2ae56bdeec2ff1833b9d2e6f4b978f373620e592f123d7742185b3f27b4e20e4"
+    },
+    {
+      "path": "overtaking-models/native_f1tenth.py",
+      "bytes": 4185,
+      "sha256": "1ba7f2d03f23a97a7003378f8e232a0fc085a9c0f5e099ae9685085abe99b7ad"
+    },
+    {
+      "path": "overtaking-models/opponent_audit.py",
+      "bytes": 7017,
+      "sha256": "785c0caad3ebe1ce4580a90385f95289cb396b7661ec5a223eed5cc14ad8ee58"
+    },
+    {
+      "path": "overtaking-models/perception.py",
+      "bytes": 14808,
+      "sha256": "a638d6263f532aa23dca6b3edd3401ae6867873c13dc644bff906d22c50695d8"
+    },
+    {
+      "path": "overtaking-models/planner_experiment.py",
+      "bytes": 6115,
+      "sha256": "98eb4838c7b34e63e077e231e918f30de8766386ecbf5bf29f64f691b702e14e"
+    },
+    {
+      "path": "overtaking-models/probe_reactive_yield.py",
+      "bytes": 1358,
+      "sha256": "0b965cfebe62718de78886db840d50187621222bed021207753027393dbd4f39"
+    },
+    {
+      "path": "overtaking-models/reactive_pressure_experiment.py",
+      "bytes": 6404,
+      "sha256": "90e1d4ef287c72e6c4d6b8d598f7f3827f2441fa3d6f98f76fa0fcc8ade35067"
+    },
+    {
+      "path": "overtaking-models/render_preview.py",
+      "bytes": 10523,
+      "sha256": "9b383cac3336fe8a4777cf48d8f1cd1eca2c63b5915c5050ed06eb1539f5973a"
+    },
+    {
+      "path": "overtaking-models/replay.py",
+      "bytes": 32871,
+      "sha256": "cfd8a2bbc64bb540108f9e10d8b0943c16a5477fca6e538a2bc6e4c58355fbd2"
+    },
+    {
+      "path": "overtaking-models/report_results.py",
+      "bytes": 14431,
+      "sha256": "0c9198149ebf6110bc3a63e14b624b4699b03c000cfb94e691785617cfa90f48"
+    },
+    {
+      "path": "overtaking-models/response_counterfactual.py",
+      "bytes": 2266,
+      "sha256": "1102fe962b2bf9a78bd0d150492b854cdd665e7b2191c87d44ab2d767d722c7c"
+    },
+    {
+      "path": "overtaking-models/response_experiment.py",
+      "bytes": 8288,
+      "sha256": "0ea0389c4aef570ab2a03f16638af4edfa15b9427f0237bb4cd74ac35689613e"
+    },
+    {
+      "path": "overtaking-models/response_stage4.py",
+      "bytes": 12241,
+      "sha256": "d804400b963f46c4bf10e3b876690865bc8b3d4c268be9252e8fbb0971048344"
+    },
+    {
+      "path": "overtaking-models/review_rollouts_llm.py",
+      "bytes": 15050,
+      "sha256": "26bbd982f939735d1aef93c7025f6e4c74d5bc5bfa4a359a559f5f1f08d18883"
+    },
+    {
+      "path": "overtaking-models/rollout_training.py",
+      "bytes": 36006,
+      "sha256": "6c16c5cc3910d8f684afc5031cab36a5637cf87b1af60283bfa28c8c17a38506"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/README.txt",
+      "bytes": 7146,
+      "sha256": "11a9471dadde7655be5885c141468981b5f172cd5ff13d55e01a4b632014dfbd"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/gym_source.py",
+      "bytes": 9979,
+      "sha256": "61cc4cb32b0a2f3ab6d139af5dbba23676091888994a19c128e6ca05b28f6474"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/launch.py",
+      "bytes": 3081,
+      "sha256": "f54f16d81fff5f19e6149bfe4ef284de5558c5d894eb98e3ab7fa99ea6b86b03"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/pixi.lock",
+      "bytes": 214354,
+      "sha256": "15ef5580b9b30957127018e24c694a02bce68d090397ef3468e37aafb65995fb"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/pixi.toml",
+      "bytes": 499,
+      "sha256": "d0974f4cab8b1f126a8bae660a8a4c197e497f25d1c448c40f8b4e04e2815e88"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/planner.rviz",
+      "bytes": 4886,
+      "sha256": "1f7d22614c14a5ded924c69cc12f3998946345919176ecb77ad1a6bef0a4ef7e"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/ros_display.py",
+      "bytes": 12213,
+      "sha256": "cc68cd4f0c4b95b134de604b7d3df4cee91da139ef3899fde17b9ba46aca248b"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/test_capture.py",
+      "bytes": 1949,
+      "sha256": "39ea011666d130adc6023808c7379bf797c9f22c87efa9f10068cc6c62f8a89e"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/validate_learned_ros.py",
+      "bytes": 1791,
+      "sha256": "f25929af5e57ccbea66a0f52130be880b24d86cd58a755c3534fa0db5e384277"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/validate_response_ros.py",
+      "bytes": 1602,
+      "sha256": "98f8c3e78bcf045cc44fb28f5bd86bd3f3081ca375575088dd6d29a2b372b9af"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/validate_ros.py",
+      "bytes": 2588,
+      "sha256": "1a45c2d90cf3fe86d2a72107838dcaf7bb80b67ad2532c99c0fbe38f1fb1cc79"
+    },
+    {
+      "path": "overtaking-models/run_experiment.py",
+      "bytes": 22791,
+      "sha256": "9817e7639e2a8abcc9aa479d011883d2a97deadf2e917ec8f677b4edf2aa20e0"
+    },
+    {
+      "path": "overtaking-models/stage2_predecessor.py",
+      "bytes": 20673,
+      "sha256": "cf58d14eb1b2b70e8e8a33882ad37691a0aec8ce17b9e89f6f1a958155f63a9c"
+    },
+    {
+      "path": "overtaking-models/stage4_experiment.py",
+      "bytes": 14691,
+      "sha256": "dc3bf7fca0028aca553d8ab56d8354de8b60101cdce843271b2d978f22090e7e"
+    },
+    {
+      "path": "overtaking-models/static_model.py",
+      "bytes": 263,
+      "sha256": "025a0bb4b9c4af86c0f4c746ea8fc9798c370a33d42794fc9d3fb5a5a9b57ce2"
+    },
+    {
+      "path": "overtaking-models/test_close_lidar.py",
+      "bytes": 2376,
+      "sha256": "35a414ba386ffc6b8aebe7bdd94717f87b09d32c163cc5b1ff4dd3ad5d585094"
+    },
+    {
+      "path": "overtaking-models/test_controller.py",
+      "bytes": 12590,
+      "sha256": "cab1806d33d8baa087bcfd37a4361abae300759b5d1a5e528e3c0d29f8af641d"
+    },
+    {
+      "path": "overtaking-models/test_episode_v3.py",
+      "bytes": 2891,
+      "sha256": "a780d75c5de3967de29e7d4d29d759b2830eca7933101b038d3cef831fcfd69b"
+    },
+    {
+      "path": "overtaking-models/test_evaluate.py",
+      "bytes": 3022,
+      "sha256": "20b266a8851e61a1d9241b90ab0104ce93d79f90eeb5d049152d8dc557c54cae"
+    },
+    {
+      "path": "overtaking-models/test_expanded_planner.py",
+      "bytes": 3725,
+      "sha256": "b1bfc0470fb55d5e7f1163c40bc46a350fd6677941d7f041bac78f141fed5690"
+    },
+    {
+      "path": "overtaking-models/test_geometry.py",
+      "bytes": 5073,
+      "sha256": "a70bdf4feadf2e9f681b827dcff835fb442b933da06870e0189e2ffb64330928"
+    },
+    {
+      "path": "overtaking-models/test_learned_opponent.py",
+      "bytes": 2601,
+      "sha256": "64aa96a589169589c549ef36ab59f5eb91de865ca8cb014820143f36dd1fdbec"
+    },
+    {
+      "path": "overtaking-models/test_learning.py",
+      "bytes": 10738,
+      "sha256": "a3e5996ad1717bb9ec2ea1eb22189b41140dc1ac7ed9f7e27a376ddeb58b1889"
+    },
+    {
+      "path": "overtaking-models/test_maneuver_v3.py",
+      "bytes": 5966,
+      "sha256": "c72ea5d49d2a1afe8b9bda9974b182053912e55bb4504913cdcf69afaadc5807"
+    },
+    {
+      "path": "overtaking-models/test_padding_recovery_v3.py",
+      "bytes": 6231,
+      "sha256": "e90e76cefd0750faeaf6746c1991aaad4ec9368669fa218152424689cd2004d4"
+    },
+    {
+      "path": "overtaking-models/test_pass_completion_v3.py",
+      "bytes": 4775,
+      "sha256": "fd39887f4038532b14a270faed7b605b751e736da4b7b1978f1f094872718b38"
+    },
+    {
+      "path": "overtaking-models/test_perception_startup.py",
+      "bytes": 3393,
+      "sha256": "6b3e9c11be421f011e2cd73533be7a9cf8285032504517929bf5cb3109f5b240"
+    },
+    {
+      "path": "overtaking-models/test_rear_lidar_v3.py",
+      "bytes": 4096,
+      "sha256": "e4cfc45484abd5d93286758906ebf4745a08d04f5a40ee88458091f19469311e"
+    },
+    {
+      "path": "overtaking-models/test_reference_v3.py",
+      "bytes": 2399,
+      "sha256": "20d1c83ba47b4f557907e7354c9a5e5e1e627ae04ef8f8ac6f5c9e2d86db4931"
+    },
+    {
+      "path": "overtaking-models/test_report_results.py",
+      "bytes": 1932,
+      "sha256": "a6aa8d57863f3c6fbeaffd51a94084cca2b6e039e7151e86b0c2ee0517dd1197"
+    },
+    {
+      "path": "overtaking-models/test_response_stage4.py",
+      "bytes": 3135,
+      "sha256": "2546280b6c411d0c45dc5b19ad8a1f3ccd38161b31eac43f5f4be60011009c85"
+    },
+    {
+      "path": "overtaking-models/test_review_rollouts_llm.py",
+      "bytes": 7851,
+      "sha256": "0b6d1aca1fad9a8a94fae07594e538a573b3e09b5ba163e01b45726cea74c24b"
+    },
+    {
+      "path": "overtaking-models/test_rollout_training.py",
+      "bytes": 13722,
+      "sha256": "9f04b858762a6db89993f720f0dc5c23edd01cb26276c314d3169ffb0ed07a3f"
+    },
+    {
+      "path": "overtaking-models/test_round_metrics.py",
+      "bytes": 6539,
+      "sha256": "385f7d978775ae81d39ee01bafe2747ba2cc71d3cb08138cfb654925060b77a4"
+    },
+    {
+      "path": "overtaking-models/test_stage2_predecessor.py",
+      "bytes": 5025,
+      "sha256": "49bb825f824c592623126aee7f825fda63ad662fb1ef05b470e6a0bead944653"
+    },
+    {
+      "path": "overtaking-models/test_stage3_warmup.py",
+      "bytes": 3179,
+      "sha256": "40cab66396601618102e749bb09f85f29bce0f806f119f329aa5e56fa0226bc2"
+    },
+    {
+      "path": "overtaking-models/test_training.py",
+      "bytes": 3710,
+      "sha256": "11d11b37f7874f447f59c6b69670f07b109dee79ae5212024c16cfc86e3d742d"
+    },
+    {
+      "path": "overtaking-models/test_v3_baseline_report.py",
+      "bytes": 8166,
+      "sha256": "9c9280a09ee38e367d592a50c64e6c9b74882484806226844b0c2142962485c7"
+    },
+    {
+      "path": "overtaking-models/test_v3_report_provenance.py",
+      "bytes": 13846,
+      "sha256": "03587e112a5c23bc949cd1b45fa6b8f4e1155244c6df06b37d6171eb65639b30"
+    },
+    {
+      "path": "overtaking-models/test_world.py",
+      "bytes": 4648,
+      "sha256": "8a992847ccdc5b170ef48104f578645a8ede55a375b21202fd3ce8f4b85beb71"
+    },
+    {
+      "path": "overtaking-models/tiny_network.py",
+      "bytes": 13660,
+      "sha256": "ec8004d4ae78c96484ce6f525881bb7cf6bbef0f75604afd736fe7564ddb7659"
+    },
+    {
+      "path": "overtaking-models/track_geometry.py",
+      "bytes": 17836,
+      "sha256": "58ed9e3fb2e8bc800f5ddd0bdaa017c2d82bd6306133c134721c3026de6370f5"
+    },
+    {
+      "path": "overtaking-models/train_models.py",
+      "bytes": 30314,
+      "sha256": "40d51e943284664c1c1bcde12d5b7f63f24453b2f1900dfa731420a6fe07b226"
+    },
+    {
+      "path": "overtaking-models/train_opponent_forecast.py",
+      "bytes": 5726,
+      "sha256": "8ec7d0c9a73b0048c710dff8996680466842d3467f83da4b7cb42a33ecda54f3"
+    },
+    {
+      "path": "overtaking-models/train_rollout_round.py",
+      "bytes": 17781,
+      "sha256": "4bea0e5235bb524eaf0e9a6672f75d2268c5c4ff241ab1ab947d0eb6cc34a9a6"
+    },
+    {
+      "path": "overtaking-models/v3_report.py",
+      "bytes": 71275,
+      "sha256": "577fbd3e71fe4125f51e4df2e00265cdcc7f5ac965aeb70b94f9dc7c19fb8303"
+    },
+    {
+      "path": "overtaking-models/watch_round.py",
+      "bytes": 2833,
+      "sha256": "0af2452f2a7b63e890d047244ff306721479a0d79d00cd10e82fbcefdb8cb108"
+    },
+    {
+      "path": "overtaking-models/world.py",
+      "bytes": 9726,
+      "sha256": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5"
+    },
+    {
+      "path": "overtaking-models/write_pressure_report.py",
+      "bytes": 9088,
+      "sha256": "eb867882bfbb68e4f673d5f74a0caf80d16956e5bceeb3a2e2af086c80c598d6"
+    },
+    {
+      "path": "requirements-runtime.txt",
+      "bytes": 231,
+      "sha256": "1c821a74c1e52b60a4dfa165b38f0c9876890af64ecaaf01874a0f821803c8b0"
+    },
+    {
+      "path": "run-demo.sh",
+      "bytes": 298,
+      "sha256": "09c4781834c9f98bfd7688a6dd1486778598a4ec1b40a6819b5534476f33e5cd"
+    },
+    {
+      "path": "setup.sh",
+      "bytes": 791,
+      "sha256": "b161a8be6a50d4dd09c8cfecf50045f64bcebc93f8513708f6731d388766d146"
+    },
+    {
+      "path": "verify_package.py",
+      "bytes": 1125,
+      "sha256": "f2c8165353cfebf421e676e3fdcadab386df45bc279c5d8ae8ab9ab07bb2cd4b"
+    }
+  ],
+  "notes": "Manifest excludes itself, installed environments and runtime output. Complete data asset is pinned separately in DATA_RELEASE.json."
+}

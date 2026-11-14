@@ -1,0 +1,9 @@
+{
+  "batch_rows": 31,
+  "iterations": 1000,
+  "median_ms": 0.079042,
+  "p95_ms": 0.09658510000000001,
+  "p99_ms": 0.12477041999999998,
+  "api_calls": 0,
+  "scope": "network only; excludes perception, candidate generation, geometry and control"
+}

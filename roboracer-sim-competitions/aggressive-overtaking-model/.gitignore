@@ -1,0 +1,10 @@
+.venv/
+.pixi/
+__pycache__/
+*.pyc
+*.nbc
+*.nbi
+.env
+.DS_Store
+overtaking-models/ros_visualization/live/
+*.zip

@@ -1,0 +1,9 @@
+{
+  "import_version": 1,
+  "source_sha256": {
+    "maps/autodrive-default/map.yaml": "bb494054ae6174c162cb04ba0812ff229afa63619f50be0aef0fabdf2758dbc4",
+    "maps/autodrive-default/map.pgm": "7374dedefc474698d6aaf76831fccd112bbee59b51d8fbf90813a71ac8eedf76",
+    "racelines/autodrive-default-line/waypoints.csv": "2d72f04cdee06e98439d5d2ee6c815030df65ecb8c958c32dd80af3dfb364b53"
+  },
+  "center_mode": "reference"
+}

@@ -1,0 +1,9 @@
+{
+  "import_version": 1,
+  "source_sha256": {
+    "maps/track-20260731/map.yaml": "73cdb278147e7fc0faae45f4cad2497b147bc5b5478ca0d69e4fa11a8646cdcf",
+    "maps/track-20260731/map.pgm": "a72dfb14fbefb02f909783400b631186df67512cad038bf180ba529a3069b169",
+    "racelines/track-20260731-line/waypoints.csv": "d8bd26d8b9d7f48c8c34d8bc74af0dfaa07767f109996ebaac629f251220b35d"
+  },
+  "center_mode": "midpoint"
+}

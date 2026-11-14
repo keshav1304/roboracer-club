@@ -1,0 +1,2 @@
+# Optional dependency for importing geometry from a local AutoDRIVE Unity app.
+UnityPy==1.25.4

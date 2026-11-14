@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-13",
+  "fresh_gym_environment": true,
+  "original_unity_application_required": false,
+  "frozen_demo_source_hashes_verified": true,
+  "reference_digest_verified": true,
+  "unit_tests_passed": 10,
+  "demo_replay": [
+    {
+      "scene": "case-016-response",
+      "outcome": "pass",
+      "passed_at": 15.92,
+      "collision": null
+    },
+    {
+      "scene": "case-021-response",
+      "outcome": "pass",
+      "passed_at": 8.89,
+      "collision": null
+    }
+  ],
+  "ros_validation": "RViz configuration retained from verified live demo. New launch code resolves Pixi on PATH; a fresh ROS install was not performed in this packaging check.",
+  "archive_crc_verified": true,
+  "secret_scan": "Known credential patterns checked in included files and NPZ/ZIP members; private environment and billing/key-check files excluded."
+}

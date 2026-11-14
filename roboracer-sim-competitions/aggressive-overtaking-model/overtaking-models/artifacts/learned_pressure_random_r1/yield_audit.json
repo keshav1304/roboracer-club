@@ -1,0 +1,29 @@
+{
+  "definition": "Opponent avoids away from ego, target observed, opposite line offset >0.12m for >=0.25s, within 2m, ego relative progress between -0.9m and +0.8m.",
+  "summary": {
+    "baseline": {
+      "trials": 24,
+      "passes": 15,
+      "contacts": 1,
+      "lateral_yields": 0,
+      "lateral_yield_passes": 0,
+      "learned_selected_decisions": 15,
+      "median_pass_time_s": 21.95,
+      "forecast_samples": 45,
+      "forecast_rmse_m": 0.5199122133232479,
+      "constant_motion_rmse_m": 0.13730666216100912
+    },
+    "response": {
+      "trials": 24,
+      "passes": 14,
+      "contacts": 0,
+      "lateral_yields": 0,
+      "lateral_yield_passes": 0,
+      "learned_selected_decisions": 33,
+      "median_pass_time_s": 22.42,
+      "forecast_samples": 99,
+      "forecast_rmse_m": 0.7467609084372704,
+      "constant_motion_rmse_m": 0.786305912715215
+    }
+  }
+}

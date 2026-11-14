@@ -1,0 +1,18 @@
+{
+  "source_experiment": "artifacts/learned_pressure_random_r1",
+  "examples": [
+    {
+      "case": "case-016-response",
+      "passed_at": 15.92,
+      "baseline_outcome": "collision",
+      "lateral_yield": false
+    },
+    {
+      "case": "case-021-response",
+      "passed_at": 8.89,
+      "baseline_outcome": "pass",
+      "lateral_yield": false
+    }
+  ],
+  "note": "Successful representative trials; not evidence of consistent forced yielding."
+}

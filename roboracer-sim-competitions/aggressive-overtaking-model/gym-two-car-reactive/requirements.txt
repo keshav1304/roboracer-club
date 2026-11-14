@@ -1,0 +1,5 @@
+# OpenCV 5 bundles SDL on macOS, conflicting with pygame's SDL.
+opencv-python-headless==4.11.0.86
+matplotlib>=3.7
+shapely>=2.0
+PyYAML>=5.3
