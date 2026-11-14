@@ -1,0 +1,214 @@
+{
+  "controller": "HybridCorridorStage4",
+  "baseline": "CorridorStage4",
+  "jobs": [
+    {
+      "id": "fixed-case-014-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 89111414,
+        "s": 35.47875845933572,
+        "gap": 0.8779220129792386,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "fixed-case-014-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 89111414,
+        "s": 35.47875845933572,
+        "gap": 0.8779220129792386,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.2,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "fixed-case-007-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 89111407,
+        "s": 18.419258348628162,
+        "gap": 1.1188914022008862,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "fixed-case-007-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 89111407,
+        "s": 18.419258348628162,
+        "gap": 1.1188914022008862,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "random-case-001-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 98111401,
+        "s": 3.437392439491058,
+        "gap": 0.9116201594208685,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "random-case-001-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 98111401,
+        "s": 3.437392439491058,
+        "gap": 0.9116201594208685,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "random-case-008-response",
+      "policy": "response",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 98111408,
+        "s": 21.16085070871966,
+        "gap": 1.3530060018243752,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    },
+    {
+      "id": "random-case-008-baseline",
+      "policy": "baseline",
+      "mode": "reactive",
+      "scenario": {
+        "stage": 3,
+        "seed": 98111408,
+        "s": 21.16085070871966,
+        "gap": 1.3530060018243752,
+        "lateral": 0.0,
+        "ego_speed": 2.4,
+        "opponent_speed": 2.1,
+        "seconds": 40.0,
+        "blocked": false,
+        "opponent": "reactive",
+        "warmup_seconds": 0.4
+      }
+    }
+  ],
+  "source_sha256": {
+    "world.py": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5",
+    "maneuver_core.py": "ca55ca7b5d6bb26e0f35419c9a9566bc84476eb3dd0c74f1fbc780b95cd3f10c",
+    "response_stage4.py": "d804400b963f46c4bf10e3b876690865bc8b3d4c268be9252e8fbb0971048344",
+    "test_robust_corridor_stage4.py": "208fd8e618086ae465aec5f72be300cae9d7feff6c9a4288a16d5917c923f58a",
+    "hybrid_corridor_stage4.py": "2c9dcc8db3fc7b3c3060caa58d1a613d5322250b69c391456a456a1ccad116ea",
+    "interaction_stage4.py": "63f85e61a4a060960763cfba78bc4ab7c8e89133e9bbad99092f6bd00808c998",
+    "expanded_planner.py": "9e989439ae97a73b71dee558d34a183606a49207f252cb0eaca696bc62aabe7d",
+    "track_geometry.py": "58ed9e3fb2e8bc800f5ddd0bdaa017c2d82bd6306133c134721c3026de6370f5",
+    "recovery_corridor_experiment.py": "a9a05e1a41924c68ddc1ac7eda4886c340ede676c680b5c9c8684c182688324e",
+    "corridor_experiment.py": "d7c3f12f7af1e4e91ed0590dbb775f33891f5d0dcc90d91c76ce62c0e2f4705d",
+    "hybrid_corridor_experiment.py": "e9a271cb1c1978feeced93fc09e66a1ce55eadd1478a0c2cdcb49a9df664d5e7",
+    "test_corridor_stage4.py": "f10985279f52d9e76e8bad242bdd2bfb6d6626489450f42e08fecca57f312ce2",
+    "joint_path_stage4.py": "77f50bfba8b8362591256d6a0738d2801cf5f95c9b50277b22f5c5c8ec1fa189",
+    "recovery_corridor_stage4.py": "0736ddc30096ea4b5af685e3d5ca7cdbfb35bcc5774bb3a45f745e6df8384aa3",
+    "robust_corridor_experiment.py": "79b4a5b164f1e93ffad59b9139197e2d5451c68057f2be97360ae56191960c4d",
+    "robust_corridor_stage4.py": "2b284c28c73b5ba2cf45985dc7adbf57d5260464280e8c781453a999d49c47ca",
+    "stage2.value.npz": "5c86ad309edec703192f5243e2e7e2c5c964539470f05d2335db0bc9a60ce0ca",
+    "baseline_learned_stage4.py": "c0ae30e89d2f06a9e716e840f7a280e9e2a8c1136d9370f2e142ad75c3b84316",
+    "learned_opponent.py": "402419573e69144a0025941aa76c61f122c0c6a94621a802ab065a6945bb459f",
+    "interaction_experiment.py": "36b6f3dca984ac9cbe4ed25532e592d4d78496101f0192de103c841022dc1b48",
+    "perception.py": "a638d6263f532aa23dca6b3edd3401ae6867873c13dc644bff906d22c50695d8",
+    "run_experiment.py": "9817e7639e2a8abcc9aa479d011883d2a97deadf2e917ec8f677b4edf2aa20e0",
+    "corridor_stage4.py": "dce05f65b50beadb4f3bf124d127bf097a9a1231a2db8c3810b6d3a85033044e",
+    "test_interaction_stage4.py": "a964ae2d40ec87d40d27fac47f99dc92eeb11c3e61a8a79f08587b24b0af1d87",
+    "stage3.value.npz": "dff6e4dcc1ca88d065f0ae05bc9c24941378b130f40f472e54f97cf06193cd07",
+    "stage2.npz": "98d2fdb270248134902453614fc96590c51bef1ee3e599fbfcde6fbea9c3b55c",
+    "opponent_forecast.npz": "d36e5d4e4bcc2fa2ab548c0055f713de86a5557c2605781ef998f72136d54579",
+    "stage3.npz": "0576a92bc21e46c6225768a3d091d09358b26b36a41d9ff72257fbf27ed14bbf"
+  },
+  "api_calls": 0,
+  "all_opponents_reactive": true,
+  "purpose": "Selected successes recomputed live in Gym",
+  "baseline_reuse": null,
+  "demonstrations": [
+    {
+      "scene": "fixed-case-014-response",
+      "dataset": "fixed",
+      "pass_seconds": 18.439999999999998,
+      "baseline_outcome": "collision",
+      "source": "source://overtaking-models/artifacts/hybrid_corridor_dev_r1/case-014-response.json"
+    },
+    {
+      "scene": "fixed-case-007-response",
+      "dataset": "fixed",
+      "pass_seconds": 10.530000000000001,
+      "baseline_outcome": "no_pass",
+      "source": "source://overtaking-models/artifacts/hybrid_corridor_dev_r1/case-007-response.json"
+    },
+    {
+      "scene": "random-case-001-response",
+      "dataset": "random",
+      "pass_seconds": 8.15,
+      "baseline_outcome": "no_pass",
+      "source": "source://overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-001-response.json"
+    },
+    {
+      "scene": "random-case-008-response",
+      "dataset": "random",
+      "pass_seconds": 8.34,
+      "baseline_outcome": "no_pass",
+      "source": "source://overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-008-response.json"
+    }
+  ]
+}

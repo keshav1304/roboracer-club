@@ -1,0 +1,528 @@
+{
+  "summary": {
+    "baseline": {
+      "trials": 17,
+      "passes": 11,
+      "contacts": 1,
+      "timeouts": 5,
+      "median_success_seconds": 23.119999999999997,
+      "median_trial_controller_median_ms": 66.7536455,
+      "median_trial_controller_p95_ms": 250.68054564999997
+    },
+    "response": {
+      "trials": 17,
+      "passes": 15,
+      "contacts": 0,
+      "timeouts": 2,
+      "median_success_seconds": 21.79,
+      "median_trial_controller_median_ms": 34.817667,
+      "median_trial_controller_p95_ms": 201.05746029999997
+    }
+  },
+  "paired": [
+    {
+      "case": "000",
+      "seed": 89111400,
+      "s": 2.024522782656826,
+      "baseline": {
+        "outcome": "no_pass",
+        "passed_at": null,
+        "collision": null,
+        "controller_latency": {
+          "count": 792,
+          "median_ms": 87.356,
+          "p95_ms": 135.99812949999998,
+          "p99_ms": 247.55092006000024,
+          "max_ms": 325.731417
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 7.23,
+        "collision": null,
+        "controller_latency": {
+          "count": 177,
+          "median_ms": 30.644833,
+          "p95_ms": 356.47699999999975,
+          "p99_ms": 467.5912500800002,
+          "max_ms": 525.775
+        }
+      }
+    },
+    {
+      "case": "007",
+      "seed": 89111407,
+      "s": 18.419258348628162,
+      "baseline": {
+        "outcome": "no_pass",
+        "passed_at": null,
+        "collision": null,
+        "controller_latency": {
+          "count": 792,
+          "median_ms": 160.7066455,
+          "p95_ms": 211.41291875,
+          "p99_ms": 247.09393572000076,
+          "max_ms": 1125.35425
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 10.530000000000001,
+        "collision": null,
+        "controller_latency": {
+          "count": 243,
+          "median_ms": 36.071416,
+          "p95_ms": 248.60460809999995,
+          "p99_ms": 332.28769513999987,
+          "max_ms": 416.616375
+        }
+      }
+    },
+    {
+      "case": "014",
+      "seed": 89111414,
+      "s": 35.47875845933572,
+      "baseline": {
+        "outcome": "collision",
+        "passed_at": null,
+        "collision": {
+          "agent": 0,
+          "time": 16.99,
+          "type": "body_contact"
+        },
+        "controller_latency": {
+          "count": 332,
+          "median_ms": 88.50375,
+          "p95_ms": 301.05589389999994,
+          "p99_ms": 366.04463648,
+          "max_ms": 391.804083
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 18.439999999999998,
+        "collision": null,
+        "controller_latency": {
+          "count": 401,
+          "median_ms": 48.702334,
+          "p95_ms": 333.30425,
+          "p99_ms": 395.716916,
+          "max_ms": 535.746708
+        }
+      }
+    },
+    {
+      "case": "017",
+      "seed": 89111417,
+      "s": 43.216166003785865,
+      "baseline": {
+        "outcome": "no_pass",
+        "passed_at": null,
+        "collision": null,
+        "controller_latency": {
+          "count": 792,
+          "median_ms": 57.024917,
+          "p95_ms": 250.68054564999997,
+          "p99_ms": 332.2908318400002,
+          "max_ms": 428.393792
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 38.75,
+        "collision": null,
+        "controller_latency": {
+          "count": 808,
+          "median_ms": 38.671437499999996,
+          "p95_ms": 290.38315174999997,
+          "p99_ms": 365.05420736999963,
+          "max_ms": 503.425209
+        }
+      }
+    },
+    {
+      "case": "101",
+      "seed": 54111401,
+      "s": 8.539419597488079,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 29.82,
+        "collision": null,
+        "controller_latency": {
+          "count": 629,
+          "median_ms": 33.055375,
+          "p95_ms": 105.34757460000002,
+          "p99_ms": 148.60348224,
+          "max_ms": 210.135583
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 29.82,
+        "collision": null,
+        "controller_latency": {
+          "count": 629,
+          "median_ms": 35.474625,
+          "p95_ms": 129.02389140000002,
+          "p99_ms": 222.1667987200007,
+          "max_ms": 353.861208
+        }
+      }
+    },
+    {
+      "case": "104",
+      "seed": 54111404,
+      "s": 22.44091696389869,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 25.869999999999997,
+        "collision": null,
+        "controller_latency": {
+          "count": 550,
+          "median_ms": 33.414771,
+          "p95_ms": 106.5339269,
+          "p99_ms": 156.61766840999996,
+          "max_ms": 207.612084
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 26.07,
+        "collision": null,
+        "controller_latency": {
+          "count": 554,
+          "median_ms": 35.0008335,
+          "p95_ms": 133.84080845,
+          "p99_ms": 224.9530762700002,
+          "max_ms": 344.722083
+        }
+      }
+    },
+    {
+      "case": "105",
+      "seed": 54111405,
+      "s": 27.23194818998421,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 20.32,
+        "collision": null,
+        "controller_latency": {
+          "count": 439,
+          "median_ms": 31.657709,
+          "p95_ms": 121.23093389999994,
+          "p99_ms": 150.94782904000002,
+          "max_ms": 167.095
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 20.32,
+        "collision": null,
+        "controller_latency": {
+          "count": 439,
+          "median_ms": 34.817667,
+          "p95_ms": 133.70482079999996,
+          "p99_ms": 244.7659125800001,
+          "max_ms": 273.708958
+        }
+      }
+    },
+    {
+      "case": "107",
+      "seed": 54111407,
+      "s": 37.629477290920995,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 4.5200000000000005,
+        "collision": null,
+        "controller_latency": {
+          "count": 123,
+          "median_ms": 6.074541,
+          "p95_ms": 107.1191916,
+          "p99_ms": 237.70015075999999,
+          "max_ms": 237.955959
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 4.5200000000000005,
+        "collision": null,
+        "controller_latency": {
+          "count": 123,
+          "median_ms": 10.854834,
+          "p95_ms": 162.63902939999994,
+          "p99_ms": 364.73493076,
+          "max_ms": 375.062041
+        }
+      }
+    },
+    {
+      "case": "205",
+      "seed": 92111405,
+      "s": 9.610299607210484,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 28.599999999999998,
+        "collision": null,
+        "controller_latency": {
+          "count": 605,
+          "median_ms": 47.397084,
+          "p95_ms": 203.92722539999986,
+          "p99_ms": 282.3437477200003,
+          "max_ms": 496.721584
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 28.599999999999998,
+        "collision": null,
+        "controller_latency": {
+          "count": 605,
+          "median_ms": 34.283166,
+          "p95_ms": 110.57046679999999,
+          "p99_ms": 178.2476803200001,
+          "max_ms": 279.620666
+        }
+      }
+    },
+    {
+      "case": "208",
+      "seed": 92111408,
+      "s": 16.155698427238548,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 25.77,
+        "collision": null,
+        "controller_latency": {
+          "count": 548,
+          "median_ms": 68.50806299999999,
+          "p95_ms": 283.26660625,
+          "p99_ms": 378.76193422999967,
+          "max_ms": 556.345958
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 25.77,
+        "collision": null,
+        "controller_latency": {
+          "count": 548,
+          "median_ms": 40.25895800000001,
+          "p95_ms": 266.50131249999987,
+          "p99_ms": 305.47253276,
+          "max_ms": 339.093958
+        }
+      }
+    },
+    {
+      "case": "212",
+      "seed": 92111412,
+      "s": 23.136975369266437,
+      "baseline": {
+        "outcome": "no_pass",
+        "passed_at": null,
+        "collision": null,
+        "controller_latency": {
+          "count": 792,
+          "median_ms": 269.39010399999995,
+          "p95_ms": 376.92919984999986,
+          "p99_ms": 467.9216195000001,
+          "max_ms": 914.284583
+        }
+      },
+      "response": {
+        "outcome": "no_pass",
+        "passed_at": null,
+        "collision": null,
+        "controller_latency": {
+          "count": 792,
+          "median_ms": 108.79475,
+          "p95_ms": 129.34897514999992,
+          "p99_ms": 152.2996862200001,
+          "max_ms": 247.880917
+        }
+      }
+    },
+    {
+      "case": "218",
+      "seed": 92111418,
+      "s": 33.53155088978104,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 15.96,
+        "collision": null,
+        "controller_latency": {
+          "count": 352,
+          "median_ms": 67.8496665,
+          "p95_ms": 311.02472514999994,
+          "p99_ms": 453.7628609100001,
+          "max_ms": 621.972416
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 15.96,
+        "collision": null,
+        "controller_latency": {
+          "count": 352,
+          "median_ms": 25.560083499999998,
+          "p95_ms": 108.80437104999999,
+          "p99_ms": 227.1453400800001,
+          "max_ms": 296.461042
+        }
+      }
+    },
+    {
+      "case": "226",
+      "seed": 92111426,
+      "s": 48.37051487112503,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 5.630000000000001,
+        "collision": null,
+        "controller_latency": {
+          "count": 145,
+          "median_ms": 114.039083,
+          "p95_ms": 800.7104999999999,
+          "p99_ms": 1050.578725,
+          "max_ms": 1326.271417
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 5.630000000000001,
+        "collision": null,
+        "controller_latency": {
+          "count": 145,
+          "median_ms": 33.082958,
+          "p95_ms": 418.00147539999983,
+          "p99_ms": 467.9795644800001,
+          "max_ms": 558.6445
+        }
+      }
+    },
+    {
+      "case": "303",
+      "seed": 95111403,
+      "s": 7.760061205596206,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 33.31,
+        "collision": null,
+        "controller_latency": {
+          "count": 699,
+          "median_ms": 59.151375,
+          "p95_ms": 196.4689625,
+          "p99_ms": 329.55776915999996,
+          "max_ms": 398.662458
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 33.31,
+        "collision": null,
+        "controller_latency": {
+          "count": 699,
+          "median_ms": 34.328334,
+          "p95_ms": 118.26442080000001,
+          "p99_ms": 227.52739699999995,
+          "max_ms": 383.486583
+        }
+      }
+    },
+    {
+      "case": "306",
+      "seed": 95111406,
+      "s": 15.576427359306928,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 23.119999999999997,
+        "collision": null,
+        "controller_latency": {
+          "count": 495,
+          "median_ms": 60.856708,
+          "p95_ms": 306.59919199999985,
+          "p99_ms": 393.11897799999997,
+          "max_ms": 469.174083
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 23.119999999999997,
+        "collision": null,
+        "controller_latency": {
+          "count": 495,
+          "median_ms": 35.999084,
+          "p95_ms": 261.20059999999995,
+          "p99_ms": 309.66783197999996,
+          "max_ms": 384.054334
+        }
+      }
+    },
+    {
+      "case": "308",
+      "seed": 95111408,
+      "s": 20.14841866778428,
+      "baseline": {
+        "outcome": "no_pass",
+        "passed_at": null,
+        "collision": null,
+        "controller_latency": {
+          "count": 792,
+          "median_ms": 72.615104,
+          "p95_ms": 303.80011045,
+          "p99_ms": 380.9576762500001,
+          "max_ms": 424.222125
+        }
+      },
+      "response": {
+        "outcome": "no_pass",
+        "passed_at": null,
+        "collision": null,
+        "controller_latency": {
+          "count": 792,
+          "median_ms": 33.847687500000006,
+          "p95_ms": 246.90531454999993,
+          "p99_ms": 304.59930878000023,
+          "max_ms": 325.517667
+        }
+      }
+    },
+    {
+      "case": "310",
+      "seed": 95111410,
+      "s": 26.058377070888156,
+      "baseline": {
+        "outcome": "pass",
+        "passed_at": 21.79,
+        "collision": null,
+        "controller_latency": {
+          "count": 468,
+          "median_ms": 66.7536455,
+          "p95_ms": 326.50047509999996,
+          "p99_ms": 434.35490824999994,
+          "max_ms": 491.237792
+        }
+      },
+      "response": {
+        "outcome": "pass",
+        "passed_at": 21.79,
+        "collision": null,
+        "controller_latency": {
+          "count": 468,
+          "median_ms": 31.3836245,
+          "p95_ms": 201.05746029999997,
+          "p99_ms": 240.83279617,
+          "max_ms": 300.646209
+        }
+      }
+    }
+  ],
+  "new_only_passes": [
+    "000",
+    "007",
+    "014",
+    "017"
+  ],
+  "baseline_only_passes": []
+}

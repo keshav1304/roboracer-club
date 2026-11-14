@@ -1,0 +1,14 @@
+{
+  "baseline": {
+    "trials": 17,
+    "passes": 11,
+    "contacts": 1,
+    "timeouts": 5
+  },
+  "response": {
+    "trials": 17,
+    "passes": 15,
+    "contacts": 0,
+    "timeouts": 2
+  }
+}

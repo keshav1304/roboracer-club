@@ -1,0 +1,57 @@
+STAGE 4 ROBUST WIDER PLANNER
+development: previously observed cases
+
+Baseline: CorridorStage4. Updated: HybridCorridorStage4. Same actual F1TENTH Gym, imported AutoDRIVE default track, unchanged reactive Stage 2 opponent and neural checkpoints. No LLM calls, no checkpoint retraining.
+
+{
+  "baseline": {
+    "trials": 17,
+    "passes": 11,
+    "contacts": 1,
+    "timeouts": 5,
+    "median_success_seconds": 23.119999999999997,
+    "median_trial_controller_median_ms": 66.7536455,
+    "median_trial_controller_p95_ms": 250.68054564999997
+  },
+  "response": {
+    "trials": 17,
+    "passes": 15,
+    "contacts": 0,
+    "timeouts": 2,
+    "median_success_seconds": 21.79,
+    "median_trial_controller_median_ms": 34.817667,
+    "median_trial_controller_p95_ms": 201.05746029999997
+  }
+}
+
+New-only passes: ['000', '007', '014', '017']
+Baseline-only passes: []
+
+ALL PAIRED OUTCOMES
+000: baseline no_pass None; updated pass 7.23; contact None
+007: baseline no_pass None; updated pass 10.530000000000001; contact None
+014: baseline collision None; updated pass 18.439999999999998; contact None
+017: baseline no_pass None; updated pass 38.75; contact None
+101: baseline pass 29.82; updated pass 29.82; contact None
+104: baseline pass 25.869999999999997; updated pass 26.07; contact None
+105: baseline pass 20.32; updated pass 20.32; contact None
+107: baseline pass 4.5200000000000005; updated pass 4.5200000000000005; contact None
+205: baseline pass 28.599999999999998; updated pass 28.599999999999998; contact None
+208: baseline pass 25.77; updated pass 25.77; contact None
+212: baseline no_pass None; updated no_pass None; contact None
+218: baseline pass 15.96; updated pass 15.96; contact None
+226: baseline pass 5.630000000000001; updated pass 5.630000000000001; contact None
+303: baseline pass 33.31; updated pass 33.31; contact None
+306: baseline pass 23.119999999999997; updated pass 23.119999999999997; contact None
+308: baseline no_pass None; updated no_pass None; contact None
+310: baseline pass 21.79; updated pass 21.79; contact None
+
+CHANGES
+Keep recently occluded opponents in the interaction check up to 0.65 seconds, using their measured-motion hypotheses. Preserve a progressing maneuver rather than repeatedly initiating a different wide route. Keep the established slow-corner strategy for encounters beginning at low speed. Add short steering-arc recovery candidates at 0.25, 0.5 and 0.8 m/s; each is checked against predicted vehicle bodies, map walls, and LiDAR braking before selection.
+The broad lateral lattice still spans to the first walls, using approximately 0.25 m goal spacing and lane-change distances 0.65, 1.2, 2.4 and 3.6 m. No fixed lateral offset cap was added.
+Batch corridor map checks, share LiDAR checks across speed variants of the same steering arc, reuse exact static geometry within each decision, and batch the three existing opponent hypotheses. Equivalence tests cover cached geometry, periodic speeds, batched forecasts, lattice paths and LiDAR limits.
+
+LIMITS
+Success requires passing, returning near the reference and completing follow-through. Both cars count toward collision results. Timeout is 40 seconds unless stated in the manifest. Development fixtures are distinct from fresh random validation. Selected RViz successes are demonstrations, not aggregate evidence.
+This is simulated evaluation, not a guarantee of collision-free physical driving. The reference is locally optimized, not certified globally optimal. This track is the same imported default used previously; it is not a newly verified competition map.
+Parallel trial timing includes perception and planning. A p95 above 50 ms misses a 20 Hz wall-clock budget. Separate serial timing, if present, should be used for speed comparisons.

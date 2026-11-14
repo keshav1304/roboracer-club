@@ -1,0 +1,31 @@
+Selected successes. Full results: source://overtaking-models/artifacts/hybrid_corridor_validation_20261114/REPORT.txt
+[
+  {
+    "scene": "fixed-case-014-response",
+    "dataset": "fixed",
+    "pass_seconds": 18.439999999999998,
+    "baseline_outcome": "collision",
+    "source": "source://overtaking-models/artifacts/hybrid_corridor_dev_r1/case-014-response.json"
+  },
+  {
+    "scene": "fixed-case-007-response",
+    "dataset": "fixed",
+    "pass_seconds": 10.530000000000001,
+    "baseline_outcome": "no_pass",
+    "source": "source://overtaking-models/artifacts/hybrid_corridor_dev_r1/case-007-response.json"
+  },
+  {
+    "scene": "random-case-001-response",
+    "dataset": "random",
+    "pass_seconds": 8.15,
+    "baseline_outcome": "no_pass",
+    "source": "source://overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-001-response.json"
+  },
+  {
+    "scene": "random-case-008-response",
+    "dataset": "random",
+    "pass_seconds": 8.34,
+    "baseline_outcome": "no_pass",
+    "source": "source://overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-008-response.json"
+  }
+]

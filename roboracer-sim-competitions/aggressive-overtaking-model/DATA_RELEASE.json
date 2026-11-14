@@ -1,13 +1,20 @@
 {
   "repository": "AUnknownZ/aggressive-overtaking-model",
-  "tag": "v2026.11.13",
+  "tag": "v2026.11.14",
   "assets": [
     {
       "name": "all-models-training-test-data-20261113.zip",
       "bytes": 496474200,
       "sha256": "6890ee1929ca91697260abfdaa8791026882a8b9de858954771ecee65ab26c01",
       "url": "https://github.com/AUnknownZ/aggressive-overtaking-model/releases/download/v2026.11.13/all-models-training-test-data-20261113.zip"
+    },
+    {
+      "name": "final-planner-development-data-20261114.zip",
+      "bytes": 175542018,
+      "sha256": "b624f75390c1d5cfb471e35d9f501e21249b1d4b508e17e51d90b24374e07bb8",
+      "url": "https://github.com/AUnknownZ/aggressive-overtaking-model/releases/download/v2026.11.14/final-planner-development-data-20261114.zip"
     }
   ],
-  "file_count": 9222
+  "file_count": 10838,
+  "supplement_file_count": 1616
 }

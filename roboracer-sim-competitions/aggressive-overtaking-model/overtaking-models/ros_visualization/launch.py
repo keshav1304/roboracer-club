@@ -16,6 +16,7 @@ def main():
     p.add_argument('--stage',choices=['2','4','all'],default='all')
     p.add_argument('--speed',type=float,default=.5)
     p.add_argument('--once',action='store_true')
+    p.add_argument('--demo-count',type=int,default=2)
     p.add_argument('--show-counterfactual',action='store_true')
     p.add_argument('--response-experiment',type=Path)
     args=p.parse_args()
@@ -42,7 +43,7 @@ def main():
         time.sleep(3.)
         for proc,name in zip(children,('ROS bridge','RViz')):
             if proc.poll() is not None:raise RuntimeError(f'{name} exited; see {live}')
-        command=[str(gym_python),str(HERE/'gym_source.py'),'--stage',args.stage,'--speed',str(args.speed)]
+        command=[str(gym_python),str(HERE/'gym_source.py'),'--stage',args.stage,'--speed',str(args.speed),'--demo-count',str(args.demo_count)]
         if args.once:command.append('--once')
         if args.response_experiment:command.extend(['--response-experiment',str(args.response_experiment.resolve())])
         gym=subprocess.Popen(command,cwd=ROOT,env=env);children.append(gym)

@@ -1,0 +1,11 @@
+{
+  "case": "014",
+  "outcome": "no_pass",
+  "longest_mutual_stop_seconds": 0.0,
+  "mean_speed": [
+    2.2423418110368227,
+    2.0759386447041925
+  ],
+  "minimum_body_gap": 0.07835523678279914,
+  "minimum_wall_clearance": 0.0924071257275193
+}

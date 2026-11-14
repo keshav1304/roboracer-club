@@ -7,23 +7,33 @@
     },
     {
       "path": "DATA_ARCHIVE_INDEX.json",
-      "bytes": 3185231,
-      "sha256": "c5a9e192c542a31cb1ba73bd5293b616d66ab731e7634d82d08939ddff1fc7d4"
+      "bytes": 3697026,
+      "sha256": "e469063227ed364d2e7c0cd848773cdae5010298fd8bae05c5f96bec44868e98"
     },
     {
       "path": "DATA_RELEASE.json",
-      "bytes": 452,
-      "sha256": "76f4c5c20fe279463316be14113b0574b8463d2d0d825afb2a911c7b742827f1"
+      "bytes": 816,
+      "sha256": "cb620fb08182cd7557dcbfed2e262d82b0ffe3dff464cfa2234d8b7d77b6488f"
+    },
+    {
+      "path": "FINAL_DATA_ARCHIVE_INDEX.json",
+      "bytes": 511831,
+      "sha256": "61d57cf38c1535e3eb16fa59db5f4bad6deecaf33bd07e52918296364ffa7792"
+    },
+    {
+      "path": "PACKAGED_DISPLAY_SHA256.json",
+      "bytes": 1889,
+      "sha256": "55c8a6f80fa33e94d0003a4e84b5fdcfa59720fd2ba4350871c7487f114dcc53"
     },
     {
       "path": "README.md",
-      "bytes": 22031,
-      "sha256": "7221d1613025927b77cc593b5b6a308a93ebc4d5510383b107dfc97fe6144b25"
+      "bytes": 26484,
+      "sha256": "48c99f534f8956eba0c3a6adfd0c8753653681eeeefd11f27d5b60603160dd1b"
     },
     {
       "path": "SOURCE_EXPORT_INDEX.json",
-      "bytes": 91168,
-      "sha256": "ef602e7c7515b36ff6715187663dfddf9ab9bb4483847de2513956134905c13a"
+      "bytes": 170919,
+      "sha256": "3ee23d63e7b6363283770bc5e5bf29effcb24ad221d2885572afdbf35b2bb9cf"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -32,8 +42,13 @@
     },
     {
       "path": "VALIDATION.json",
-      "bytes": 848,
-      "sha256": "fcadbe573c1468f409ab78e0ee7de547a4215b2ef812f19966002767c898a1a9"
+      "bytes": 2237,
+      "sha256": "30bad4c5cd475437b842de2e958705a3b5a7ffa993c41f7bc0383cb52601e8fc"
+    },
+    {
+      "path": "VALIDATION_20261113.json",
+      "bytes": 849,
+      "sha256": "839cd6435dd8d25d403fb02fe4b2cbd26c894237e51e320a535c75582404ffa6"
     },
     {
       "path": "download-data.py",
@@ -429,6 +444,1081 @@
       "path": "overtaking-models/analyze_round_metrics.py",
       "bytes": 20699,
       "sha256": "063dc0301f16679bfeb9ac3745533e206bed798c90603628b8fb84eff2b37ad0"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/DEMO_NOTES.txt",
+      "bytes": 1113,
+      "sha256": "3c7c2d250b659ee39a799cb776234016eb853e5a96259b8edf5c8799674dd2ea"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/display_source_sha256.json",
+      "bytes": 447,
+      "sha256": "edfa5d1f78fef7ffb058d16b59209f7d44e92badde520f3c141232401b6bfa35"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/fixed-case-007-baseline.json",
+      "bytes": 3665091,
+      "sha256": "5230e7bb9ad272d3f1df9358809614ea958c9fd286f4101368a10d5699716ae1"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/fixed-case-007-response.json",
+      "bytes": 593337,
+      "sha256": "87f8995fc9c276bb2fd13b03ab6ab89db27d66a2ac3ed26900b637fa1950c5e7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/fixed-case-014-baseline.json",
+      "bytes": 745691,
+      "sha256": "2a3cc8df664a0ef02acac9e59ee239b14daff4ce357237325e4ea9acebbfd989"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/fixed-case-014-response.json",
+      "bytes": 839871,
+      "sha256": "810190af0aeeac8c88fe969047bb1ec17da593679ee515a38655d698524443e3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/live_rerun_results.json",
+      "bytes": 46475,
+      "sha256": "bf2b64ccdfdeb75fa9d44ef1a7bec3873dc1e5c84225f06a1bebf00457ca8b0c"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/manifest.json",
+      "bytes": 7564,
+      "sha256": "70998e575feba5148ee0442559869414bf3de5ca8dc30aac2563222877e20804"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/random-case-001-baseline.json",
+      "bytes": 4498022,
+      "sha256": "be426667670ba99213c4dedaa670b7a6baec85a75d4492cb7d95f7cb182eadef"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/random-case-001-response.json",
+      "bytes": 523377,
+      "sha256": "e229009f41efc9f9591570ce05d82bb9d39dbd0a797484519d9d5793c5c57ab4"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/random-case-008-baseline.json",
+      "bytes": 3700939,
+      "sha256": "c5552f81b2fc452d9c4492214d6e32af9abaa4b99b2ea58309466425e30c100a"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/random-case-008-response.json",
+      "bytes": 451570,
+      "sha256": "144a4d42a417f1e0be49d6fb46084bab1a516570e3a86549430cec2b94414b8f"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/ros_verification.json",
+      "bytes": 444,
+      "sha256": "23bc3ab7cab90e6f0e8c9cfab4cc8279e5af1a1d310ffe24192e1c851993f548"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/baseline_learned_stage4.py",
+      "bytes": 8971,
+      "sha256": "c0ae30e89d2f06a9e716e840f7a280e9e2a8c1136d9370f2e142ad75c3b84316"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/corridor_experiment.py",
+      "bytes": 6094,
+      "sha256": "d7c3f12f7af1e4e91ed0590dbb775f33891f5d0dcc90d91c76ce62c0e2f4705d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/corridor_stage4.py",
+      "bytes": 15310,
+      "sha256": "dce05f65b50beadb4f3bf124d127bf097a9a1231a2db8c3810b6d3a85033044e"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/expanded_planner.py",
+      "bytes": 10025,
+      "sha256": "9e989439ae97a73b71dee558d34a183606a49207f252cb0eaca696bc62aabe7d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/hybrid_corridor_experiment.py",
+      "bytes": 6308,
+      "sha256": "e9a271cb1c1978feeced93fc09e66a1ce55eadd1478a0c2cdcb49a9df664d5e7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/hybrid_corridor_stage4.py",
+      "bytes": 1254,
+      "sha256": "2c9dcc8db3fc7b3c3060caa58d1a613d5322250b69c391456a456a1ccad116ea"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/interaction_experiment.py",
+      "bytes": 5992,
+      "sha256": "36b6f3dca984ac9cbe4ed25532e592d4d78496101f0192de103c841022dc1b48"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/interaction_stage4.py",
+      "bytes": 14915,
+      "sha256": "63f85e61a4a060960763cfba78bc4ab7c8e89133e9bbad99092f6bd00808c998"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/joint_path_stage4.py",
+      "bytes": 9165,
+      "sha256": "77f50bfba8b8362591256d6a0738d2801cf5f95c9b50277b22f5c5c8ec1fa189"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/learned_opponent.py",
+      "bytes": 3071,
+      "sha256": "402419573e69144a0025941aa76c61f122c0c6a94621a802ab065a6945bb459f"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/maneuver_core.py",
+      "bytes": 35005,
+      "sha256": "ca55ca7b5d6bb26e0f35419c9a9566bc84476eb3dd0c74f1fbc780b95cd3f10c"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/opponent_forecast.npz",
+      "bytes": 34377,
+      "sha256": "d36e5d4e4bcc2fa2ab548c0055f713de86a5557c2605781ef998f72136d54579"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/perception.py",
+      "bytes": 14808,
+      "sha256": "a638d6263f532aa23dca6b3edd3401ae6867873c13dc644bff906d22c50695d8"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/recovery_corridor_experiment.py",
+      "bytes": 6295,
+      "sha256": "a9a05e1a41924c68ddc1ac7eda4886c340ede676c680b5c9c8684c182688324e"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/recovery_corridor_stage4.py",
+      "bytes": 9093,
+      "sha256": "0736ddc30096ea4b5af685e3d5ca7cdbfb35bcc5774bb3a45f745e6df8384aa3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/response_stage4.py",
+      "bytes": 12241,
+      "sha256": "d804400b963f46c4bf10e3b876690865bc8b3d4c268be9252e8fbb0971048344"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/robust_corridor_experiment.py",
+      "bytes": 6184,
+      "sha256": "79b4a5b164f1e93ffad59b9139197e2d5451c68057f2be97360ae56191960c4d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/robust_corridor_stage4.py",
+      "bytes": 12560,
+      "sha256": "2b284c28c73b5ba2cf45985dc7adbf57d5260464280e8c781453a999d49c47ca"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/run_experiment.py",
+      "bytes": 22791,
+      "sha256": "9817e7639e2a8abcc9aa479d011883d2a97deadf2e917ec8f677b4edf2aa20e0"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/stage2.npz",
+      "bytes": 13063,
+      "sha256": "98d2fdb270248134902453614fc96590c51bef1ee3e599fbfcde6fbea9c3b55c"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/stage2.value.npz",
+      "bytes": 13586,
+      "sha256": "5c86ad309edec703192f5243e2e7e2c5c964539470f05d2335db0bc9a60ce0ca"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/stage3.npz",
+      "bytes": 13617,
+      "sha256": "0576a92bc21e46c6225768a3d091d09358b26b36a41d9ff72257fbf27ed14bbf"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/stage3.value.npz",
+      "bytes": 13758,
+      "sha256": "dff6e4dcc1ca88d065f0ae05bc9c24941378b130f40f472e54f97cf06193cd07"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/test_corridor_stage4.py",
+      "bytes": 3747,
+      "sha256": "f10985279f52d9e76e8bad242bdd2bfb6d6626489450f42e08fecca57f312ce2"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/test_interaction_stage4.py",
+      "bytes": 3434,
+      "sha256": "a964ae2d40ec87d40d27fac47f99dc92eeb11c3e61a8a79f08587b24b0af1d87"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/test_robust_corridor_stage4.py",
+      "bytes": 4462,
+      "sha256": "208fd8e618086ae465aec5f72be300cae9d7feff6c9a4288a16d5917c923f58a"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/track_geometry.py",
+      "bytes": 17836,
+      "sha256": "58ed9e3fb2e8bc800f5ddd0bdaa017c2d82bd6306133c134721c3026de6370f5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_demo_20261114/source/world.py",
+      "bytes": 9726,
+      "sha256": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/REPORT.txt",
+      "bytes": 3749,
+      "sha256": "512aa2fddd19ac5922f68dcee785afafab08a2cd1f3f917c7666506f55628f18"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/analysis.json",
+      "bytes": 13285,
+      "sha256": "1b10ad51f01a251a1c244c25cb1fdb208c6a9c308ebc7e97df36312c63ec8749"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-000-baseline.json",
+      "bytes": 4426365,
+      "sha256": "30268db4043cd358a8e8184ea3ae4ba72db6f3d02783608c7f92943fd4128d61"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-000-response.json",
+      "bytes": 341851,
+      "sha256": "a5c732b1ff89180cf77edd0815d444a57a10661aa56846e44720bc703425dea3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-007-baseline.json",
+      "bytes": 3664914,
+      "sha256": "ab626bb39fe60ae3911892a173f8584e85af2604a79e0ab04d6236b062a797b3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-007-response.json",
+      "bytes": 593160,
+      "sha256": "bb0290aed444d25ce80774b44a519e643db591bf3c39d4430016912fe8922333"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-014-baseline.json",
+      "bytes": 745514,
+      "sha256": "657d1d0908cd81e3e0751d8ff716392d162dee203742a66dc94966fb002520ad"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-014-response.json",
+      "bytes": 839694,
+      "sha256": "1b27afb4b29e6f44f9d07d68a77d83e20c394822345346edee0bf834f1f1ff07"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-017-baseline.json",
+      "bytes": 1804675,
+      "sha256": "833beac89bd97ec6f9bfca0ca48d5ef0e7349e2f64984de3073ee3118d9a4c40"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-017-response.json",
+      "bytes": 1723806,
+      "sha256": "77b088ee9982786a5132d75f33f761b5f6491958a8f55c362d2dd6c7daecff67"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-101-baseline.json",
+      "bytes": 1321747,
+      "sha256": "b6502b2215de08abdb7a444d3e88af46e7c44fd9ee6c57abf7a3096330d18454"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-101-response.json",
+      "bytes": 1330135,
+      "sha256": "3ba6b4331783bdfdafe3828038c5746692fea53750819fb6271b9c211253735f"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-104-baseline.json",
+      "bytes": 1115058,
+      "sha256": "51898577a5afb6158dec437c359e650e6371418a46a1c27563fd345739befca2"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-104-response.json",
+      "bytes": 1120474,
+      "sha256": "fb9a028808210ba0a19c6d7a2c5593740e37be09d2e539e42ebf15b3de49ef39"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-105-baseline.json",
+      "bytes": 1016743,
+      "sha256": "ceddfa5bfbf074b8726d59c743ea587f846d3b849d026c3ce0fc7718fef48466"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-105-response.json",
+      "bytes": 1026114,
+      "sha256": "f30e7bb115b92c17b2cef2885cac50b4534ee18523bbc5a167f0d893af9f21ec"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-107-baseline.json",
+      "bytes": 264073,
+      "sha256": "be87f510c4081a96cd098020e22650061c0cf7e52cbe35d4b3eda937a6ee678c"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-107-response.json",
+      "bytes": 272562,
+      "sha256": "bb306653694c05cd5366ce92d5f4f24fab82ec0cd28c864bb424a827c12f9a88"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-205-baseline.json",
+      "bytes": 1277250,
+      "sha256": "f720d86099dbf63f7acc684a124720fd57eb14449fa146c46ef5b20e39e85f31"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-205-response.json",
+      "bytes": 1285773,
+      "sha256": "6303c047f8b72b27fd0cbc8ddd5827d404f02bc31c67e072c87e1b7275d47db1"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-208-baseline.json",
+      "bytes": 1271967,
+      "sha256": "7ab3359bf2103d17d2b0590e1e16dc10c8a9a2fecff93e7a109c1a69840ba6f2"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-208-response.json",
+      "bytes": 1282387,
+      "sha256": "508157e1ddefa2b3d822ad1ce313ce802e5e6adbafe938362d0b77502be4e4e0"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-212-baseline.json",
+      "bytes": 3795229,
+      "sha256": "5932b58d001c8ec52f8dbf79ddae4ea242a3e4592a29b7b133f1340cd0dafeab"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-212-response.json",
+      "bytes": 3745704,
+      "sha256": "cd87d2850a4478127218626533834e58ddd33d31d9b0818b0d277632aa753595"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-218-baseline.json",
+      "bytes": 664548,
+      "sha256": "f80fb5d5d3a37f5e1f1f257388b3ee6c2e46375ddd4011dc76f5c695cfc13830"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-218-response.json",
+      "bytes": 673457,
+      "sha256": "0f4203f37960e833d1e1652aa5f5951fcd56a26643d2c7c1adc0d730aba58de8"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-226-baseline.json",
+      "bytes": 248225,
+      "sha256": "5ab427ae09e374c1e111c22792a2fac94b3193ca615613662d6959b694ef4331"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-226-response.json",
+      "bytes": 255326,
+      "sha256": "e8940dad441430eb8c03a05d1901b7311fcd6fc16426295bcdbaa06677096a2b"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-303-baseline.json",
+      "bytes": 1518477,
+      "sha256": "9b3c2e50b32d9502c35c5f154f97ca426a144d2527a911e20abffd1c719bdb1a"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-303-response.json",
+      "bytes": 1526366,
+      "sha256": "041e349f2a362e65c49799fc73dd1bbd5222e6172f1df90000711e5edbac4293"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-306-baseline.json",
+      "bytes": 1115570,
+      "sha256": "78155684c6d43ef591b5e1983467c9fa95146fa8eea0a9c83df0467d5b536084"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-306-response.json",
+      "bytes": 1127205,
+      "sha256": "044402f43040c94ee5aefb7a58fce60142d84204051fd8f9951090a7ee537c30"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-308-baseline.json",
+      "bytes": 1931518,
+      "sha256": "0cb35b01cf241d4c6660be3da961cbef9b0c3663c88fff3465ca1be5baf58f4a"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-308-response.json",
+      "bytes": 1851646,
+      "sha256": "c3efb798f42f5d1e1f3aa14483ebf7e3f529726d3b81ad245d20b00caa4caef6"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-310-baseline.json",
+      "bytes": 931550,
+      "sha256": "0ca0f24d43679f2f3bb968c636deadeb768bae9cfda4ba1787623d96c5784a35"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/case-310-response.json",
+      "bytes": 940003,
+      "sha256": "f2992b1e47ba15d081573b27827e33b6d59d03fe50e05619f6e3043353f16b6d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/manifest.json",
+      "bytes": 17787,
+      "sha256": "638687f3bea76ddd65f3184b873144ae9cf21bff5c50b85c3b496c8cee5f9f6e"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/baseline_learned_stage4.py",
+      "bytes": 8971,
+      "sha256": "c0ae30e89d2f06a9e716e840f7a280e9e2a8c1136d9370f2e142ad75c3b84316"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/corridor_experiment.py",
+      "bytes": 6094,
+      "sha256": "d7c3f12f7af1e4e91ed0590dbb775f33891f5d0dcc90d91c76ce62c0e2f4705d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/corridor_stage4.py",
+      "bytes": 15310,
+      "sha256": "dce05f65b50beadb4f3bf124d127bf097a9a1231a2db8c3810b6d3a85033044e"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/expanded_planner.py",
+      "bytes": 10025,
+      "sha256": "9e989439ae97a73b71dee558d34a183606a49207f252cb0eaca696bc62aabe7d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/hybrid_corridor_experiment.py",
+      "bytes": 6308,
+      "sha256": "e9a271cb1c1978feeced93fc09e66a1ce55eadd1478a0c2cdcb49a9df664d5e7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/hybrid_corridor_stage4.py",
+      "bytes": 1254,
+      "sha256": "2c9dcc8db3fc7b3c3060caa58d1a613d5322250b69c391456a456a1ccad116ea"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/interaction_experiment.py",
+      "bytes": 5992,
+      "sha256": "36b6f3dca984ac9cbe4ed25532e592d4d78496101f0192de103c841022dc1b48"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/interaction_stage4.py",
+      "bytes": 14915,
+      "sha256": "63f85e61a4a060960763cfba78bc4ab7c8e89133e9bbad99092f6bd00808c998"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/joint_path_stage4.py",
+      "bytes": 9165,
+      "sha256": "77f50bfba8b8362591256d6a0738d2801cf5f95c9b50277b22f5c5c8ec1fa189"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/learned_opponent.py",
+      "bytes": 3071,
+      "sha256": "402419573e69144a0025941aa76c61f122c0c6a94621a802ab065a6945bb459f"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/maneuver_core.py",
+      "bytes": 35005,
+      "sha256": "ca55ca7b5d6bb26e0f35419c9a9566bc84476eb3dd0c74f1fbc780b95cd3f10c"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/opponent_forecast.npz",
+      "bytes": 34377,
+      "sha256": "d36e5d4e4bcc2fa2ab548c0055f713de86a5557c2605781ef998f72136d54579"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/perception.py",
+      "bytes": 14808,
+      "sha256": "a638d6263f532aa23dca6b3edd3401ae6867873c13dc644bff906d22c50695d8"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/recovery_corridor_experiment.py",
+      "bytes": 6295,
+      "sha256": "a9a05e1a41924c68ddc1ac7eda4886c340ede676c680b5c9c8684c182688324e"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/recovery_corridor_stage4.py",
+      "bytes": 9093,
+      "sha256": "0736ddc30096ea4b5af685e3d5ca7cdbfb35bcc5774bb3a45f745e6df8384aa3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/response_stage4.py",
+      "bytes": 12241,
+      "sha256": "d804400b963f46c4bf10e3b876690865bc8b3d4c268be9252e8fbb0971048344"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/robust_corridor_experiment.py",
+      "bytes": 6184,
+      "sha256": "79b4a5b164f1e93ffad59b9139197e2d5451c68057f2be97360ae56191960c4d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/robust_corridor_stage4.py",
+      "bytes": 12560,
+      "sha256": "2b284c28c73b5ba2cf45985dc7adbf57d5260464280e8c781453a999d49c47ca"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/run_experiment.py",
+      "bytes": 22791,
+      "sha256": "9817e7639e2a8abcc9aa479d011883d2a97deadf2e917ec8f677b4edf2aa20e0"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/stage2.npz",
+      "bytes": 13063,
+      "sha256": "98d2fdb270248134902453614fc96590c51bef1ee3e599fbfcde6fbea9c3b55c"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/stage2.value.npz",
+      "bytes": 13586,
+      "sha256": "5c86ad309edec703192f5243e2e7e2c5c964539470f05d2335db0bc9a60ce0ca"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/stage3.npz",
+      "bytes": 13617,
+      "sha256": "0576a92bc21e46c6225768a3d091d09358b26b36a41d9ff72257fbf27ed14bbf"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/stage3.value.npz",
+      "bytes": 13758,
+      "sha256": "dff6e4dcc1ca88d065f0ae05bc9c24941378b130f40f472e54f97cf06193cd07"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/test_corridor_stage4.py",
+      "bytes": 3747,
+      "sha256": "f10985279f52d9e76e8bad242bdd2bfb6d6626489450f42e08fecca57f312ce2"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/test_interaction_stage4.py",
+      "bytes": 3434,
+      "sha256": "a964ae2d40ec87d40d27fac47f99dc92eeb11c3e61a8a79f08587b24b0af1d87"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/test_robust_corridor_stage4.py",
+      "bytes": 4462,
+      "sha256": "208fd8e618086ae465aec5f72be300cae9d7feff6c9a4288a16d5917c923f58a"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/track_geometry.py",
+      "bytes": 17836,
+      "sha256": "58ed9e3fb2e8bc800f5ddd0bdaa017c2d82bd6306133c134721c3026de6370f5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/source/world.py",
+      "bytes": 9726,
+      "sha256": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_dev_r1/summary.json",
+      "bytes": 190,
+      "sha256": "f3575dd094c2e8686141e66be4af8f09d25820d30bdd13186726a91a8eeb0efd"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-000-response.json",
+      "bytes": 4426250,
+      "sha256": "d65ff4f7126aee48db1dffc0d6c8e1493ee6c14c94526cf56b6d99762ba49817"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-007-response.json",
+      "bytes": 3664799,
+      "sha256": "07d7d74cecc831e525778fe79f804875282811cb676dc5b7f977b03be35887d4"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-014-response.json",
+      "bytes": 745399,
+      "sha256": "1e4bca5d6d8c994169e1ab3b8027790b86746c15c631d1c9f2a855cb3ae072b9"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-017-response.json",
+      "bytes": 1804560,
+      "sha256": "294546f4babde63e0df590eefde1a28089701847985ff39fddff79aedbd4e619"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-101-response.json",
+      "bytes": 1321632,
+      "sha256": "689c95c99bb1cee91aba34d48b97f6b5b9a3223adb45de16a21cb4c7abdf5bb2"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-104-response.json",
+      "bytes": 1114943,
+      "sha256": "b6cfa0913a627dea8c25ce706fc9e9229120f4c56d35ea23946c262d08f133f8"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-105-response.json",
+      "bytes": 1016628,
+      "sha256": "aba828be1dc677aeb9001c9e61389db5dfb6b38e64c298ef69119873bfcc6a13"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-107-response.json",
+      "bytes": 263958,
+      "sha256": "cc68534d0c670ade01b6c1f14ced0038d85ef3e94f11ea774f0dfb32553ac5a1"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-205-response.json",
+      "bytes": 1277135,
+      "sha256": "5bf4a545eab8c684db69a40aa073168167583f7965d6e5c90b40f536d5874db2"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-208-response.json",
+      "bytes": 1271852,
+      "sha256": "474d90913e6e0707be3580a439c162089127c99c2ce4cf569973de55e520b38b"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-212-response.json",
+      "bytes": 3795114,
+      "sha256": "3283138dad9bb8731d005e00cb051051d488e96d38a54b4962310fb2a0b09616"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-218-response.json",
+      "bytes": 664433,
+      "sha256": "99ff896dc87bce744a5088c0acf8c9170abad6d730330aa92a39f6817aac64c7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-226-response.json",
+      "bytes": 248110,
+      "sha256": "912eaeaf5cc111a8ca4b50a67c80760d7a9a83b5dc1d6145b044ff1650b2dd09"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-303-response.json",
+      "bytes": 1518362,
+      "sha256": "e525b4aa4345cac053bd6f220e2e5a85f2d622acf001cddc1bc278116a8a12d7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-306-response.json",
+      "bytes": 1115455,
+      "sha256": "9dd5e15fa7b2e49451becfb315b5bfee6a953e2fa43a713ca0e68ed5b3d9ceca"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-308-response.json",
+      "bytes": 1931403,
+      "sha256": "04423fc8dad6f6570c5998218d213c0259f4cf7f3ee68e0589d3fa555d776e1b"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/case-310-response.json",
+      "bytes": 931435,
+      "sha256": "ba9b62e76c995a6ecaa29de14dbf126cf13c208209958b99e042306ac70b9b1a"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/manifest.json",
+      "bytes": 23093,
+      "sha256": "b658d838fb33273062b2d31a9be8cdfb7bb73062ba8ca029f735439ddb648b82"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_development_inputs/origins.json",
+      "bytes": 1626,
+      "sha256": "44b853774d18a7e5e3e2b1a4028f62b182aa4a98feb96e10fb79df342886f15b"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_speed_20261114/ego_stream_000.npz",
+      "bytes": 429081,
+      "sha256": "c28ae569841c3b83661180ec64426760cbc0d948afad2b5f3dbad81521f0b8d5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_speed_20261114/ego_stream_007.npz",
+      "bytes": 427273,
+      "sha256": "7ab41ff8b74cfd33e764c651d27895f549aa8ba2e045ed51682ce9f3dfa1f646"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_speed_20261114/ego_stream_014.npz",
+      "bytes": 430484,
+      "sha256": "c86dbe79333de5e52df60c207b34079a1c30027ffcdb5d6b1fee255099943dbf"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_speed_20261114/results.json",
+      "bytes": 15822,
+      "sha256": "52b1a018bd20003088aead3ab45f2cc6e6d00302160eb0d160aa33848be16617"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/REPORT.txt",
+      "bytes": 7725,
+      "sha256": "2ca165d20ff6138fa8a67f97b21596e5634c885098efd2ec6a51de474c9f247b"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/analysis.json",
+      "bytes": 18226,
+      "sha256": "3a889a6fc060c08d95737c3624fc04a1cf588745c6de1caaf6279110ae3f89cd"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-000-baseline.json",
+      "bytes": 1265379,
+      "sha256": "cc5656a0bda69f181ea417b080a65f364b14012bf5727ba941d15d82b6176a17"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-000-response.json",
+      "bytes": 1492948,
+      "sha256": "8f28fa5c5be71d7fde4fedf3526d9a6361033b09e6a591732ea570ed7cc03247"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-001-baseline.json",
+      "bytes": 4497830,
+      "sha256": "af922faca9b726daed22f7ef193eb4f97b2901cb1076bfd9ecb572a62391d092"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-001-response.json",
+      "bytes": 523185,
+      "sha256": "4bef52862f8653a0d7a3fae051c501dcc2e23b2e8005c9cd90aa41d05b16cc76"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-002-baseline.json",
+      "bytes": 1228617,
+      "sha256": "4feeb67af1eb6d4f7ffc04249f3917e07537d8e7ad42cb0dc581dffa12500fd6"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-002-response.json",
+      "bytes": 1238786,
+      "sha256": "33cc830af89c1ce9014e39a2363f8599e0996e2e67a0f2f883a81d2853385ccd"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-003-baseline.json",
+      "bytes": 1325490,
+      "sha256": "98933340487b571ced4d4df2d948fca506c6e9b6a6e07caae99d275d6205a0ed"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-003-response.json",
+      "bytes": 1336820,
+      "sha256": "b0df4e3fc2ba7a4cb97596aa02a70381a6433381cb7e7f74e7d9036b58463d87"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-004-baseline.json",
+      "bytes": 1400309,
+      "sha256": "021d13a276551abf10720ffafcb94f95bac15add4590faadbfa960014e4bb5c1"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-004-response.json",
+      "bytes": 1410971,
+      "sha256": "20312e4c7f46e192a64f671968657eaffa9063fc1dae5490532b0ed00471ceb7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-005-baseline.json",
+      "bytes": 1105533,
+      "sha256": "8034ab31b5b0143e074a3db4e25c53e2650f799a1a1cd4db0977dc66d9ea99c7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-005-response.json",
+      "bytes": 1116505,
+      "sha256": "a4e232395ef70cb8eb623c539674632d9fd902f55a1e8ef52ba71c05d22e3823"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-006-baseline.json",
+      "bytes": 1176505,
+      "sha256": "3a86a5cf555e1739941f78eff683824651bf7562ae980f00af8e79a494db3cc3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-006-response.json",
+      "bytes": 1184763,
+      "sha256": "696605d86267e62484c5204038ac8208f9be839b8e8ce6e95f001a48ea044922"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-007-baseline.json",
+      "bytes": 1185904,
+      "sha256": "ed21b0b430f5a091aefe6122478314ac0ea3b1be3ef922bf94a60ba21e48c4c3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-007-response.json",
+      "bytes": 1196133,
+      "sha256": "576e587e95dfc8c8f435c4bf6b56e3db9792ca752e046154649611481b33a5ff"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-008-baseline.json",
+      "bytes": 3700747,
+      "sha256": "af764fd77ddb88edcc848244ab96a003c1577b707a210a74d2834ee49d4308c3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-008-response.json",
+      "bytes": 451378,
+      "sha256": "abee8ea980de6ed417470ca7b754b1bdc5e928085ba8cb8db40e884f450b0287"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-009-baseline.json",
+      "bytes": 1112299,
+      "sha256": "a02b02d99b1e295c0b42ccfc0997fcd6fb0c32e4ab39d934b282c585ad393c24"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-009-response.json",
+      "bytes": 1122240,
+      "sha256": "dec0ae603a0e09ad969ec1b39b4c54d2f972fad004d5f39b34cfb01fea7f2538"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-010-baseline.json",
+      "bytes": 1071029,
+      "sha256": "73baab72188ba3f8719876b0c7b6c9e1e339732e8485c84edb3dbf063f032a37"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-010-response.json",
+      "bytes": 1080669,
+      "sha256": "4d88f28720fbb9d70355be1f9bb04a820ce12d5b853aef25828cbd54451ec157"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-011-baseline.json",
+      "bytes": 1098101,
+      "sha256": "9bf710b27ae17b5360e031d6e6be9a83babd7bd970b980e0c8483e10a43703a1"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-011-response.json",
+      "bytes": 1104248,
+      "sha256": "e85e35292f2e0d6930a34cb0ec2f24243d678ef485340debfad1323f6644f875"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-012-baseline.json",
+      "bytes": 804976,
+      "sha256": "d80d03f1503fda33fdb108e4686476bb26e4716cde166027a2f2d5a3395d7221"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-012-response.json",
+      "bytes": 811210,
+      "sha256": "470cdfbd66683df5affdda5e152fbf1728a8be4d5c6d8e37756e77d82e375b52"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-013-baseline.json",
+      "bytes": 933483,
+      "sha256": "9cc6db41de0bdae91a9229c7054272b222a04bd51b4009d2076f5f0564716226"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-013-response.json",
+      "bytes": 938674,
+      "sha256": "332135f3fe35b108385dbf20429df460e5c2fc4bec3c59d47fff7b7a06d0aaae"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-014-baseline.json",
+      "bytes": 1733726,
+      "sha256": "2caa1535bf66c47bae01838a2d1ee5d6882812d71e6a5f1518935b86a05f240e"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-014-response.json",
+      "bytes": 1802676,
+      "sha256": "d8ea56dcbc584cb08205e552b54a15132a09475aaf73239d195dbbc1bf34f2d8"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-015-baseline.json",
+      "bytes": 648600,
+      "sha256": "0fa3fcdea946f1a59419a3723db9ff5a5a64128b88960c872624b7f85ad980e5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-015-response.json",
+      "bytes": 658182,
+      "sha256": "ce0e42cdc3fb842c73570b70688d705fdeefb9d8f0e6f72d4696624d01c201de"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-016-baseline.json",
+      "bytes": 687581,
+      "sha256": "5c914157e67a17d3b938d8a749020bbf6246e21f5d98c49ebf053736680126bb"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-016-response.json",
+      "bytes": 694979,
+      "sha256": "ea3074c461c1cee0868a0ed34d1e5981b93e43cfe69dc24fe6123ec42af6d801"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-017-baseline.json",
+      "bytes": 585723,
+      "sha256": "20d95448f851f45bbc9fa06a914967015cfb264b69845e1a2b6e46cbfd89b8c7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-017-response.json",
+      "bytes": 592394,
+      "sha256": "30b148a0d99a375a013c9b271e9e5c964080d5b793bddcad32a64c59075d2f42"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-018-baseline.json",
+      "bytes": 408408,
+      "sha256": "fc959adaeaeb754578802a08eac3c30558fc96cf762c08d75983919f515c58a0"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-018-response.json",
+      "bytes": 416451,
+      "sha256": "38e825ca289d227441bd84d0f820934d1fcd9bdf6a89a98277f75e42850290a4"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-019-baseline.json",
+      "bytes": 347753,
+      "sha256": "8576f6f3b31fd0065c40a13c294783454e72b4fe1e2f4170f42bc22793552b03"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-019-response.json",
+      "bytes": 355793,
+      "sha256": "1b3e627150b9027a82bc94690944b638b197b221bbe3e209df76ddc2772ef8da"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-020-baseline.json",
+      "bytes": 252446,
+      "sha256": "79c9204b5b7eba8c67fcfe9f2194c82bb1b9e5e19a9553a4890c38607a234a36"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-020-response.json",
+      "bytes": 260014,
+      "sha256": "b634344d74ffd665d7af6ccab98b27941dd07d5b8dca1c44fded86ab673eb7bf"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-021-baseline.json",
+      "bytes": 371246,
+      "sha256": "091794adc608e0afb3bcf5131af831da8924bc6dbe7d70838cbdec88bdabc480"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-021-response.json",
+      "bytes": 377563,
+      "sha256": "e2762f8cb9d6fbcd5d8c5f2730b466fc2f7cf94fc616e7a667e9e5788e17a701"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-022-baseline.json",
+      "bytes": 1508890,
+      "sha256": "02f502f9231197466afed115fcb23ad18ec5b5d4c1fc0901eb9c02b77ea67307"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-022-response.json",
+      "bytes": 1598303,
+      "sha256": "467b01142e897cb88e9c64a78330548b5ff317803b56d8a105679103643c44f5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-023-baseline.json",
+      "bytes": 214230,
+      "sha256": "55f517b78362b6fb6cb8dc44e5bc664961904c47b311e9b003279fdb6c28c05b"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/case-023-response.json",
+      "bytes": 221409,
+      "sha256": "1f354db748e51f1386e581985a3a1fd3c4dd34836eb289f77899eec2e4309c7a"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/development_history.json",
+      "bytes": 3797,
+      "sha256": "56494b8f334e5f8040ccc1ae37f1e79a53cb1219aa56b1a487f037d630d88152"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/manifest.json",
+      "bytes": 23830,
+      "sha256": "220ea6eddeebc09fc2979c838b7ca588984b3124cf5554428eabccd854ad0215"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/remaining_timeout.json",
+      "bytes": 242,
+      "sha256": "ce634e4311580290117aabebf60aeeb886a7669e6a909daa8e58d22e15c7efd5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/baseline_learned_stage4.py",
+      "bytes": 8971,
+      "sha256": "c0ae30e89d2f06a9e716e840f7a280e9e2a8c1136d9370f2e142ad75c3b84316"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/corridor_experiment.py",
+      "bytes": 6094,
+      "sha256": "d7c3f12f7af1e4e91ed0590dbb775f33891f5d0dcc90d91c76ce62c0e2f4705d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/corridor_stage4.py",
+      "bytes": 15310,
+      "sha256": "dce05f65b50beadb4f3bf124d127bf097a9a1231a2db8c3810b6d3a85033044e"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/expanded_planner.py",
+      "bytes": 10025,
+      "sha256": "9e989439ae97a73b71dee558d34a183606a49207f252cb0eaca696bc62aabe7d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/hybrid_corridor_experiment.py",
+      "bytes": 6308,
+      "sha256": "e9a271cb1c1978feeced93fc09e66a1ce55eadd1478a0c2cdcb49a9df664d5e7"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/hybrid_corridor_stage4.py",
+      "bytes": 1254,
+      "sha256": "2c9dcc8db3fc7b3c3060caa58d1a613d5322250b69c391456a456a1ccad116ea"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/interaction_experiment.py",
+      "bytes": 5992,
+      "sha256": "36b6f3dca984ac9cbe4ed25532e592d4d78496101f0192de103c841022dc1b48"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/interaction_stage4.py",
+      "bytes": 14915,
+      "sha256": "63f85e61a4a060960763cfba78bc4ab7c8e89133e9bbad99092f6bd00808c998"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/joint_path_stage4.py",
+      "bytes": 9165,
+      "sha256": "77f50bfba8b8362591256d6a0738d2801cf5f95c9b50277b22f5c5c8ec1fa189"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/learned_opponent.py",
+      "bytes": 3071,
+      "sha256": "402419573e69144a0025941aa76c61f122c0c6a94621a802ab065a6945bb459f"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/maneuver_core.py",
+      "bytes": 35005,
+      "sha256": "ca55ca7b5d6bb26e0f35419c9a9566bc84476eb3dd0c74f1fbc780b95cd3f10c"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/opponent_forecast.npz",
+      "bytes": 34377,
+      "sha256": "d36e5d4e4bcc2fa2ab548c0055f713de86a5557c2605781ef998f72136d54579"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/perception.py",
+      "bytes": 14808,
+      "sha256": "a638d6263f532aa23dca6b3edd3401ae6867873c13dc644bff906d22c50695d8"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/recovery_corridor_experiment.py",
+      "bytes": 6295,
+      "sha256": "a9a05e1a41924c68ddc1ac7eda4886c340ede676c680b5c9c8684c182688324e"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/recovery_corridor_stage4.py",
+      "bytes": 9093,
+      "sha256": "0736ddc30096ea4b5af685e3d5ca7cdbfb35bcc5774bb3a45f745e6df8384aa3"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/response_stage4.py",
+      "bytes": 12241,
+      "sha256": "d804400b963f46c4bf10e3b876690865bc8b3d4c268be9252e8fbb0971048344"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/robust_corridor_experiment.py",
+      "bytes": 6184,
+      "sha256": "79b4a5b164f1e93ffad59b9139197e2d5451c68057f2be97360ae56191960c4d"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/robust_corridor_stage4.py",
+      "bytes": 12560,
+      "sha256": "2b284c28c73b5ba2cf45985dc7adbf57d5260464280e8c781453a999d49c47ca"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/run_experiment.py",
+      "bytes": 22791,
+      "sha256": "9817e7639e2a8abcc9aa479d011883d2a97deadf2e917ec8f677b4edf2aa20e0"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/stage2.npz",
+      "bytes": 13063,
+      "sha256": "98d2fdb270248134902453614fc96590c51bef1ee3e599fbfcde6fbea9c3b55c"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/stage2.value.npz",
+      "bytes": 13586,
+      "sha256": "5c86ad309edec703192f5243e2e7e2c5c964539470f05d2335db0bc9a60ce0ca"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/stage3.npz",
+      "bytes": 13617,
+      "sha256": "0576a92bc21e46c6225768a3d091d09358b26b36a41d9ff72257fbf27ed14bbf"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/stage3.value.npz",
+      "bytes": 13758,
+      "sha256": "dff6e4dcc1ca88d065f0ae05bc9c24941378b130f40f472e54f97cf06193cd07"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/test_corridor_stage4.py",
+      "bytes": 3747,
+      "sha256": "f10985279f52d9e76e8bad242bdd2bfb6d6626489450f42e08fecca57f312ce2"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/test_interaction_stage4.py",
+      "bytes": 3434,
+      "sha256": "a964ae2d40ec87d40d27fac47f99dc92eeb11c3e61a8a79f08587b24b0af1d87"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/test_robust_corridor_stage4.py",
+      "bytes": 4462,
+      "sha256": "208fd8e618086ae465aec5f72be300cae9d7feff6c9a4288a16d5917c923f58a"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/track_geometry.py",
+      "bytes": 17836,
+      "sha256": "58ed9e3fb2e8bc800f5ddd0bdaa017c2d82bd6306133c134721c3026de6370f5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/source/world.py",
+      "bytes": 9726,
+      "sha256": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/summary.json",
+      "bytes": 190,
+      "sha256": "531545593b47290d398533138866c4d0bb1e10b7724f037d11b22b2698a62ea8"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/test_hybrid_corridor_stage4.py",
+      "bytes": 1341,
+      "sha256": "eb3f7c17151eed5281c516e314817b4bd4ac00e6851a07235cd32ad4211cb4bc"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/test_recovery_corridor_stage4.py",
+      "bytes": 4472,
+      "sha256": "6a87ae371a94ab924ad86968710e8f14a40428f47b0521de870e385e24e5e328"
+    },
+    {
+      "path": "overtaking-models/artifacts/hybrid_corridor_validation_20261114/validation_checks.json",
+      "bytes": 916,
+      "sha256": "484fc02a38ac331f3b8a0158ddb05e4ed60f93cf8066faad295d46ed878b2ce3"
     },
     {
       "path": "overtaking-models/artifacts/learned_pressure_random_r1/case-000-baseline.json",
@@ -1156,6 +2246,11 @@
       "sha256": "33df764b7138e1902651ecfd381154543e8d611fae96f18d951c894b092748a8"
     },
     {
+      "path": "overtaking-models/benchmark_robust_corridor_speed.py",
+      "bytes": 3481,
+      "sha256": "dfa4bc3e9497f9e7ab9331ae909ed55d0c10e763595ede5af6c9a193861a7b11"
+    },
+    {
       "path": "overtaking-models/benchmark_v3.py",
       "bytes": 3463,
       "sha256": "c246c0cf7a00ddd2ffec385a261bc0467c7fc07808afc485d87b4ca700f04cb3"
@@ -1166,9 +2261,34 @@
       "sha256": "acc76ebd8364fb041b0656ad323a7b0cc6fa80798d0d073d3ddc7fa63fd824a2"
     },
     {
+      "path": "overtaking-models/capture_corridor_deadlocks.py",
+      "bytes": 1365,
+      "sha256": "b68f904ea1fa2eb9cd83dbe3e4b15ae886808595472c9e424f8caa6a5754e18a"
+    },
+    {
+      "path": "overtaking-models/capture_robust_deadlocks.py",
+      "bytes": 1655,
+      "sha256": "18683d8546098b8a9040837628d4b3ee7e62eab7dfa9005f712c23d9da510fe0"
+    },
+    {
+      "path": "overtaking-models/coefficient_sensitivity.py",
+      "bytes": 5718,
+      "sha256": "88fc60880921d4bf828ad8ac4bef426a98ca2b768385047903cc772f6faa078b"
+    },
+    {
       "path": "overtaking-models/collect_reactive_branches.py",
       "bytes": 6022,
       "sha256": "713630ab80634e96214002265e63a944f2187d9de1e3f0d4cc36cf17ea248cba"
+    },
+    {
+      "path": "overtaking-models/corridor_experiment.py",
+      "bytes": 6094,
+      "sha256": "d7c3f12f7af1e4e91ed0590dbb775f33891f5d0dcc90d91c76ce62c0e2f4705d"
+    },
+    {
+      "path": "overtaking-models/corridor_stage4.py",
+      "bytes": 15310,
+      "sha256": "dce05f65b50beadb4f3bf124d127bf097a9a1231a2db8c3810b6d3a85033044e"
     },
     {
       "path": "overtaking-models/evaluate.py",
@@ -1201,14 +2321,49 @@
       "sha256": "5d6a39ea64643446e7a0820fd9c6bdef9a2e4e6e590f3fe532c2a194740dff1f"
     },
     {
+      "path": "overtaking-models/finalize_hybrid_report.py",
+      "bytes": 7398,
+      "sha256": "4157bb3845d9f5b9938e2af658f06b0546c0c324e2cbcf51f5ac595a3bac8eaa"
+    },
+    {
       "path": "overtaking-models/finetune_reactive_forecast.py",
       "bytes": 3161,
       "sha256": "0f3913cc3ce73fffdbc244ed356662e43b6d67d87c01e947f10a364789dda846"
     },
     {
+      "path": "overtaking-models/hybrid_corridor_experiment.py",
+      "bytes": 6308,
+      "sha256": "e9a271cb1c1978feeced93fc09e66a1ce55eadd1478a0c2cdcb49a9df664d5e7"
+    },
+    {
+      "path": "overtaking-models/hybrid_corridor_stage4.py",
+      "bytes": 1254,
+      "sha256": "2c9dcc8db3fc7b3c3060caa58d1a613d5322250b69c391456a456a1ccad116ea"
+    },
+    {
+      "path": "overtaking-models/interaction_experiment.py",
+      "bytes": 5992,
+      "sha256": "36b6f3dca984ac9cbe4ed25532e592d4d78496101f0192de103c841022dc1b48"
+    },
+    {
+      "path": "overtaking-models/interaction_stage4.py",
+      "bytes": 14915,
+      "sha256": "63f85e61a4a060960763cfba78bc4ab7c8e89133e9bbad99092f6bd00808c998"
+    },
+    {
       "path": "overtaking-models/interactive_model.py",
       "bytes": 335,
       "sha256": "4f787b7785b08a690d5698adcd4c5beb11a581c9d3c325a7b0a3d64f7995e656"
+    },
+    {
+      "path": "overtaking-models/joint_path_experiment.py",
+      "bytes": 6422,
+      "sha256": "936c4697d448a6d1d3c6b51a770331a9111e5cba64cd207c285673ecf2ca68ad"
+    },
+    {
+      "path": "overtaking-models/joint_path_stage4.py",
+      "bytes": 9165,
+      "sha256": "77f50bfba8b8362591256d6a0738d2801cf5f95c9b50277b22f5c5c8ec1fa189"
     },
     {
       "path": "overtaking-models/learned_opponent.py",
@@ -1261,6 +2416,36 @@
       "sha256": "98eb4838c7b34e63e077e231e918f30de8766386ecbf5bf29f64f691b702e14e"
     },
     {
+      "path": "overtaking-models/plot_polynomial_analysis.py",
+      "bytes": 1045,
+      "sha256": "ac898915660e17202773fed10d5b0dfa03fd29083d49101f48c21ea4e3d53bfe"
+    },
+    {
+      "path": "overtaking-models/polynomial_calculations.py",
+      "bytes": 2128,
+      "sha256": "23bad4c22e37d145fcd4f6c06ef8dd2011460817933d0b5254eb74a0dc213988"
+    },
+    {
+      "path": "overtaking-models/prepare_corridor_demo.py",
+      "bytes": 3048,
+      "sha256": "d32b48e13ed730b0fd2f1744b5ba9f5accab0da1c48be3934acf36b3fc7120b8"
+    },
+    {
+      "path": "overtaking-models/prepare_interaction_demo.py",
+      "bytes": 1833,
+      "sha256": "445e6760041b25e376724940f24a9550786af995e94461e74af9a3b736718b08"
+    },
+    {
+      "path": "overtaking-models/prepare_joint_demo.py",
+      "bytes": 2771,
+      "sha256": "0b248e32e4725efda0c98a629caff1de9277917640803ba86fd7ae4f071d4ac9"
+    },
+    {
+      "path": "overtaking-models/prepare_robust_corridor_demo.py",
+      "bytes": 2282,
+      "sha256": "a5f20f8c8fb308b736cbaa148db05b0ec9e18dbb3ed7ba3ae86517474dc97536"
+    },
+    {
       "path": "overtaking-models/probe_reactive_yield.py",
       "bytes": 1358,
       "sha256": "0b965cfebe62718de78886db840d50187621222bed021207753027393dbd4f39"
@@ -1269,6 +2454,16 @@
       "path": "overtaking-models/reactive_pressure_experiment.py",
       "bytes": 6404,
       "sha256": "90e1d4ef287c72e6c4d6b8d598f7f3827f2441fa3d6f98f76fa0fcc8ade35067"
+    },
+    {
+      "path": "overtaking-models/recovery_corridor_experiment.py",
+      "bytes": 6295,
+      "sha256": "a9a05e1a41924c68ddc1ac7eda4886c340ede676c680b5c9c8684c182688324e"
+    },
+    {
+      "path": "overtaking-models/recovery_corridor_stage4.py",
+      "bytes": 9093,
+      "sha256": "0736ddc30096ea4b5af685e3d5ca7cdbfb35bcc5774bb3a45f745e6df8384aa3"
     },
     {
       "path": "overtaking-models/render_preview.py",
@@ -1306,24 +2501,34 @@
       "sha256": "26bbd982f939735d1aef93c7025f6e4c74d5bc5bfa4a359a559f5f1f08d18883"
     },
     {
+      "path": "overtaking-models/robust_corridor_experiment.py",
+      "bytes": 6184,
+      "sha256": "79b4a5b164f1e93ffad59b9139197e2d5451c68057f2be97360ae56191960c4d"
+    },
+    {
+      "path": "overtaking-models/robust_corridor_stage4.py",
+      "bytes": 12560,
+      "sha256": "2b284c28c73b5ba2cf45985dc7adbf57d5260464280e8c781453a999d49c47ca"
+    },
+    {
       "path": "overtaking-models/rollout_training.py",
       "bytes": 36006,
       "sha256": "6c16c5cc3910d8f684afc5031cab36a5637cf87b1af60283bfa28c8c17a38506"
     },
     {
       "path": "overtaking-models/ros_visualization/README.txt",
-      "bytes": 7146,
-      "sha256": "11a9471dadde7655be5885c141468981b5f172cd5ff13d55e01a4b632014dfbd"
+      "bytes": 1757,
+      "sha256": "5b7329dae263189636ea62e361020db90ea2c724c62f86d51d34e7293a85fcc3"
     },
     {
       "path": "overtaking-models/ros_visualization/gym_source.py",
-      "bytes": 9979,
-      "sha256": "61cc4cb32b0a2f3ab6d139af5dbba23676091888994a19c128e6ca05b28f6474"
+      "bytes": 12526,
+      "sha256": "f913398459fe07d70a24681323f960e93b395bd39040756f71d8a8339332b681"
     },
     {
       "path": "overtaking-models/ros_visualization/launch.py",
-      "bytes": 3081,
-      "sha256": "f54f16d81fff5f19e6149bfe4ef284de5558c5d894eb98e3ab7fa99ea6b86b03"
+      "bytes": 3171,
+      "sha256": "33650b6690f11a10fd87a81fc55928052c26590ffc172ea847fa2969878595b0"
     },
     {
       "path": "overtaking-models/ros_visualization/pixi.lock",
@@ -1342,13 +2547,23 @@
     },
     {
       "path": "overtaking-models/ros_visualization/ros_display.py",
-      "bytes": 12213,
-      "sha256": "cc68cd4f0c4b95b134de604b7d3df4cee91da139ef3899fde17b9ba46aca248b"
+      "bytes": 15232,
+      "sha256": "3cf4dc809004dc73d22c0e97db4ced62dd6a8b0c0507eaf8d8ac1782d1e48e59"
     },
     {
       "path": "overtaking-models/ros_visualization/test_capture.py",
       "bytes": 1949,
       "sha256": "39ea011666d130adc6023808c7379bf797c9f22c87efa9f10068cc6c62f8a89e"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/validate_interaction_ros.py",
+      "bytes": 1789,
+      "sha256": "5d36942c4ba8bed72b02773324009e08c71df6954eac68ecdd49e747efc1c9f9"
+    },
+    {
+      "path": "overtaking-models/ros_visualization/validate_joint_ros.py",
+      "bytes": 1743,
+      "sha256": "6b217981271b371ad23eefd2d4bdda728c4965a2d6dd8a3a8584345d84b0b2a5"
     },
     {
       "path": "overtaking-models/ros_visualization/validate_learned_ros.py",
@@ -1386,6 +2601,26 @@
       "sha256": "025a0bb4b9c4af86c0f4c746ea8fc9798c370a33d42794fc9d3fb5a5a9b57ce2"
     },
     {
+      "path": "overtaking-models/summarize_corridor.py",
+      "bytes": 5397,
+      "sha256": "db4ea43502a5f8243c9f87b9cba52f8d1f651920765abb09b481b9d293088f2e"
+    },
+    {
+      "path": "overtaking-models/summarize_interaction.py",
+      "bytes": 7003,
+      "sha256": "ec8a92c4d12b4929a8757c4de9fb217dd3e4b59f593164bfd64439fdd7fc9121"
+    },
+    {
+      "path": "overtaking-models/summarize_joint_paths.py",
+      "bytes": 4672,
+      "sha256": "99578b09d2c0a986331aa1673cfa8d291b3e782daa4a9fed1a955e0fd56baca0"
+    },
+    {
+      "path": "overtaking-models/summarize_robust_corridor.py",
+      "bytes": 4114,
+      "sha256": "a1c163128b1bb4a2ea77600c6d5755c320a1d42e90e3b2b459bb2a47fac41fcd"
+    },
+    {
       "path": "overtaking-models/test_close_lidar.py",
       "bytes": 2376,
       "sha256": "35a414ba386ffc6b8aebe7bdd94717f87b09d32c163cc5b1ff4dd3ad5d585094"
@@ -1394,6 +2629,11 @@
       "path": "overtaking-models/test_controller.py",
       "bytes": 12590,
       "sha256": "cab1806d33d8baa087bcfd37a4361abae300759b5d1a5e528e3c0d29f8af641d"
+    },
+    {
+      "path": "overtaking-models/test_corridor_stage4.py",
+      "bytes": 3747,
+      "sha256": "f10985279f52d9e76e8bad242bdd2bfb6d6626489450f42e08fecca57f312ce2"
     },
     {
       "path": "overtaking-models/test_episode_v3.py",
@@ -1414,6 +2654,21 @@
       "path": "overtaking-models/test_geometry.py",
       "bytes": 5073,
       "sha256": "a70bdf4feadf2e9f681b827dcff835fb442b933da06870e0189e2ffb64330928"
+    },
+    {
+      "path": "overtaking-models/test_hybrid_corridor_stage4.py",
+      "bytes": 1341,
+      "sha256": "eb3f7c17151eed5281c516e314817b4bd4ac00e6851a07235cd32ad4211cb4bc"
+    },
+    {
+      "path": "overtaking-models/test_interaction_stage4.py",
+      "bytes": 3434,
+      "sha256": "a964ae2d40ec87d40d27fac47f99dc92eeb11c3e61a8a79f08587b24b0af1d87"
+    },
+    {
+      "path": "overtaking-models/test_joint_path_stage4.py",
+      "bytes": 3017,
+      "sha256": "90af7b70d0051012e4aed83cf1fa36afd5a4d79ae66709c9a8c4bda4f4b7f558"
     },
     {
       "path": "overtaking-models/test_learned_opponent.py",
@@ -1451,6 +2706,11 @@
       "sha256": "e4cfc45484abd5d93286758906ebf4745a08d04f5a40ee88458091f19469311e"
     },
     {
+      "path": "overtaking-models/test_recovery_corridor_stage4.py",
+      "bytes": 4472,
+      "sha256": "6a87ae371a94ab924ad86968710e8f14a40428f47b0521de870e385e24e5e328"
+    },
+    {
       "path": "overtaking-models/test_reference_v3.py",
       "bytes": 2399,
       "sha256": "20d1c83ba47b4f557907e7354c9a5e5e1e627ae04ef8f8ac6f5c9e2d86db4931"
@@ -1469,6 +2729,11 @@
       "path": "overtaking-models/test_review_rollouts_llm.py",
       "bytes": 7851,
       "sha256": "0b6d1aca1fad9a8a94fae07594e538a573b3e09b5ba163e01b45726cea74c24b"
+    },
+    {
+      "path": "overtaking-models/test_robust_corridor_stage4.py",
+      "bytes": 4462,
+      "sha256": "208fd8e618086ae465aec5f72be300cae9d7feff6c9a4288a16d5917c923f58a"
     },
     {
       "path": "overtaking-models/test_rollout_training.py",
@@ -1551,6 +2816,11 @@
       "sha256": "3f3b03c9153d880d69847c8b25f0288a3084a81da4889c1755f17f9b09e9eea5"
     },
     {
+      "path": "overtaking-models/write_coefficient_report.py",
+      "bytes": 7954,
+      "sha256": "650ef7b725003c223ef7de8d598b7e421ed5d9178f98e5bb76320a31e22d61bb"
+    },
+    {
       "path": "overtaking-models/write_pressure_report.py",
       "bytes": 9088,
       "sha256": "eb867882bfbb68e4f673d5f74a0caf80d16956e5bceeb3a2e2af086c80c598d6"
@@ -1562,8 +2832,8 @@
     },
     {
       "path": "run-demo.sh",
-      "bytes": 298,
-      "sha256": "09c4781834c9f98bfd7688a6dd1486778598a4ec1b40a6819b5534476f33e5cd"
+      "bytes": 316,
+      "sha256": "b5e7eabc93bfe145da787e61da1733ae3011f4ecebaf65fb74e023a6e043d6af"
     },
     {
       "path": "setup.sh",
@@ -1572,9 +2842,9 @@
     },
     {
       "path": "verify_package.py",
-      "bytes": 1125,
-      "sha256": "f2c8165353cfebf421e676e3fdcadab386df45bc279c5d8ae8ab9ab07bb2cd4b"
+      "bytes": 1808,
+      "sha256": "3353cd18cfb33faa8a7871a9eb7b0d1c9baf0c24779ce4901c32c0a68ab30b20"
     }
   ],
-  "notes": "Manifest excludes itself, installed environments and runtime output. Complete data asset is pinned separately in DATA_RELEASE.json."
+  "notes": "Manifest excludes itself, installed environments and runtime output. Complete historical and supplemental data assets are pinned separately in DATA_RELEASE.json."
 }

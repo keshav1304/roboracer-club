@@ -1,0 +1,19 @@
+{
+  "case-000-response.json": "artifacts/corridor_validation_20261114/case-000-response.json",
+  "case-007-response.json": "artifacts/corridor_validation_20261114/case-007-response.json",
+  "case-014-response.json": "artifacts/corridor_validation_20261114/case-014-response.json",
+  "case-017-response.json": "artifacts/corridor_validation_20261114/case-017-response.json",
+  "case-101-response.json": "artifacts/corridor_dev_r5/case-001-response.json",
+  "case-104-response.json": "artifacts/corridor_dev_r5/case-004-response.json",
+  "case-105-response.json": "artifacts/corridor_dev_r5/case-005-response.json",
+  "case-107-response.json": "artifacts/corridor_dev_r5/case-007-response.json",
+  "case-205-response.json": "artifacts/robust_corridor_validation_20261114/case-005-baseline.json",
+  "case-208-response.json": "artifacts/robust_corridor_validation_20261114/case-008-baseline.json",
+  "case-212-response.json": "artifacts/robust_corridor_validation_20261114/case-012-baseline.json",
+  "case-218-response.json": "artifacts/robust_corridor_validation_20261114/case-018-baseline.json",
+  "case-226-response.json": "artifacts/robust_corridor_validation_20261114/case-026-baseline.json",
+  "case-303-response.json": "artifacts/recovery_corridor_validation_final_20261114/case-003-baseline.json",
+  "case-306-response.json": "artifacts/recovery_corridor_validation_final_20261114/case-006-baseline.json",
+  "case-308-response.json": "artifacts/recovery_corridor_validation_final_20261114/case-008-baseline.json",
+  "case-310-response.json": "artifacts/recovery_corridor_validation_final_20261114/case-010-baseline.json"
+}

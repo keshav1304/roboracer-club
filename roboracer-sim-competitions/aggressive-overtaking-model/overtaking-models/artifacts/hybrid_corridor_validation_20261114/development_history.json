@@ -1,0 +1,181 @@
+[
+  {
+    "folder": "robust_corridor_dev_r4",
+    "status": {
+      "baseline": {
+        "trials": 8,
+        "passes": 4,
+        "contacts": 1,
+        "timeouts": 3
+      },
+      "response": {
+        "trials": 8,
+        "passes": 8,
+        "contacts": 0,
+        "timeouts": 0
+      }
+    }
+  },
+  {
+    "folder": "robust_corridor_validation_20261114",
+    "status": {
+      "baseline": {
+        "trials": 32,
+        "passes": 28,
+        "contacts": 0,
+        "timeouts": 4
+      },
+      "response": {
+        "trials": 32,
+        "passes": 27,
+        "contacts": 0,
+        "timeouts": 5
+      }
+    }
+  },
+  {
+    "folder": "recovery_corridor_dev_r1",
+    "status": {
+      "baseline": {
+        "trials": 3,
+        "passes": 0,
+        "contacts": 0,
+        "timeouts": 3
+      },
+      "response": {
+        "trials": 3,
+        "passes": 1,
+        "contacts": 0,
+        "timeouts": 2
+      }
+    }
+  },
+  {
+    "folder": "recovery_corridor_dev_r2",
+    "status": {
+      "baseline": {
+        "trials": 4,
+        "passes": 0,
+        "contacts": 0,
+        "timeouts": 4
+      },
+      "response": {
+        "trials": 4,
+        "passes": 3,
+        "contacts": 0,
+        "timeouts": 1
+      }
+    }
+  },
+  {
+    "folder": "recovery_corridor_dev_r3",
+    "status": {
+      "baseline": {
+        "trials": 4,
+        "passes": 0,
+        "contacts": 0,
+        "timeouts": 4
+      },
+      "response": {
+        "trials": 4,
+        "passes": 3,
+        "contacts": 0,
+        "timeouts": 1
+      }
+    }
+  },
+  {
+    "folder": "recovery_corridor_dev_r4",
+    "status": {
+      "status": "interrupted",
+      "reason": "Stopped superseded unchanged-standstill searches before adding duplicate reduction and failed-search throttling; completed files are retained; missing outcomes are not classified as passes or timeouts.",
+      "completed_response_files": [
+        "case-005-response.json",
+        "case-008-response.json",
+        "case-012-response.json",
+        "case-018-response.json"
+      ]
+    }
+  },
+  {
+    "folder": "recovery_corridor_dev_r5",
+    "status": {
+      "status": "interrupted",
+      "reason": "Stopped superseded unchanged-standstill searches before adding duplicate reduction and failed-search throttling; completed files are retained; missing outcomes are not classified as passes or timeouts.",
+      "completed_response_files": [
+        "case-005-response.json",
+        "case-008-response.json",
+        "case-012-response.json",
+        "case-018-response.json"
+      ]
+    }
+  },
+  {
+    "folder": "recovery_corridor_dev_final",
+    "status": {
+      "baseline": {
+        "trials": 5,
+        "passes": 0,
+        "contacts": 0,
+        "timeouts": 5
+      },
+      "response": {
+        "trials": 5,
+        "passes": 2,
+        "contacts": 0,
+        "timeouts": 3
+      }
+    }
+  },
+  {
+    "folder": "recovery_corridor_regression_final",
+    "status": {
+      "baseline": {
+        "trials": 8,
+        "passes": 4,
+        "contacts": 1,
+        "timeouts": 3
+      },
+      "response": {
+        "trials": 8,
+        "passes": 8,
+        "contacts": 0,
+        "timeouts": 0
+      }
+    }
+  },
+  {
+    "folder": "recovery_corridor_validation_final_20261114",
+    "status": {
+      "baseline": {
+        "trials": 24,
+        "passes": 21,
+        "contacts": 0,
+        "timeouts": 3
+      },
+      "response": {
+        "trials": 24,
+        "passes": 19,
+        "contacts": 0,
+        "timeouts": 5
+      }
+    }
+  },
+  {
+    "folder": "hybrid_corridor_dev_r1",
+    "status": {
+      "baseline": {
+        "trials": 17,
+        "passes": 11,
+        "contacts": 1,
+        "timeouts": 5
+      },
+      "response": {
+        "trials": 17,
+        "passes": 15,
+        "contacts": 0,
+        "timeouts": 2
+      }
+    }
+  }
+]

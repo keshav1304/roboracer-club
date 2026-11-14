@@ -1,0 +1,18 @@
+{
+  "files": {
+    "overtaking-models/ros_visualization/gym_source.py": "f913398459fe07d70a24681323f960e93b395bd39040756f71d8a8339332b681",
+    "overtaking-models/ros_visualization/validate_ros.py": "1a45c2d90cf3fe86d2a72107838dcaf7bb80b67ad2532c99c0fbe38f1fb1cc79",
+    "overtaking-models/ros_visualization/pixi.toml": "d0974f4cab8b1f126a8bae660a8a4c197e497f25d1c448c40f8b4e04e2815e88",
+    "overtaking-models/ros_visualization/validate_response_ros.py": "98f8c3e78bcf045cc44fb28f5bd86bd3f3081ca375575088dd6d29a2b372b9af",
+    "overtaking-models/ros_visualization/pixi.lock": "15ef5580b9b30957127018e24c694a02bce68d090397ef3468e37aafb65995fb",
+    "overtaking-models/ros_visualization/launch.py": "33650b6690f11a10fd87a81fc55928052c26590ffc172ea847fa2969878595b0",
+    "overtaking-models/ros_visualization/ros_display.py": "3cf4dc809004dc73d22c0e97db4ced62dd6a8b0c0507eaf8d8ac1782d1e48e59",
+    "overtaking-models/ros_visualization/validate_interaction_ros.py": "5d36942c4ba8bed72b02773324009e08c71df6954eac68ecdd49e747efc1c9f9",
+    "overtaking-models/ros_visualization/test_capture.py": "39ea011666d130adc6023808c7379bf797c9f22c87efa9f10068cc6c62f8a89e",
+    "overtaking-models/ros_visualization/README.txt": "5b7329dae263189636ea62e361020db90ea2c724c62f86d51d34e7293a85fcc3",
+    "overtaking-models/ros_visualization/validate_joint_ros.py": "6b217981271b371ad23eefd2d4bdda728c4965a2d6dd8a3a8584345d84b0b2a5",
+    "overtaking-models/ros_visualization/planner.rviz": "1f7d22614c14a5ded924c69cc12f3998946345919176ecb77ad1a6bef0a4ef7e",
+    "overtaking-models/ros_visualization/validate_learned_ros.py": "f25929af5e57ccbea66a0f52130be880b24d86cd58a755c3534fa0db5e384277"
+  },
+  "notes": "Original live-verification hashes remain in the demo folder. Launch portability and README edits are described in VALIDATION.json; controller and display publisher bytes match the tested workspace."
+}

@@ -1,0 +1,65 @@
+STAGE 4: WIDER APPROACH WITH GUARDED CLOSE ENCOUNTERS
+
+The final controller is HybridCorridorStage4. All results use actual F1TENTH Gym on the same imported AutoDRIVE default track, with the unchanged reactive Stage 2 opponent. The neural checkpoints are unchanged. There were no API calls or neural-network training in this work.
+
+FINAL INDEPENDENT TEST
+24 new starting positions, seed 981114; 48 paired runs. Same starting state, sensor seeds, 40-second passing deadline, and opponent for each pair. Ego speed cap 2.4 m/s; opponent cap 2.1 or 2.2 m/s; initial gaps sampled from 0.85 to 1.4 m. Starting positions were stratified around the track. Passing also requires returning near the reference and completing follow-through.
+Previous wider planner: 21/24 passes, 0 contacts, 3 timeouts.
+Final planner:          23/24 passes, 0 contacts, 1 timeouts.
+The sole remaining held-out timeout (014) keeps moving and follows without finishing a pass within 40 seconds. It has no mutual standstill; both planners time out there. See remaining_timeout.json.
+New-only passes: ['001', '008']
+Previous-only passes: []
+
+ORIGINAL FAILURES AND DEVELOPMENT CHECKS
+The original three timeouts now pass at 7.23 s (000), 10.53 s (007), and 38.75 s (017). The original body-contact case (014) now passes at 18.44 s. All eight original/regression cases pass without contact.
+Across the broader 17-case development suite: previous wider planner 11 passes, one contact, five timeouts; final planner 15 passes, zero contacts, two timeouts. It retains every previous success in that suite. Development cases 212 and 308 still time out with both versions; those are additional challenges, not the original four failures.
+Earlier exploratory rounds covered 32 and 24 random positions. Their failures were used during development, so they are not held-out evidence for this final controller. The final 24-position set is disjoint in seeds and starting positions and was not used to tune the final controller. In total, 80 new random positions were explored across the three rounds. All failed and interrupted experiments remain archived in development_history.json and their original folders.
+
+WHAT CHANGED
+1. Preserve the existing wider approach while the opponent is ahead. Switch to guarded close-encounter checks when relative longitudinal position is between -0.9 and +0.7 m. Keep that mode until the opponent is over 1.5 m ahead or more than 2.2 m behind. This hysteresis avoids rapid switching. A temporarily hidden opponent always uses the guarded mode.
+2. Keep a recently occluded tracked opponent in the interaction checks for up to 0.65 seconds rather than dropping the check as soon as detection confidence falls. The planner evaluates observed-motion, braking and return-to-reference hypotheses; it does not assume the opponent will yield.
+3. Add short, checked steering arcs for low-speed recovery. Known side-padding scan returns can be relaxed only with a motion certificate; front and unknown returns remain subject to braking. For a stopped opponent, proposed padding escapes are capped at 0.25 m/s and checked against the measured nearby scan points. Measured clearance must remain positive and nondecreasing. Steering can be positioned while stopped before creeping. An already-depleted positive predicted gap must not worsen and must restore 0.08 m by the horizon. This is an experimental simulator recovery rule, not a physical-vehicle safety certification.
+4. Keep lateral search bounded by the first actual walls, with no fixed lane-offset cap. Body clearance, steering feasibility, forward motion and opponent collision checks still apply. The requested wall-bounded lateral extent is preserved.
+5. Batch path geometry and opponent forecasts, share LiDAR calculations between speed variants, reuse exact static-map calculations within each decision, remove identical capped motions, and briefly reuse failed searches only at an unchanged standstill while commanding a stop.
+44 tests passed. Tests cover forecast/geometry equivalence, scan limits, occlusion handling, measured-clearance recovery, steering-at-rest commands, failed-search reuse, and encounter-mode hysteresis.
+
+SERIAL SPEED COMPARISON
+Both controllers were run serially on the same 336 ego/LiDAR observations recorded from three Gym scenarios. No other test or demo ran during this benchmark. Commands were not fed back to physics in the timing replay; the closed-loop driving results above come from separate real Gym episodes. The measurement includes perception and the whole planner, not just neural inference.
+Previous: median 26.55 ms; p95 154.83 ms; p99 202.62 ms.
+Final:    median 14.82 ms; p95 121.40 ms; p99 154.94 ms.
+Median reduction: 44.2%; p95 reduction: 21.6%.
+A 20 Hz wall-clock loop has a 50 ms budget. Tail latency above that remains a limitation. This small fixed-input benchmark does not establish a worst-case execution bound. Parallel trial timing is also retained in analysis.json, but is affected by concurrent work.
+
+RVIZ DEMONSTRATION
+Four selected successful scenes were recomputed live in actual Gym. RViz was verified subscribed to the candidate-path topic; prediction and fallback messages were observed, all four scenes passed with no contact and completed follow-through, and command replay was false. These are selected highlights, not aggregate evidence.
+Launcher: bash run-demo.sh (from package root)
+Demo folder: source://overtaking-models/artifacts/hybrid_corridor_demo_20261114
+
+ALL FINAL PAIRED OUTCOMES
+000: previous pass at 26.529999999999998; final pass at 36.26; final contact None
+001: previous no_pass at None; final pass at 8.15; final contact None
+002: previous pass at 23.099999999999998; final pass at 23.11; final contact None
+003: previous pass at 29.099999999999998; final pass at 29.099999999999998; final contact None
+004: previous pass at 28.95; final pass at 28.95; final contact None
+005: previous pass at 19.279999999999998; final pass at 19.55; final contact None
+006: previous pass at 26.0; final pass at 26.0; final contact None
+007: previous pass at 24.16; final pass at 24.16; final contact None
+008: previous no_pass at None; final pass at 8.34; final contact None
+009: previous pass at 21.869999999999997; final pass at 21.869999999999997; final contact None
+010: previous pass at 21.25; final pass at 21.25; final contact None
+011: previous pass at 23.759999999999998; final pass at 23.759999999999998; final contact None
+012: previous pass at 19.509999999999998; final pass at 19.509999999999998; final contact None
+013: previous pass at 20.91; final pass at 20.91; final contact None
+014: previous no_pass at None; final no_pass at None; final contact None
+015: previous pass at 12.31; final pass at 12.31; final contact None
+016: previous pass at 15.07; final pass at 15.07; final contact None
+017: previous pass at 13.39; final pass at 13.39; final contact None
+018: previous pass at 9.870000000000001; final pass at 9.870000000000001; final contact None
+019: previous pass at 8.520000000000001; final pass at 8.520000000000001; final contact None
+020: previous pass at 6.250000000000001; final pass at 6.250000000000001; final contact None
+021: previous pass at 9.16; final pass at 9.16; final contact None
+022: previous pass at 34.08; final pass at 37.13; final contact None
+023: previous pass at 5.62; final pass at 5.62; final contact None
+
+LIMITS
+Collision-free results on a finite sample do not guarantee collision-free behavior elsewhere. Remaining timeouts are retained and counted. This uses the same imported default track as the preceding experiments, not a newly verified competition map. The shared racing reference is locally optimized rather than certified globally optimal.

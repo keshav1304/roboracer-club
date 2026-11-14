@@ -1,25 +1,77 @@
 {
-  "date": "2026-11-13",
-  "fresh_gym_environment": true,
-  "original_unity_application_required": false,
-  "frozen_demo_source_hashes_verified": true,
-  "reference_digest_verified": true,
-  "unit_tests_passed": 10,
-  "demo_replay": [
+  "date": "2026-11-14",
+  "packaged_source_unit_tests_passed": 44,
+  "packaged_gym_map_and_frozen_source_check": "passed offline",
+  "new_neural_training": false,
+  "api_calls": 0,
+  "final_held_out": {
+    "positions": 24,
+    "paired_runs": 48,
+    "seed": 981114,
+    "baseline": {
+      "passes": 21,
+      "contacts": 0,
+      "timeouts": 3
+    },
+    "final": {
+      "passes": 23,
+      "contacts": 0,
+      "timeouts": 1
+    }
+  },
+  "live_demo_results_origin": "Verified live Gym/RViz workspace runs before packaging; not newly rerun during publication.",
+  "live_demo_results": [
     {
-      "scene": "case-016-response",
+      "scene": "random-case-001-response",
       "outcome": "pass",
-      "passed_at": 15.92,
+      "passed_at": 8.15,
       "collision": null
     },
     {
-      "scene": "case-021-response",
+      "scene": "random-case-008-response",
       "outcome": "pass",
-      "passed_at": 8.89,
+      "passed_at": 8.34,
+      "collision": null
+    },
+    {
+      "scene": "fixed-case-007-response",
+      "outcome": "pass",
+      "passed_at": 10.530000000000001,
+      "collision": null
+    },
+    {
+      "scene": "fixed-case-014-response",
+      "outcome": "pass",
+      "passed_at": 18.439999999999998,
       "collision": null
     }
   ],
-  "ros_validation": "RViz configuration retained from verified live demo. New launch code resolves Pixi on PATH; a fresh ROS install was not performed in this packaging check.",
-  "archive_crc_verified": true,
-  "secret_scan": "Known credential patterns checked in included files and NPZ/ZIP members; private environment and billing/key-check files excluded."
+  "rviz_verification": {
+    "messages": 1003,
+    "interaction_seen": true,
+    "fallback_seen": true,
+    "pass_scenes": [
+      "random-case-001-response",
+      "random-case-008-response",
+      "fixed-case-007-response",
+      "fixed-case-014-response"
+    ],
+    "scenes": [
+      "random-case-001-response",
+      "random-case-008-response",
+      "fixed-case-007-response",
+      "fixed-case-014-response"
+    ],
+    "command_replay_seen": false,
+    "rviz_connected": true,
+    "passed": true
+  },
+  "portability_changes": [
+    "Launcher discovers Pixi on PATH, as in prior release.",
+    "run-demo.sh selects the final four frozen scenes.",
+    "Report generator and documentation use portable launcher references."
+  ],
+  "ros_install": "Existing locked Apple Silicon configuration; no fresh ROS install in this update.",
+  "data": "Historical archive plus CRC-verified November 14 supplement; hashes pinned in DATA_RELEASE.json.",
+  "secret_scan": "Known credential patterns checked in included files and archive members; environments and private runtime/billing files excluded."
 }

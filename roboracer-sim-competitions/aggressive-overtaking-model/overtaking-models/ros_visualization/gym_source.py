@@ -43,6 +43,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--stage',choices=['2','4','all'],default='all')
     parser.add_argument('--once',action='store_true')
+    parser.add_argument('--demo-count',type=int,default=2)
     parser.add_argument('--show-counterfactual',action='store_true')
     parser.add_argument('--response-experiment',type=Path,help='Show response-aware Stage 4 cases from a completed experiment')
     parser.add_argument('--headless',action='store_true')
@@ -50,6 +51,7 @@ def main():
     parser.add_argument('--directory',type=Path,default=Path(__file__).parent/'live')
     args=parser.parse_args()
     if args.speed<=0:parser.error('--speed must be positive')
+    if not 1<=args.demo_count<=8:parser.error('--demo-count must be between 1 and 8')
     if args.show_counterfactual:parser.error('Nonreactive opponent demos are disabled; all Stage 4 opponents must use avoidance.')
     args.directory.mkdir(parents=True,exist_ok=True)
     state={'driver':None,'time':0.,'decision_time':0.,'stage':2,'episode':0,'seq':0,'clock_offset':0.,'ticks':0,'quit':False}
@@ -68,30 +70,46 @@ def main():
         from response_stage4 import ResponseStage4
         manifest=json.loads((args.response_experiment/"manifest.json").read_text())
         learned=manifest.get("controller")=="LearnedStage4"
-        if learned:
+        joint=manifest.get("controller")=="JointStage4"
+        hybrid=manifest.get("controller")=="HybridCorridorStage4"
+        recovery=manifest.get("controller")=="RecoveryCorridorStage4"
+        robust=manifest.get("controller")=="RobustCorridorStage4"
+        corridor=manifest.get("controller")=="CorridorStage4"
+        interaction=manifest.get("controller") in ("InteractionStage4","CorridorStage4","RobustCorridorStage4","RecoveryCorridorStage4","HybridCorridorStage4")
+        if learned or joint or interaction:
             import importlib.util,hashlib,functools
             from learned_opponent import OpponentForecast
             source=args.response_experiment/'source'
-            for name in ('learned_opponent.py','expanded_planner.py','maneuver_core.py','world.py','run_experiment.py'):
-                expected=manifest['source_sha256'][name]
+            for name in ('learned_opponent.py','expanded_planner.py','maneuver_core.py','world.py','run_experiment.py','response_stage4.py','track_geometry.py','perception.py','joint_path_stage4.py','interaction_stage4.py','corridor_stage4.py','robust_corridor_stage4.py','recovery_corridor_stage4.py'):
+                expected=manifest['source_sha256'].get(name)
+                if expected is None:continue
                 if hashlib.sha256((ROOT/name).read_bytes()).hexdigest()!=expected:
                     raise RuntimeError(f'{name} changed since this experiment; rerun validation before displaying it')
-            spec=importlib.util.spec_from_file_location('displayed_learned_stage4',source/'learned_stage4.py')
+            for name,digest in manifest['source_sha256'].items():
+                if hashlib.sha256((source/name).read_bytes()).hexdigest()!=digest:
+                    raise RuntimeError(f'Frozen source {name} changed after evaluation')
+            for name in ('stage2.npz','stage2.value.npz','stage3.npz','stage3.value.npz'):
+                if (joint or interaction) and hashlib.sha256((ROOT/'artifacts/models'/name).read_bytes()).hexdigest()!=manifest['source_sha256'][name]:
+                    raise RuntimeError(f'{name} changed since evaluation')
+            if interaction:
+                for runtime,name in ((ROOT/'artifacts/learned_reaction_v2/model.npz','opponent_forecast.npz'),(ROOT/'artifacts/learned_pressure_random_r1/source/learned_stage4.py','baseline_learned_stage4.py')):
+                    if hashlib.sha256(runtime.read_bytes()).hexdigest()!=manifest['source_sha256'][name]:raise RuntimeError(f'{name} changed since evaluation')
+            spec=importlib.util.spec_from_file_location('displayed_learned_stage4',source/('hybrid_corridor_stage4.py' if hybrid else 'recovery_corridor_stage4.py' if recovery else 'robust_corridor_stage4.py' if robust else 'corridor_stage4.py' if corridor else 'interaction_stage4.py' if interaction else 'joint_path_stage4.py' if joint else 'learned_stage4.py'))
             module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-            module.OpponentForecast=functools.partial(OpponentForecast,path=source/'opponent_forecast.npz')
-            stage4=module.LearnedStage4
+            if not (joint or interaction):module.OpponentForecast=functools.partial(OpponentForecast,path=source/'opponent_forecast.npz')
+            stage4=module.HybridCorridorStage4 if hybrid else module.RecoveryCorridorStage4 if recovery else module.RobustCorridorStage4 if robust else module.CorridorStage4 if corridor else module.InteractionStage4 if interaction else module.JointStage4 if joint else module.LearnedStage4
         else:stage4=ResponseStage4
         examples=[]
         for path in args.response_experiment.glob('*.json'):
             data=json.loads(path.read_text())
             if 'job' not in data or data['job']['policy']!='response' or data['job']['mode']!='reactive':continue
-            if data['result']['success'] and data['result']['collision'] is None and (learned or data['response_counts']['selected']):
+            if data['result']['success'] and data['result']['collision'] is None and (learned or joint or interaction or data.get('response_counts',{}).get('selected')):
                 baseline_path=path.with_name(path.name.replace('-response','-baseline'))
                 baseline=json.loads(baseline_path.read_text()) if baseline_path.exists() else None
-                priority=0 if data.get('yield_metrics',{}).get('lateral_yield_pass') else 1 if baseline and not baseline['result']['success'] else 2 if data['response_counts']['selected'] else 3
+                priority=0 if baseline and not baseline['result']['success'] else 1 if data.get('yield_metrics',{}).get('lateral_yield_pass') else 2 if data.get('interaction_counts',{}).get('overrides',0) or data.get('response_counts',{}).get('joint_selected',0) or data.get('response_counts',{}).get('selected',0) else 3
                 examples.append((priority,data['result']['passed_at'] or 999.,data))
         if not examples:raise RuntimeError('No executed response-aware challenge in this experiment; refusing a misleading demo')
-        selected_examples=sorted(examples,key=lambda x:x[:2])[:2]
+        selected_examples=sorted(examples,key=lambda x:x[:2])[:args.demo_count]
         scenes=[(4,item[2]['job']['id'],item[2]['job']['scenario']) for item in selected_examples]
     experiment.MODELS.update({2:capture(ExpandedStage2),3:capture(stage4)})
     with offline_only():

@@ -1,0 +1,26 @@
+{
+  "tests_passed": 44,
+  "development_cases": 17,
+  "development_passes": 15,
+  "development_contacts": 0,
+  "development_baseline_passes": 11,
+  "development_lost_previous_passes": 0,
+  "original_eight_regression_cases_passed": true,
+  "heldout_positions": 24,
+  "paired_runs": 48,
+  "validation_seed": 981114,
+  "earlier_exploratory_positions": 56,
+  "total_new_random_positions": 80,
+  "total_new_paired_gym_runs": 160,
+  "heldout_disjoint_seeds_and_start_positions": true,
+  "controller_frozen": true,
+  "source_hashes_checked": true,
+  "api_calls": 0,
+  "neural_checkpoints_changed": false,
+  "opponent_changed": false,
+  "validation_used_for_tuning": false,
+  "supplemental_tests_sha256": {
+    "test_recovery_corridor_stage4.py": "6a87ae371a94ab924ad86968710e8f14a40428f47b0521de870e385e24e5e328",
+    "test_hybrid_corridor_stage4.py": "eb3f7c17151eed5281c516e314817b4bd4ac00e6851a07235cd32ad4211cb4bc"
+  }
+}

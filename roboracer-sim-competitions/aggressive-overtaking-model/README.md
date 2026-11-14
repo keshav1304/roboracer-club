@@ -1,21 +1,49 @@
 # Aggressive Overtaking Model
 
-**Team release — November 13, 2026.** Includes source, models, saved track, simulator and RViz configuration. The complete training/test archive is supplied as a versioned release asset with checksums.
+**Team release — November 14, 2026.** Includes source, models, saved track, simulator and RViz configuration. The complete training/test archive is supplied as a versioned release asset with checksums.
 
 A small racing car learns which passing maneuver to attempt, while a geometric planner constructs and checks the path. A newer network predicts how a reactive opponent might respond to that path. Everything shown here runs in **F1TENTH Gym**, with **ROS 2 and RViz** displaying the cars, candidate paths, and predictions.
 
-The project demonstrates real simulated passes, but **has not established reliable contact-free passing or consistent forced sideways yielding**. The two selected demonstrations are successful examples, not the overall success rate.
+The final controller, **HybridCorridorStage4**, passed **23 of 24 fresh test encounters with zero contacts**, compared with 21 of 24 for the previous wider planner. One timeout remains. These results do not guarantee collision-free behavior elsewhere or establish consistent forced sideways yielding. This update changes planning, recovery and RViz displays; **the trained neural checkpoints are unchanged and no new GPT/API calls were made**.
 
 ## What the demonstration shows
 
-Both demonstrations use the same experimental **Stage 4 early-pressure variant**:
+`bash run-demo.sh` now runs four selected successful encounters with the final Stage 4 controller, recomputed live in F1TENTH Gym and displayed in RViz:
 
-| Run | Confirmed pass | Previous planner on the same initial encounter |
+| Run | Confirmed pass | Previous wider planner |
 | --- | ---: | --- |
-| `case-016-response` | 15.92 simulated seconds | Contact |
-| `case-021-response` | 8.89 simulated seconds | Pass at 8.90 seconds |
+| `fixed-case-014-response` | 18.44 simulated seconds | Body contact |
+| `fixed-case-007-response` | 10.53 seconds | Timeout |
+| `random-case-001-response` | 8.15 seconds | Timeout |
+| `random-case-008-response` | 8.34 seconds | Timeout |
 
-These are two encounters, not two separate stages. Both include contact-free follow-through. The ego has a 2.4 m/s speed cap; opponents in the evaluation have 2.1 or 2.2 m/s caps. Actual speeds change through corners and avoidance.
+The first two are development regressions; the latter two are from the final held-out test. All four complete contact-free follow-through. They are selected highlights, not the overall success rate. Ego speed cap: 2.4 m/s; opponent cap: 2.1 or 2.2 m/s. Actual speeds vary through corners and avoidance.
+
+## Final planner update and results
+
+The planner searches sideways as far as the actual walls permit, while still checking the full vehicle footprint, curvature, steering and opponent clearance. It tries different transition distances and speed profiles. It preserves the existing wider approach while the opponent is ahead, then adds guarded checks during close encounters. A recently hidden opponent remains in the checks for up to 0.65 seconds. Predicted alternatives include observed motion, braking and return to the reference, so success does not require assuming the other car will yield.
+
+When blocked at low speed, the car can pre-position its steering while stopped and try short, checked recovery arcs. Releasing a known side-padding LiDAR stop requires a motion certificate; recovery around a stopped opponent is capped at 0.25 m/s and measured nearby clearance must remain positive and nondecreasing. Front/unknown returns and wall checks remain active. See `hybrid_corridor_stage4.py`, `recovery_corridor_stage4.py`, and `robust_corridor_stage4.py` in `overtaking-models/`.
+
+The final test used 24 new starting positions (seed 981114), 48 paired Gym runs, the same reactive opponent and sensor seeds for each pair, and a 40-second passing deadline plus follow-through. This set was not used to tune the final controller.
+
+| Outcome | Previous wider planner | Final hybrid planner |
+| --- | ---: | ---: |
+| Passes | 21/24 | 23/24 |
+| Contacts | 0 | 0 |
+| Timeouts | 3 | 1 |
+
+The remaining case 014 keeps moving behind the opponent; neither version passes in time. It is distinct from **development** case 014, whose collision was fixed. All eight original regression cases now pass without contact. On the broader 17-case development suite, passes improved from 11 to 15, contacts from one to zero, and timeouts from five to two. Earlier exploratory failures informed development and are not counted as independent final evidence.
+
+A separate serial benchmark used the same 336 recorded ego/LiDAR inputs for both complete controllers: median latency fell from **26.55 to 14.82 ms (44.2%)**, and p95 from **154.83 to 121.40 ms (21.6%)**. Batching geometry/forecasts, sharing LiDAR calculations across speeds, removing duplicate motions and caching exact calculations reduced work. Timing-replay commands were not applied to physics; driving performance comes from the closed-loop tests. Tail latency still exceeds a 50 ms control budget. The 44 planner tests passed.
+
+Full outcomes, frozen source/checkpoints, failed cases and verification records are included:
+
+- [Final test report](overtaking-models/artifacts/hybrid_corridor_validation_20261114/REPORT.txt)
+- [All final paired outcomes](overtaking-models/artifacts/hybrid_corridor_validation_20261114/summary.json)
+- [Serial timing results](overtaking-models/artifacts/hybrid_corridor_speed_20261114/results.json)
+- [Development outcomes](overtaking-models/artifacts/hybrid_corridor_dev_r1/summary.json)
+- [Live RViz verification](overtaking-models/artifacts/hybrid_corridor_demo_20261114/ros_verification.json)
 
 The opponent independently runs the saved Stage 2 model, its own LiDAR tracker, and its own avoidance controller. It is not commanded to slow down, move aside, or leave its racing line for the demonstration.
 
@@ -30,7 +58,7 @@ The track is the **imported AutoDRIVE default track**, simulated in F1TENTH Gym.
 | 3: interactive opponent | A reactive Stage 2 opponent has the same top-speed cap. | Add PROBE and more aggressive passing settings; consider an inside approach while the other car can react. Equal top-speed caps do not mean identical cornering limits. |
 | 4: faster interactive ego | The aggressive car is slightly faster than a reactive Stage 2 opponent. | Reuse Stage 3 maneuver weights, expand the path search, and experiment with predictions of the opponent's response to inside pressure. |
 
-Stage 4 originally reused the trained Stage 3 network; it did not create an entirely new maneuver network. The latest work adds a **separately trained opponent-motion predictor**. Historical Stage 2 data includes nonreactive opponents because that was its training task. The current Stage 4 comparison and selected demonstrations use reactive opponents exclusively during racing. The 0.4-second flying-start setup drives both cars along the reference to build actual sensor history; setup contacts still count.
+Stage 4 originally reused the trained Stage 3 network; it did not create an entirely new maneuver network. Earlier work added a **separately trained opponent-motion predictor**; the November 14 update keeps those weights and improves the planner. Historical Stage 2 data includes nonreactive opponents because that was its training task. The current Stage 4 comparison and selected demonstrations use reactive opponents exclusively during racing. The 0.4-second flying-start setup drives both cars along the reference to build actual sensor history; setup contacts still count.
 
 This is not follow-the-gap with a new name. It is a hybrid system: a map-based path planner, learned maneuver preferences, a learned outcome estimate, an optional opponent-response forecast, and a local steering/speed controller.
 
@@ -52,7 +80,7 @@ $$d(u)=d_0+(d_1-d_0)(10u^3-15u^4+6u^5),\qquad 0\leq u\leq1.$$
 
 Here, `u` measures progress through the lane change. This avoids an abrupt lateral jump. The implementation also adjusts for heading, available track width, and the return to the racing line.
 
-The planner varies **where the move begins, how quickly it moves sideways, its clearance, and when it merges back**. It searches a structured set of curves rather than randomly scattering points or asking GPT to draw a new racing line every frame. The expanded base planner can evaluate four nominal candidates and up to 28 alternatives when moves are blocked or stalled. The response-aware extension adds its own inside-pressure and return candidates.
+The planner varies **where the move begins, how quickly it moves sideways, its clearance, and when it merges back**. It searches a structured set of curves rather than randomly scattering points or asking GPT to draw a new racing line every frame. The earlier expanded base planner evaluates four nominal candidates and up to 28 alternatives when blocked. The final wall-corridor extension adds a structured lateral search with 0.25 m offset spacing and entry distances of 0.65, 1.2, 2.4 and 3.6 m, plus speed variants and checked recovery arcs. The number of candidates depends on available width and pruning; it is not capped at the earlier 28 alternatives.
 
 ### 3. Reject paths that fail the checks
 
@@ -102,7 +130,7 @@ $$J=C-0.8D_{\mathrm{outward}}+0.8U,$$
 
 where `D_outward` is predicted additional outward displacement and `U` is ensemble spread. These coefficients are hand-tuned planning weights, not a learned physical law. A response candidate can override the ordinary maneuver choice. A forecast mismatch can trigger a temporary pressure cooldown.
 
-Two variants were tested: **early pressure**, used in the selected demo, and **pressure only after closer overlap**, intended to avoid relying on a reaction before the opponent can see the approach. The demo loads its frozen experiment code and forecast checkpoint; the current working `learned_stage4.py` contains the overlap-gated variant.
+Earlier experiments tested **early pressure** and **pressure only after closer overlap**. Those results remain below as history. The final HybridCorridorStage4 builds on that work with wall-bounded search, multiple motion hypotheses and checked close-encounter recovery. The current demo loads the final frozen controller and unchanged forecast checkpoint; it does not run the historical `learned_stage4.py` entry point directly.
 
 A reactive opponent is not obliged to yield sideways. It may brake, hold position, misperceive the ego, or choose an unexpected maneuver. That is the main unresolved limitation of this experiment.
 
@@ -120,7 +148,7 @@ The saved historical review log contains 179 accepted GPT-4.1-mini responses acr
 
 The latest opponent forecast was trained from recorded simulated motion using regression error, approximately `mean(||predicted displacement − observed displacement||²)`. **It used no new GPT calls.** All live demonstrations and final driving tests run locally without API calls. Forecast training on an executed ego trajectory does not guarantee accurate predictions for an untried proposal.
 
-## Results, including failures
+## Historical predictor results, including failures
 
 The comparison used 24 random starting positions distributed around the same track, matching initial conditions between planners. Each trial allowed 40 seconds to confirm a pass, plus two seconds of contact-free follow-through.
 
@@ -142,7 +170,7 @@ The forecast ensemble alone took about 0.079 ms median and 0.097 ms at the 95th 
 
 The shared visual entry point is the live RViz/Gym demonstration. Historical HTML pages, GIFs, screenshots, and website replays are not included in this presentation.
 
-RViz colors: **white** reference, **green** ego and selected path, **orange** opponent, **blue** feasible candidates, **red** rejected candidates, **cyan** learned opponent forecast when used. The selected path may still receive a reduced speed command from the braking checks.
+RViz colors: **white** reference, **green** ego and selected path, **orange** opponent, **blue** feasible candidates, **red** rejected candidates, **cyan** opponent forecasts when used, **amber** checked recovery motion. Status labels distinguish wide approach from guarded close encounters and identify steering-at-rest recovery. A lateral goal is a proposed target, not measured displacement. The selected path may still receive a reduced speed command from the braking checks.
 
 One Gym instance owns physics and sensor observations. A local snapshot bridge sends display data to a separate ROS process; RViz visualizes it. RViz is not a second simulator and does not command the opponent.
 
@@ -150,11 +178,11 @@ On the existing configured workspace, run from `overtaking-models/`:
 
 ```bash
 ../gym-two-car-reactive/.venv/bin/python ros_visualization/launch.py \
-  --stage 4 --speed .5 \
-  --response-experiment artifacts/learned_pressure_random_r1
+  --stage 4 --speed .5 --demo-count 4 \
+  --response-experiment artifacts/hybrid_corridor_demo_20261114
 ```
 
-This loops the two selected cases at half playback speed. Close either window to stop. The workspace launcher is `Run Stage 4 Response Experiment.command`.
+This loops the four selected cases at half playback speed. Close RViz to stop. The portable package launcher is `run-demo.sh`.
 
 The current tested ROS environment targets Apple Silicon macOS, using the checked-in Pixi configuration and lockfile. The Gym interpreter is separate. A fresh teammate installation still needs dependency installation, the imported map, and the retained sibling-folder layout; the command above is not a claim of a tested clean installation on every platform. No API key is needed to run the demo.
 
@@ -180,7 +208,7 @@ Paths below refer to the current `overtaking-models/` directory unless noted. Pr
 | ROS display and launch configuration | `ros_visualization/`, excluding installed environments and machine-specific runtime files |
 | Actual simulator, adapter, map and dependency files | Sibling `../gym-two-car-reactive/`, including `f1tenth_gym/`, `run_two_cars.py`, and `imported_tracks/` |
 
-The November 7 historical archive predates the newest forecast experiments; it is **not sufficient by itself**. Include the newer datasets and evaluation folders separately. Retain superseded records for provenance but label them as historical. `reactive_branches_v1` was abandoned because of a sensor-update bug and must not be used for training.
+The November 7 historical archive predates the newest experiments; use the pinned assets in `DATA_RELEASE.json` for the complete retained data. Retain superseded records for provenance but label them as historical. `reactive_branches_v1` was abandoned because of a sensor-update bug and must not be used for training.
 
 The earlier ready-to-train export contains 1,334 Stage 1 imitation rows, 1,165 Stage 2 imitation rows and 13,360 Stage 2 outcome rows, plus 125 Stage 3 imitation rows and 14,572 Stage 3 outcome rows. Stage 2 and Stage 3 each collected 306 training rollouts from 102 initial encounters. These frame counts are correlated samples, not independent trials. Stage 3's exported imitation-validation set contains no successful rows; its failure-heavy outcome data cannot establish well-calibrated passing probabilities.
 
@@ -209,15 +237,15 @@ bash run-demo.sh
 
 ### Download all training and test data
 
-The repository includes the complete 24-position evaluation traces for both Stage 4 variants, demo weights and reference files. The **full 9,222-file archive** adds all retained structured experiment data, historical versions, failed trials, exact training arrays, source snapshots, GPT advice, and the ready-to-train handoff. It supersedes the older ZIP as the complete data delivery; the November 7 export names above document lineage, rather than additional required downloads.
+The repository includes the final 24-position paired evaluation, 17-case development suite, four demos, timing inputs, frozen controller sources, unchanged demo weights and reference files. The historical **9,222-file archive** supplies all retained structured experiment data, historical versions, failed trials, exact training arrays, source snapshots, GPT advice, and the ready-to-train handoff. The November 14 supplement adds every new or changed retained structured artifact, including unsuccessful and interrupted development rounds. Both versioned assets together form the complete retained data delivery; the November 7 export names above document lineage.
 
-[Download the complete data archive](https://github.com/AUnknownZ/aggressive-overtaking-model/releases/download/v2026.11.13/all-models-training-test-data-20261113.zip) (approximately 496 MB).
+[Download the historical training/data archive](https://github.com/AUnknownZ/aggressive-overtaking-model/releases/download/v2026.11.13/all-models-training-test-data-20261113.zip) (approximately 496 MB).
 
 ```bash
 gym-two-car-reactive/.venv/bin/python download-data.py
 ```
 
-This downloads the archive, verifies its SHA-256, and extracts it into this package. No API key is needed. `DATA_RELEASE.json` pins the URL, size and checksum. `DATA_ARCHIVE_INDEX.json` lists original and exported hashes for every data file. Text metadata replaces local home paths with placeholders; executable source and NPZ checkpoint bytes are retained. The archive includes historical and invalidated records for provenance: do not train on evaluation data or the abandoned `reactive_branches_v1` collection.
+This downloads both the historical archive and the [November 14 supplement](https://github.com/AUnknownZ/aggressive-overtaking-model/releases/download/v2026.11.14/final-planner-development-data-20261114.zip), verifies each SHA-256, and extracts them in that order into this package. No API key is needed. `DATA_RELEASE.json` pins the URL, size and checksum. `DATA_ARCHIVE_INDEX.json` lists original and exported hashes for every data file. Text metadata replaces local home paths with placeholders; executable source and NPZ checkpoint bytes are retained. The archive includes historical and invalidated records for provenance: do not train on evaluation data or the abandoned `reactive_branches_v1` collection.
 
 `SOURCE_EXPORT_INDEX.json` records copied source origins, and `PACKAGE_MANIFEST.json` verifies the final packaged files, including portability changes. Runtime source files verified by the frozen demo manifest remain byte-identical. The portability changes only select the bundled saved map, discover Pixi on PATH, and avoid loading an unrelated historical scene list.
 

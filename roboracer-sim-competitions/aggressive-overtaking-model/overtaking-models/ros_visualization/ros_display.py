@@ -140,7 +140,13 @@ class Display(Node):
         parameters=selected.get('parameters')
         if parameters:
             lines.append(f"Chosen entry {parameters['entry_m']:.1f} m / padding {parameters['padding_m']:.2f} m / merge x{parameters['merge_factor']:.2f}")
-        lines.append('Lowest-cost path per side -> network/value ranking -> safety + commitment')
+        joint=te.get('joint_search',{})
+        if joint:
+            lines.append(f"Joint search: {joint.get('geometries',0)} shapes / {joint.get('timed_candidates',0)} speed profiles / {joint.get('feasible',0)} valid")
+            profile=joint.get('selected_profile')
+            if profile:
+                lines.append(f"TIMED PATH: cap {profile['speed_cap_m_s']:.1f} m/s; arrival {profile['planned_times'][-1]:.2f}s; predicted body gap {profile['minimum_predicted_body_gap_m']:.2f}m")
+        lines.append('Neural choice -> interaction check -> progress-ranked fallback' if te.get('interaction',{}).get('active') else 'Lowest-cost path per side -> network/value ranking -> safety + commitment')
         text='\n'.join(lines)
         label=self.marker('decision_summary',0,Marker.TEXT_VIEW_FACING,t,(1.,1.,1.,1.))
         label.pose.position.x=min(p[0] for p in self.reference)+4.
@@ -164,10 +170,36 @@ class Display(Node):
             else:
                 label.text+='\nRESPONSE PLANNER: analytical yielding hypothesis'
                 label.text+=f"\nPredicted yielding gap: {response['minimum_response_gap']:.3f}m"
+        interaction=te.get('interaction',{})
+        if interaction.get('active'):
+            label.text+=f"\nINTERACTION: {interaction['mode']} | checked {interaction['checked']} rollouts"
+            corridor=interaction.get('corridor',{})
+            if 'lower_offset_m' in corridor:
+                label.text+=f"\nWall-bounded search: {corridor['lower_offset_m']:+.2f} to {corridor['upper_offset_m']:+.2f} m | {corridor['goals']} lateral goals"
+                label.text+=f"\n{corridor['lidar_blocked']} candidate speeds blocked by LiDAR; no arbitrary lane offset limit"
+            elif corridor.get('failed_search_reused'):
+                label.text+='\nUnchanged standstill: holding stop between search retries'
+            if interaction.get('encounter_phase'):
+                label.text+='\nPhase: '+interaction['encounter_phase']
+            if interaction.get('presteer_at_rest'):
+                label.text+='\nRecovery: steering while stopped before creeping'
+            if 'selected_lateral_goal_m' in interaction:
+                label.text+=f"\nSelected lateral goal {interaction['selected_lateral_goal_m']:+.2f} m (goal, not measured offset)"
+
+            if 'physical_opponent_speed' in interaction and 'tracked_reference_speed' in interaction:
+                label.text+=f"\nRival speed: {interaction['physical_opponent_speed']:.2f} m/s physical; {interaction['tracked_reference_speed']:.2f} reference progress"
+            label.text+=f"\nPredicted near-term body gap {interaction['selected_gap']:.3f} m | CYAN rival possibilities"
+            for ident,prediction in enumerate(interaction.get('predictions',[])):
+                line=self.marker('interaction_predictions',ident,Marker.LINE_STRIP,t,(.1,.7+ident*.08,1.,.8));line.scale.x=.045
+                line.points=[Point(x=float(x),y=float(y),z=.20+ident*.02) for x,y in prediction['path']];markers.markers.append(line)
+            if interaction.get('rollout'):
+                line=self.marker('fallback_rollout',0,Marker.LINE_STRIP,t,(1.,.7,.1,1.));line.scale.x=.085
+                line.points=[Point(x=float(x),y=float(y),z=.25) for x,y in interaction['rollout']];markers.markers.append(line)
+                label.text+='\nAMBER: checked ego fallback motion'
         self.mark_pub.publish(markers)
         self.status_pub.publish(String(data=json.dumps(dict(stage=frame['stage'],time=frame['simulation_time'],
             selected=te['action'],network=te['raw_action'],status=frame['status'],scene=frame['scene'],evaluated=len(paths),feasible=feasible,rejected=dict(reasons),
-            command=te['command'],response_selected=bool(response.get('selected')),
+            command=te['command'],interaction_active=bool(interaction.get('active')),interaction_override=bool(interaction.get('override')),joint_search=joint,joint_selected=bool(joint.get('selected')),response_selected=bool(response.get('selected')),
             assumes_yield=bool(response.get('assumes_yield')),command_replay=bool(te.get('command_replay')),response_gap=response.get('minimum_response_gap'),
             learned_forecast=bool(response.get('learned_forecast')),opponent_offset_m=frame.get('opponent_offset_m'),
             predicted_outward_m=response.get('predicted_outward_m'),no_response_gap=response.get('no_response_gap'),text=label.text))))

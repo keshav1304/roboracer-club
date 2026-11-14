@@ -1,0 +1,20 @@
+{
+  "messages": 1003,
+  "interaction_seen": true,
+  "fallback_seen": true,
+  "pass_scenes": [
+    "random-case-001-response",
+    "random-case-008-response",
+    "fixed-case-007-response",
+    "fixed-case-014-response"
+  ],
+  "scenes": [
+    "random-case-001-response",
+    "random-case-008-response",
+    "fixed-case-007-response",
+    "fixed-case-014-response"
+  ],
+  "command_replay_seen": false,
+  "rviz_connected": true,
+  "passed": true
+}
